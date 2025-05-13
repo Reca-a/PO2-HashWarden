@@ -44,3 +44,12 @@ Baza danych składa się z trzech głównych tabel: `Users`, `Folders` i `Passwo
     Add-Migration InitialCreate
     Update-Database
 ```
+
+## Widoki
+
+### Logowanie
+![Logowanie](ViewImages/LoginView.png)
+### Główny panel
+![Główny panel](ViewImages/MainView.png)
+### Zapisane hasło
+![Zapisane hasło](ViewImages/SavedPasswordView.png)

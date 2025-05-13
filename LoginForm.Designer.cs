@@ -31,22 +31,22 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             panel1 = new Panel();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            panel2 = new Panel();
+            textBox2 = new TextBox();
+            PasswordLabel = new Label();
+            textBox1 = new TextBox();
+            UsernameLabel = new Label();
             Header = new Panel();
             Logo = new Button();
             LogoImage = new ImageList(components);
             MinimalizeButton = new Button();
             HeaderImages = new ImageList(components);
             ExitButton = new Button();
-            tableLayoutPanel1 = new TableLayoutPanel();
-            panel2 = new Panel();
-            UsernameLabel = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
-            PasswordLabel = new Label();
             panel1.SuspendLayout();
-            Header.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             panel2.SuspendLayout();
+            Header.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -60,6 +60,77 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(432, 653);
             panel1.TabIndex = 0;
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 3;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
+            tableLayoutPanel1.Controls.Add(panel2, 1, 1);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 65);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 3;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 70F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
+            tableLayoutPanel1.Size = new Size(432, 588);
+            tableLayoutPanel1.TabIndex = 4;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(textBox2);
+            panel2.Controls.Add(PasswordLabel);
+            panel2.Controls.Add(textBox1);
+            panel2.Controls.Add(UsernameLabel);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(67, 91);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(296, 405);
+            panel2.TabIndex = 0;
+            // 
+            // textBox2
+            // 
+            textBox2.BorderStyle = BorderStyle.None;
+            textBox2.Dock = DockStyle.Top;
+            textBox2.ImeMode = ImeMode.NoControl;
+            textBox2.Location = new Point(0, 60);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(296, 20);
+            textBox2.TabIndex = 3;
+            // 
+            // PasswordLabel
+            // 
+            PasswordLabel.Dock = DockStyle.Top;
+            PasswordLabel.ForeColor = Color.Gainsboro;
+            PasswordLabel.Location = new Point(0, 40);
+            PasswordLabel.Name = "PasswordLabel";
+            PasswordLabel.Size = new Size(296, 20);
+            PasswordLabel.TabIndex = 2;
+            PasswordLabel.Text = "Hasło";
+            PasswordLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // textBox1
+            // 
+            textBox1.BorderStyle = BorderStyle.None;
+            textBox1.Dock = DockStyle.Top;
+            textBox1.ImeMode = ImeMode.NoControl;
+            textBox1.Location = new Point(0, 20);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(296, 20);
+            textBox1.TabIndex = 1;
+            // 
+            // UsernameLabel
+            // 
+            UsernameLabel.Dock = DockStyle.Top;
+            UsernameLabel.ForeColor = Color.Gainsboro;
+            UsernameLabel.Location = new Point(0, 0);
+            UsernameLabel.Name = "UsernameLabel";
+            UsernameLabel.Size = new Size(296, 20);
+            UsernameLabel.TabIndex = 0;
+            UsernameLabel.Text = "Nazwa użytkownika";
+            UsernameLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // Header
             // 
@@ -142,77 +213,6 @@
             ExitButton.UseVisualStyleBackColor = false;
             ExitButton.Click += ExitButton_Click;
             // 
-            // tableLayoutPanel1
-            // 
-            tableLayoutPanel1.ColumnCount = 3;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
-            tableLayoutPanel1.Controls.Add(panel2, 1, 1);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 65);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 3;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 70F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
-            tableLayoutPanel1.Size = new Size(432, 588);
-            tableLayoutPanel1.TabIndex = 4;
-            // 
-            // panel2
-            // 
-            panel2.Controls.Add(textBox2);
-            panel2.Controls.Add(PasswordLabel);
-            panel2.Controls.Add(textBox1);
-            panel2.Controls.Add(UsernameLabel);
-            panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(67, 91);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(296, 405);
-            panel2.TabIndex = 0;
-            // 
-            // UsernameLabel
-            // 
-            UsernameLabel.Dock = DockStyle.Top;
-            UsernameLabel.ForeColor = Color.Gainsboro;
-            UsernameLabel.Location = new Point(0, 0);
-            UsernameLabel.Name = "UsernameLabel";
-            UsernameLabel.Size = new Size(296, 20);
-            UsernameLabel.TabIndex = 0;
-            UsernameLabel.Text = "Nazwa użytkownika";
-            UsernameLabel.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // textBox1
-            // 
-            textBox1.BorderStyle = BorderStyle.None;
-            textBox1.Dock = DockStyle.Top;
-            textBox1.ImeMode = ImeMode.NoControl;
-            textBox1.Location = new Point(0, 20);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(296, 20);
-            textBox1.TabIndex = 1;
-            // 
-            // textBox2
-            // 
-            textBox2.BorderStyle = BorderStyle.None;
-            textBox2.Dock = DockStyle.Top;
-            textBox2.ImeMode = ImeMode.NoControl;
-            textBox2.Location = new Point(0, 60);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(296, 20);
-            textBox2.TabIndex = 3;
-            // 
-            // PasswordLabel
-            // 
-            PasswordLabel.Dock = DockStyle.Top;
-            PasswordLabel.ForeColor = Color.Gainsboro;
-            PasswordLabel.Location = new Point(0, 40);
-            PasswordLabel.Name = "PasswordLabel";
-            PasswordLabel.Size = new Size(296, 20);
-            PasswordLabel.TabIndex = 2;
-            PasswordLabel.Text = "Hasło";
-            PasswordLabel.TextAlign = ContentAlignment.MiddleLeft;
-            // 
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -226,10 +226,10 @@
             Name = "LoginForm";
             Text = "LoginForm";
             panel1.ResumeLayout(false);
-            Header.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            Header.ResumeLayout(false);
             ResumeLayout(false);
         }
 
