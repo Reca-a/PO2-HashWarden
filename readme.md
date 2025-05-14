@@ -49,6 +49,8 @@ Baza danych składa się z trzech głównych tabel: `Users`, `Folders` i `Passwo
 
 ### Logowanie
 ![Logowanie](ViewImages/LoginView.png)
+### Rejestracja
+![Logowanie](ViewImages/RegisterView.png)
 ### Główny panel
 ![Główny panel](ViewImages/MainView.png)
 ### Zapisane hasło

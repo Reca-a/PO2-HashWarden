@@ -1,6 +1,6 @@
 ﻿namespace HashWarden
 {
-    partial class LoginForm
+    partial class RegisterForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegisterForm));
             panel1 = new Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
             panel2 = new Panel();
@@ -47,6 +47,8 @@
             MinimalizeButton = new Button();
             HeaderImages = new ImageList(components);
             ExitButton = new Button();
+            textBox3 = new TextBox();
+            label3 = new Label();
             panel1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -76,8 +78,8 @@
             tableLayoutPanel1.Location = new Point(0, 65);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 3;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 70F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 75F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
             tableLayoutPanel1.Size = new Size(432, 588);
             tableLayoutPanel1.TabIndex = 4;
@@ -88,14 +90,16 @@
             panel2.Controls.Add(label1);
             panel2.Controls.Add(LogoutButton);
             panel2.Controls.Add(label2);
+            panel2.Controls.Add(textBox3);
+            panel2.Controls.Add(label3);
             panel2.Controls.Add(textBox2);
             panel2.Controls.Add(PasswordLabel);
             panel2.Controls.Add(textBox1);
             panel2.Controls.Add(UsernameLabel);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(67, 91);
+            panel2.Location = new Point(67, 61);
             panel2.Name = "panel2";
-            panel2.Size = new Size(296, 405);
+            panel2.Size = new Size(296, 435);
             panel2.TabIndex = 0;
             // 
             // button1
@@ -108,12 +112,12 @@
             button1.ForeColor = Color.Gainsboro;
             button1.ImageAlign = ContentAlignment.MiddleLeft;
             button1.ImageIndex = 2;
-            button1.Location = new Point(0, 344);
+            button1.Location = new Point(0, 371);
             button1.Name = "button1";
             button1.Padding = new Padding(10, 0, 0, 5);
             button1.Size = new Size(296, 50);
             button1.TabIndex = 7;
-            button1.Text = "Zarejestruj się";
+            button1.Text = "Zaloguj się";
             button1.TextImageRelation = TextImageRelation.ImageBeforeText;
             button1.UseVisualStyleBackColor = false;
             // 
@@ -122,12 +126,12 @@
             label1.Dock = DockStyle.Top;
             label1.Font = new Font("Segoe UI", 12F);
             label1.ForeColor = Color.Gainsboro;
-            label1.Location = new Point(0, 224);
+            label1.Location = new Point(0, 291);
             label1.Name = "label1";
             label1.Padding = new Padding(0, 0, 0, 10);
-            label1.Size = new Size(296, 120);
+            label1.Size = new Size(296, 80);
             label1.TabIndex = 6;
-            label1.Text = "Nie masz konta?";
+            label1.Text = "Masz już konto?";
             label1.TextAlign = ContentAlignment.BottomCenter;
             // 
             // LogoutButton
@@ -140,12 +144,12 @@
             LogoutButton.ForeColor = Color.Gainsboro;
             LogoutButton.ImageAlign = ContentAlignment.MiddleLeft;
             LogoutButton.ImageIndex = 2;
-            LogoutButton.Location = new Point(0, 174);
+            LogoutButton.Location = new Point(0, 241);
             LogoutButton.Name = "LogoutButton";
             LogoutButton.Padding = new Padding(10, 0, 0, 5);
             LogoutButton.Size = new Size(296, 50);
             LogoutButton.TabIndex = 4;
-            LogoutButton.Text = "Zaloguj";
+            LogoutButton.Text = "Zarejestruj";
             LogoutButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             LogoutButton.UseVisualStyleBackColor = false;
             // 
@@ -153,7 +157,7 @@
             // 
             label2.Dock = DockStyle.Top;
             label2.ForeColor = Color.Gainsboro;
-            label2.Location = new Point(0, 134);
+            label2.Location = new Point(0, 201);
             label2.Name = "label2";
             label2.Size = new Size(296, 40);
             label2.TabIndex = 8;
@@ -260,7 +264,7 @@
             MinimalizeButton.Size = new Size(55, 65);
             MinimalizeButton.TabIndex = 2;
             MinimalizeButton.UseVisualStyleBackColor = false;
-            MinimalizeButton.Click += this.MinimalizeButton_Click;
+            MinimalizeButton.Click += MinimalizeButton_Click;
             // 
             // HeaderImages
             // 
@@ -284,9 +288,32 @@
             ExitButton.Size = new Size(55, 65);
             ExitButton.TabIndex = 0;
             ExitButton.UseVisualStyleBackColor = false;
-            ExitButton.Click += this.ExitButton_Click;
+            ExitButton.Click += ExitButton_Click;
             // 
-            // LoginForm
+            // textBox3
+            // 
+            textBox3.BorderStyle = BorderStyle.None;
+            textBox3.Dock = DockStyle.Top;
+            textBox3.Font = new Font("Segoe UI", 12F);
+            textBox3.ImeMode = ImeMode.NoControl;
+            textBox3.Location = new Point(0, 174);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(296, 27);
+            textBox3.TabIndex = 10;
+            // 
+            // label3
+            // 
+            label3.Dock = DockStyle.Top;
+            label3.Font = new Font("Segoe UI", 12F);
+            label3.ForeColor = Color.Gainsboro;
+            label3.Location = new Point(0, 134);
+            label3.Name = "label3";
+            label3.Size = new Size(296, 40);
+            label3.TabIndex = 9;
+            label3.Text = "Powtórz hasło";
+            label3.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // RegisterForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -296,8 +323,8 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximumSize = new Size(450, 700);
             MinimumSize = new Size(450, 700);
-            Name = "LoginForm";
-            Text = "LoginForm";
+            Name = "RegisterForm";
+            Text = "RegisterForm";
             panel1.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
@@ -325,5 +352,7 @@
         private Button button1;
         private Label label1;
         private Label label2;
+        private TextBox textBox3;
+        private Label label3;
     }
 }
