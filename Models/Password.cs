@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace HashWarden;
+﻿namespace HashWarden;
 
 public partial class Password
 {
@@ -19,9 +16,9 @@ public partial class Password
 
     public byte[] Iv { get; set; } = null!;
 
-    public DateTime? CreatedAt { get; set; }
+    public DateOnly? CreatedAt { get; set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateOnly? UpdatedAt { get; set; }
 
     public virtual Folder? Folder { get; set; }
 

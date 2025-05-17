@@ -33,12 +33,13 @@
             ContentPanel = new Panel();
             ContentDefaultLogo = new PictureBox();
             Header = new Panel();
-            Logo = new Button();
             LogoImage = new ImageList(components);
             MinimalizeButton = new Button();
             HeaderImages = new ImageList(components);
             MaximizeButton = new Button();
             ExitButton = new Button();
+            this.LogoLabel = new Label();
+            Logo = new PictureBox();
             SidebarMenu = new Panel();
             FavoritesButton = new Button();
             SidebarMenuImages = new ImageList(components);
@@ -53,6 +54,7 @@
             ContentPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)ContentDefaultLogo).BeginInit();
             Header.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)Logo).BeginInit();
             SidebarMenu.SuspendLayout();
             SidebarSubMenu.SuspendLayout();
             SidebarPanel.SuspendLayout();
@@ -66,14 +68,14 @@
             ContentPanel.Dock = DockStyle.Fill;
             ContentPanel.Location = new Point(505, 68);
             ContentPanel.Name = "ContentPanel";
-            ContentPanel.Size = new Size(474, 698);
+            ContentPanel.Size = new Size(476, 700);
             ContentPanel.TabIndex = 1;
             // 
             // ContentDefaultLogo
             // 
             ContentDefaultLogo.Anchor = AnchorStyles.None;
             ContentDefaultLogo.Image = (Image)resources.GetObject("ContentDefaultLogo.Image");
-            ContentDefaultLogo.Location = new Point(31, 254);
+            ContentDefaultLogo.Location = new Point(32, 255);
             ContentDefaultLogo.Name = "ContentDefaultLogo";
             ContentDefaultLogo.Size = new Size(418, 165);
             ContentDefaultLogo.SizeMode = PictureBoxSizeMode.Zoom;
@@ -82,37 +84,17 @@
             // 
             // Header
             // 
-            Header.Controls.Add(Logo);
             Header.Controls.Add(MinimalizeButton);
             Header.Controls.Add(MaximizeButton);
             Header.Controls.Add(ExitButton);
+            Header.Controls.Add(this.LogoLabel);
+            Header.Controls.Add(Logo);
             Header.Dock = DockStyle.Top;
             Header.Location = new Point(3, 3);
             Header.Name = "Header";
-            Header.Size = new Size(976, 65);
+            Header.Size = new Size(978, 65);
             Header.TabIndex = 2;
             Header.MouseDown += Header_MouseDown;
-            // 
-            // Logo
-            // 
-            Logo.BackColor = Color.FromArgb(10, 10, 10);
-            Logo.Dock = DockStyle.Left;
-            Logo.FlatAppearance.BorderSize = 0;
-            Logo.FlatAppearance.MouseDownBackColor = Color.FromArgb(10, 10, 10);
-            Logo.FlatAppearance.MouseOverBackColor = Color.FromArgb(10, 10, 10);
-            Logo.FlatStyle = FlatStyle.Flat;
-            Logo.Font = new Font("OCR A Extended", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Logo.ImageAlign = ContentAlignment.TopLeft;
-            Logo.ImageIndex = 0;
-            Logo.ImageList = LogoImage;
-            Logo.Location = new Point(0, 0);
-            Logo.Name = "Logo";
-            Logo.Size = new Size(258, 65);
-            Logo.TabIndex = 3;
-            Logo.TabStop = false;
-            Logo.Text = "HashWarden";
-            Logo.TextImageRelation = TextImageRelation.ImageBeforeText;
-            Logo.UseVisualStyleBackColor = false;
             // 
             // LogoImage
             // 
@@ -129,7 +111,7 @@
             MinimalizeButton.FlatStyle = FlatStyle.Flat;
             MinimalizeButton.ImageIndex = 0;
             MinimalizeButton.ImageList = HeaderImages;
-            MinimalizeButton.Location = new Point(811, 0);
+            MinimalizeButton.Location = new Point(813, 0);
             MinimalizeButton.Name = "MinimalizeButton";
             MinimalizeButton.Size = new Size(55, 65);
             MinimalizeButton.TabIndex = 2;
@@ -153,7 +135,7 @@
             MaximizeButton.FlatStyle = FlatStyle.Flat;
             MaximizeButton.ImageIndex = 1;
             MaximizeButton.ImageList = HeaderImages;
-            MaximizeButton.Location = new Point(866, 0);
+            MaximizeButton.Location = new Point(868, 0);
             MaximizeButton.Name = "MaximizeButton";
             MaximizeButton.Size = new Size(55, 65);
             MaximizeButton.TabIndex = 1;
@@ -168,12 +150,40 @@
             ExitButton.FlatStyle = FlatStyle.Flat;
             ExitButton.ImageIndex = 2;
             ExitButton.ImageList = HeaderImages;
-            ExitButton.Location = new Point(921, 0);
+            ExitButton.Location = new Point(923, 0);
             ExitButton.Name = "ExitButton";
             ExitButton.Size = new Size(55, 65);
             ExitButton.TabIndex = 0;
             ExitButton.UseVisualStyleBackColor = false;
             ExitButton.Click += ExitButton_Click;
+            // 
+            // LogoLabel
+            // 
+            this.LogoLabel.AccessibleRole = AccessibleRole.None;
+            this.LogoLabel.CausesValidation = false;
+            this.LogoLabel.Dock = DockStyle.Left;
+            this.LogoLabel.FlatStyle = FlatStyle.Flat;
+            this.LogoLabel.Font = new Font("OCR A Extended", 16F, FontStyle.Bold);
+            this.LogoLabel.ImageAlign = ContentAlignment.MiddleLeft;
+            this.LogoLabel.Location = new Point(70, 0);
+            this.LogoLabel.Name = "LogoLabel";
+            this.LogoLabel.Size = new Size(228, 65);
+            this.LogoLabel.TabIndex = 4;
+            this.LogoLabel.Text = "HashWarden";
+            this.LogoLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // Logo
+            // 
+            Logo.Dock = DockStyle.Left;
+            Logo.Image = (Image)resources.GetObject("Logo.Image");
+            Logo.ImageLocation = "";
+            Logo.InitialImage = (Image)resources.GetObject("Logo.InitialImage");
+            Logo.Location = new Point(0, 0);
+            Logo.Name = "Logo";
+            Logo.Size = new Size(70, 65);
+            Logo.SizeMode = PictureBoxSizeMode.Zoom;
+            Logo.TabIndex = 5;
+            Logo.TabStop = false;
             // 
             // SidebarMenu
             // 
@@ -185,7 +195,7 @@
             SidebarMenu.Dock = DockStyle.Left;
             SidebarMenu.Location = new Point(0, 0);
             SidebarMenu.Name = "SidebarMenu";
-            SidebarMenu.Size = new Size(230, 698);
+            SidebarMenu.Size = new Size(230, 700);
             SidebarMenu.TabIndex = 3;
             // 
             // FavoritesButton
@@ -194,7 +204,7 @@
             FavoritesButton.BackColor = Color.FromArgb(40, 40, 40);
             FavoritesButton.Dock = DockStyle.Top;
             FavoritesButton.FlatAppearance.BorderSize = 0;
-            FavoritesButton.FlatStyle = FlatStyle.Flat;
+            FavoritesButton.FlatStyle = FlatStyle.Popup;
             FavoritesButton.ImageAlign = ContentAlignment.MiddleLeft;
             FavoritesButton.ImageIndex = 1;
             FavoritesButton.ImageList = SidebarMenuImages;
@@ -223,11 +233,11 @@
             LogoutButton.BackColor = Color.FromArgb(40, 40, 40);
             LogoutButton.Dock = DockStyle.Bottom;
             LogoutButton.FlatAppearance.BorderSize = 0;
-            LogoutButton.FlatStyle = FlatStyle.Flat;
+            LogoutButton.FlatStyle = FlatStyle.Popup;
             LogoutButton.ImageAlign = ContentAlignment.MiddleLeft;
             LogoutButton.ImageIndex = 2;
             LogoutButton.ImageList = SidebarMenuImages;
-            LogoutButton.Location = new Point(0, 648);
+            LogoutButton.Location = new Point(0, 650);
             LogoutButton.Name = "LogoutButton";
             LogoutButton.Padding = new Padding(10, 0, 0, 5);
             LogoutButton.Size = new Size(230, 50);
@@ -243,7 +253,7 @@
             FoldersButton.BackColor = Color.FromArgb(40, 40, 40);
             FoldersButton.Dock = DockStyle.Top;
             FoldersButton.FlatAppearance.BorderSize = 0;
-            FoldersButton.FlatStyle = FlatStyle.Flat;
+            FoldersButton.FlatStyle = FlatStyle.Popup;
             FoldersButton.ImageAlign = ContentAlignment.MiddleLeft;
             FoldersButton.ImageIndex = 1;
             FoldersButton.ImageList = SidebarMenuImages;
@@ -263,7 +273,7 @@
             AllElementsButton.BackColor = Color.FromArgb(40, 40, 40);
             AllElementsButton.Dock = DockStyle.Top;
             AllElementsButton.FlatAppearance.BorderSize = 0;
-            AllElementsButton.FlatStyle = FlatStyle.Flat;
+            AllElementsButton.FlatStyle = FlatStyle.Popup;
             AllElementsButton.ImageAlign = ContentAlignment.MiddleLeft;
             AllElementsButton.ImageIndex = 0;
             AllElementsButton.ImageList = SidebarMenuImages;
@@ -286,7 +296,7 @@
             SidebarSubMenu.Dock = DockStyle.Right;
             SidebarSubMenu.Location = new Point(232, 0);
             SidebarSubMenu.Name = "SidebarSubMenu";
-            SidebarSubMenu.Size = new Size(270, 698);
+            SidebarSubMenu.Size = new Size(270, 700);
             SidebarSubMenu.TabIndex = 4;
             // 
             // AddRecordButton
@@ -295,11 +305,11 @@
             AddRecordButton.BackColor = Color.FromArgb(25, 25, 25);
             AddRecordButton.Dock = DockStyle.Bottom;
             AddRecordButton.FlatAppearance.BorderSize = 0;
-            AddRecordButton.FlatStyle = FlatStyle.Flat;
+            AddRecordButton.FlatStyle = FlatStyle.Popup;
             AddRecordButton.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Regular, GraphicsUnit.Point, 238);
             AddRecordButton.ImageAlign = ContentAlignment.MiddleLeft;
             AddRecordButton.ImageIndex = 2;
-            AddRecordButton.Location = new Point(0, 648);
+            AddRecordButton.Location = new Point(0, 650);
             AddRecordButton.Name = "AddRecordButton";
             AddRecordButton.Padding = new Padding(10, 0, 0, 5);
             AddRecordButton.Size = new Size(270, 50);
@@ -313,7 +323,7 @@
             NoElemLabel.Dock = DockStyle.Fill;
             NoElemLabel.Location = new Point(0, 0);
             NoElemLabel.Name = "NoElemLabel";
-            NoElemLabel.Size = new Size(270, 698);
+            NoElemLabel.Size = new Size(270, 700);
             NoElemLabel.TabIndex = 4;
             NoElemLabel.Text = "Brak elementów";
             NoElemLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -325,24 +335,24 @@
             SidebarPanel.Dock = DockStyle.Left;
             SidebarPanel.Location = new Point(3, 68);
             SidebarPanel.Name = "SidebarPanel";
-            SidebarPanel.Size = new Size(502, 698);
+            SidebarPanel.Size = new Size(502, 700);
             SidebarPanel.TabIndex = 2;
             // 
             // MarginPanel
             // 
             MarginPanel.BackColor = Color.FromArgb(10, 10, 10);
             MarginPanel.Dock = DockStyle.Bottom;
-            MarginPanel.Location = new Point(3, 766);
+            MarginPanel.Location = new Point(3, 768);
             MarginPanel.Name = "MarginPanel";
-            MarginPanel.Size = new Size(976, 13);
+            MarginPanel.Size = new Size(978, 13);
             MarginPanel.TabIndex = 3;
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 20F);
+            AutoScaleDimensions = new SizeF(8F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(10, 10, 10);
-            ClientSize = new Size(982, 782);
+            ClientSize = new Size(984, 784);
             ControlBox = false;
             Controls.Add(ContentPanel);
             Controls.Add(SidebarPanel);
@@ -362,6 +372,7 @@
             ContentPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)ContentDefaultLogo).EndInit();
             Header.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)Logo).EndInit();
             SidebarMenu.ResumeLayout(false);
             SidebarSubMenu.ResumeLayout(false);
             SidebarPanel.ResumeLayout(false);
@@ -381,7 +392,6 @@
         private System.Windows.Forms.Button MaximizeButton;
         private System.Windows.Forms.ImageList SidebarMenuImages;
         private System.Windows.Forms.ImageList HeaderImages;
-        private System.Windows.Forms.Button Logo;
         private System.Windows.Forms.ImageList LogoImage;
         private System.Windows.Forms.PictureBox ContentDefaultLogo;
         private System.Windows.Forms.Panel SidebarSubMenu;
@@ -390,6 +400,8 @@
         private System.Windows.Forms.Button FavoritesButton;
         private System.Windows.Forms.Button AddRecordButton;
         private Panel MarginPanel;
+        private Label LogoLabel;
+        private PictureBox Logo;
     }
 }
 

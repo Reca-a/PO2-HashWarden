@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace HashWarden;
+﻿namespace HashWarden;
 
 public partial class User
 {
@@ -13,7 +10,7 @@ public partial class User
 
     public byte[] Salt { get; set; } = null!;
 
-    public DateTime? CreatedAt { get; set; }
+    public DateOnly? CreatedAt { get; set; }
 
     public virtual ICollection<Folder> Folders { get; set; } = new List<Folder>();
 

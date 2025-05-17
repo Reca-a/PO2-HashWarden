@@ -14,6 +14,37 @@ public partial class HashWardenDbContext : DbContext
     {
     }
 
+    public static IConfiguration LoadConfiguration()
+    {
+        try
+        {
+            string baseDirectory = AppContext.BaseDirectory;
+            string configPath = Path.Combine(baseDirectory, "appsettings.json");
+
+            if (!File.Exists(configPath))
+            {
+                string projectDirectory = Path.GetFullPath(Path.Combine(baseDirectory, "..", "..", ".."));
+                configPath = Path.Combine(projectDirectory, "appsettings.json");
+
+                if (!File.Exists(configPath))
+                {
+                    throw new FileNotFoundException($"Nie znaleziono pliku appsettings.json w ścieżkach:\n" +
+                        $"- {Path.Combine(baseDirectory, "appsettings.json")}\n" +
+                        $"- {configPath}");
+                }
+            }
+            return new ConfigurationBuilder()
+                .AddJsonFile(configPath, optional: false, reloadOnChange: true)
+                .Build();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Błąd podczas wczytywania konfiguracji: {ex.Message}", "Błąd konfiguracji",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return null;
+        }
+    }
+
     public virtual DbSet<Folder> Folders { get; set; }
 
     public virtual DbSet<Password> Passwords { get; set; }
@@ -24,10 +55,7 @@ public partial class HashWardenDbContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            var configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
-            .Build();
+            var configuration = LoadConfiguration();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseNpgsql(connectionString);
         }
@@ -35,80 +63,107 @@ public partial class HashWardenDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.ToTable("users");
+
+            entity.HasKey(u => u.Id);
+
+            entity.Property(u => u.Email)
+                  .HasColumnName("email")
+                  .HasMaxLength(40)
+                  .IsRequired();
+
+            entity.Property(u => u.Salt)
+                  .HasColumnName("salt")
+                  .IsRequired();
+
+            entity.Property(u => u.MasterHash)
+                  .HasColumnName("master_hash")
+                  .IsRequired();
+
+            entity.Property(u => u.CreatedAt)
+                  .HasColumnName("created_at")
+                  .HasColumnType("date")
+                  .HasDefaultValueSql("null");
+
+            entity.HasIndex(u => u.Email)
+                  .IsUnique()
+                  .HasDatabaseName("users_email_key");
+        });
+
         modelBuilder.Entity<Folder>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("folders_pkey");
-
             entity.ToTable("folders");
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.FolderName)
-                .HasMaxLength(50)
-                .HasColumnName("folder_name");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.HasKey(f => f.Id);
 
-            entity.HasOne(d => d.User).WithMany(p => p.Folders)
-                .HasForeignKey(d => d.UserId)
-                .HasConstraintName("folders_user_id_fkey");
+            entity.Property(f => f.FolderName)
+                  .HasColumnName("folder_name")
+                  .HasMaxLength(50)
+                  .IsRequired();
+
+            entity.Property(f => f.UserId)
+                  .HasColumnName("user_id");
+
+            entity.HasOne(u => u.User)
+                  .WithMany(f => f.Folders)
+                  .HasForeignKey(u => u.UserId)
+                  .HasConstraintName("folders_user_id_fkey")
+                  .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Password>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("passwords_pkey");
-
             entity.ToTable("passwords");
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("created_at");
-            entity.Property(e => e.EncryptedPassword).HasColumnName("encrypted_password");
-            entity.Property(e => e.FolderId).HasColumnName("folder_id");
-            entity.Property(e => e.Iv).HasColumnName("iv");
-            entity.Property(e => e.ServiceName)
-                .HasMaxLength(40)
-                .HasColumnName("service_name");
-            entity.Property(e => e.Title)
-                .HasMaxLength(40)
-                .HasColumnName("title");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("updated_at");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.HasKey(p => p.Id);
 
-            entity.HasOne(d => d.Folder).WithMany(p => p.Passwords)
-                .HasForeignKey(d => d.FolderId)
-                .HasConstraintName("passwords_folder_id_fkey");
+            entity.Property(p => p.Title)
+                  .HasColumnName("title")
+                  .HasMaxLength(40)
+                  .IsRequired();
 
-            entity.HasOne(d => d.User).WithMany(p => p.Passwords)
-                .HasForeignKey(d => d.UserId)
-                .HasConstraintName("passwords_user_id_fkey");
+            entity.Property(p => p.ServiceName)
+                  .HasColumnName("service_name")
+                  .HasMaxLength(40)
+                  .IsRequired();
+
+            entity.Property(p => p.EncryptedPassword)
+                  .HasColumnName("encrypted_password")
+                  .IsRequired();
+
+            entity.Property(p => p.Iv)
+                  .HasColumnName("iv")
+                  .IsRequired();
+
+            entity.Property(p => p.UserId)
+                  .HasColumnName("user_id");
+
+            entity.Property(p => p.FolderId)
+                  .HasColumnName("folder_id");
+
+            entity.Property(p => p.CreatedAt)
+                  .HasColumnName("created_at")
+                  .HasColumnType("date")
+                  .HasDefaultValueSql("null");
+
+            entity.Property(p => p.UpdatedAt)
+                  .HasColumnName("updated_at")
+                  .HasColumnType("date")
+                  .HasDefaultValueSql("null");
+
+            entity.HasOne(u => u.User)
+                  .WithMany(p => p.Passwords)
+                  .HasForeignKey(u => u.UserId)
+                  .HasConstraintName("passwords_user_id_fkey")
+                  .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(f => f.Folder)
+                  .WithMany(p => p.Passwords)
+                  .HasForeignKey(f => f.FolderId)
+                  .HasConstraintName("passwords_folder_id_fkey")
+                  .OnDelete(DeleteBehavior.SetNull);
         });
-
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("users_pkey");
-
-            entity.ToTable("users");
-
-            entity.HasIndex(e => e.Email, "users_email_key").IsUnique();
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("created_at");
-            entity.Property(e => e.MasterHash).HasColumnName("master_hash");
-            entity.Property(e => e.Salt).HasColumnName("salt");
-            entity.Property(e => e.Email)
-                .HasMaxLength(40)
-                .HasColumnName("email");
-        });
-
-        OnModelCreatingPartial(modelBuilder);
     }
-
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

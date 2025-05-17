@@ -11,10 +11,10 @@ namespace HashWarden
             using (var argon2 = new Argon2id(Encoding.UTF8.GetBytes(masterPassword)))
             {
                 argon2.Salt = salt;
-                //Domyślne wartości dla Argon2
-                argon2.DegreeOfParallelism = 4;
-                argon2.MemorySize = 4 * 1024 * 1024;
-                argon2.Iterations = 65536;
+                // Zoptymalizowane wartości dla Argon2
+                argon2.DegreeOfParallelism = Math.Min(4, Environment.ProcessorCount);  // liczba wątków
+                argon2.MemorySize = 64 * 1024;                                         // Ilość udostępnionej pamięci w KB
+                argon2.Iterations = 4;                                                 // liczba iteracji
 
                 return argon2.GetBytes(32);
             }

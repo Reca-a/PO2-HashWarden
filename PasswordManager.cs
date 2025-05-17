@@ -6,6 +6,11 @@ namespace HashWarden
     {
         private string masterPassword;
 
+        public PasswordManager(string masterPassword)
+        {
+            this.masterPassword = masterPassword;
+        }
+
         public void SavePassword(string website, string plainPassword)
         {
             //Generowanie 'salt' dla hasła
