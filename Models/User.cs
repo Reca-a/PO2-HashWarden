@@ -9,6 +9,7 @@ public partial class User
     public byte[] MasterHash { get; set; } = null!;
 
     public byte[] Salt { get; set; } = null!;
+    public byte[] Iv { get; set; } = null!;
 
     public DateOnly? CreatedAt { get; set; }
 

@@ -3,14 +3,17 @@ using System.Runtime.InteropServices;
 
 namespace HashWarden
 {
-    public partial class MainForm: Form
+    public partial class MainForm : Form
     {
         private Size formSize;
-        private Form activeForm = null;
+        private Form ActiveForm { get; set; } = null;
+        private User User { get; set; }
 
-        public MainForm()
+        public MainForm(User user)
         {
+            this.User = user;
             InitializeComponent();
+            StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
@@ -20,7 +23,7 @@ namespace HashWarden
 
         private void MaximizeButton_Click(object sender, EventArgs e)
         {
-            if(this.WindowState != FormWindowState.Maximized)
+            if (this.WindowState != FormWindowState.Maximized)
                 this.WindowState = FormWindowState.Maximized;
             else
                 this.WindowState = FormWindowState.Normal;
@@ -34,9 +37,8 @@ namespace HashWarden
         //Otwieranie podformularzy w aplikacji
         private void openSubForm(Form subForm)
         {
-            if (activeForm != null)
-                activeForm.Close();
-            activeForm = subForm;
+            if (ActiveForm != null)
+                ActiveForm.Close();
             subForm.TopLevel = false;
             subForm.FormBorderStyle = FormBorderStyle.None;
             subForm.Dock = DockStyle.Fill;
@@ -139,7 +141,13 @@ namespace HashWarden
 
         private void AllElementsButton_Click(object sender, EventArgs e)
         {
+
             openSubForm(new SavedPasswordForm());
+        }
+
+        private void LogoutButton_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

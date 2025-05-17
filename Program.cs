@@ -22,7 +22,7 @@ namespace HashWarden
                     MessageBox.Show($"B³¹d podczas inicjalizacji bazy danych: {ex.Message}");
                 }
             });
-            Application.Run(new MainForm());
+            Application.Run(new LoginForm());
         }
     }
 }

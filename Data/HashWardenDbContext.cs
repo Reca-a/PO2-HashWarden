@@ -78,6 +78,10 @@ public partial class HashWardenDbContext : DbContext
                   .HasColumnName("salt")
                   .IsRequired();
 
+            entity.Property(u => u.Iv)
+                  .HasColumnName("iv")
+                  .IsRequired();
+
             entity.Property(u => u.MasterHash)
                   .HasColumnName("master_hash")
                   .IsRequired();

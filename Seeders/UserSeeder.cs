@@ -12,7 +12,7 @@ namespace HashWarden.Seeders
             string[] masterPasswords = { "123", "TrudneHaslo"};
             var salts = new List<byte[]>();
             byte[] key;
-            byte[] iv;
+            var iv = new List<byte[]>();
             var encrypted = new List<byte[]>();
 
             using (var aes = System.Security.Cryptography.Aes.Create())
@@ -24,8 +24,8 @@ namespace HashWarden.Seeders
 
                     aes.Key = key;
                     aes.GenerateIV();
-                    iv = aes.IV;
-                    encrypted.Add(EncryptionProvider.Encrypt(masterPasswords[i], key, iv));
+                    iv.Add(aes.IV);
+                    encrypted.Add(EncryptionProvider.Encrypt(masterPasswords[i], key, iv[i]));
                 }
 
             }
@@ -35,6 +35,7 @@ namespace HashWarden.Seeders
                 {
                     Email = "jan@example.com",
                     Salt = salts[0],
+                    Iv = iv[0],
                     MasterHash = encrypted[0],
                     CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-28))
                 },
@@ -42,6 +43,7 @@ namespace HashWarden.Seeders
                 {
                     Email = "karol@example.com",
                     Salt = salts[1],
+                    Iv = iv[1],
                     MasterHash = encrypted[1],
                     CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-33))
                 }

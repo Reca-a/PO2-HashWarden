@@ -33,14 +33,15 @@
             ContentPanel = new Panel();
             ContentDefaultLogo = new PictureBox();
             Header = new Panel();
-            LogoImage = new ImageList(components);
             MinimalizeButton = new Button();
             HeaderImages = new ImageList(components);
             MaximizeButton = new Button();
             ExitButton = new Button();
-            this.LogoLabel = new Label();
+            LogoLabel = new Label();
             Logo = new PictureBox();
+            LogoImage = new ImageList(components);
             SidebarMenu = new Panel();
+            label1 = new Label();
             FavoritesButton = new Button();
             SidebarMenuImages = new ImageList(components);
             LogoutButton = new Button();
@@ -87,7 +88,7 @@
             Header.Controls.Add(MinimalizeButton);
             Header.Controls.Add(MaximizeButton);
             Header.Controls.Add(ExitButton);
-            Header.Controls.Add(this.LogoLabel);
+            Header.Controls.Add(LogoLabel);
             Header.Controls.Add(Logo);
             Header.Dock = DockStyle.Top;
             Header.Location = new Point(3, 3);
@@ -95,13 +96,6 @@
             Header.Size = new Size(978, 65);
             Header.TabIndex = 2;
             Header.MouseDown += Header_MouseDown;
-            // 
-            // LogoImage
-            // 
-            LogoImage.ColorDepth = ColorDepth.Depth32Bit;
-            LogoImage.ImageStream = (ImageListStreamer)resources.GetObject("LogoImage.ImageStream");
-            LogoImage.TransparentColor = Color.Transparent;
-            LogoImage.Images.SetKeyName(0, "Logo.png");
             // 
             // MinimalizeButton
             // 
@@ -159,18 +153,18 @@
             // 
             // LogoLabel
             // 
-            this.LogoLabel.AccessibleRole = AccessibleRole.None;
-            this.LogoLabel.CausesValidation = false;
-            this.LogoLabel.Dock = DockStyle.Left;
-            this.LogoLabel.FlatStyle = FlatStyle.Flat;
-            this.LogoLabel.Font = new Font("OCR A Extended", 16F, FontStyle.Bold);
-            this.LogoLabel.ImageAlign = ContentAlignment.MiddleLeft;
-            this.LogoLabel.Location = new Point(70, 0);
-            this.LogoLabel.Name = "LogoLabel";
-            this.LogoLabel.Size = new Size(228, 65);
-            this.LogoLabel.TabIndex = 4;
-            this.LogoLabel.Text = "HashWarden";
-            this.LogoLabel.TextAlign = ContentAlignment.MiddleLeft;
+            LogoLabel.AccessibleRole = AccessibleRole.None;
+            LogoLabel.CausesValidation = false;
+            LogoLabel.Dock = DockStyle.Left;
+            LogoLabel.FlatStyle = FlatStyle.Flat;
+            LogoLabel.Font = new Font("OCR A Extended", 16F, FontStyle.Bold);
+            LogoLabel.ImageAlign = ContentAlignment.MiddleLeft;
+            LogoLabel.Location = new Point(70, 0);
+            LogoLabel.Name = "LogoLabel";
+            LogoLabel.Size = new Size(228, 65);
+            LogoLabel.TabIndex = 4;
+            LogoLabel.Text = "HashWarden";
+            LogoLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // Logo
             // 
@@ -185,18 +179,38 @@
             Logo.TabIndex = 5;
             Logo.TabStop = false;
             // 
+            // LogoImage
+            // 
+            LogoImage.ColorDepth = ColorDepth.Depth32Bit;
+            LogoImage.ImageStream = (ImageListStreamer)resources.GetObject("LogoImage.ImageStream");
+            LogoImage.TransparentColor = Color.Transparent;
+            LogoImage.Images.SetKeyName(0, "Logo.png");
+            // 
             // SidebarMenu
             // 
             SidebarMenu.BackColor = Color.FromArgb(25, 25, 25);
             SidebarMenu.Controls.Add(FavoritesButton);
             SidebarMenu.Controls.Add(LogoutButton);
             SidebarMenu.Controls.Add(FoldersButton);
+            SidebarMenu.Controls.Add(label1);
             SidebarMenu.Controls.Add(AllElementsButton);
             SidebarMenu.Dock = DockStyle.Left;
             SidebarMenu.Location = new Point(0, 0);
             SidebarMenu.Name = "SidebarMenu";
             SidebarMenu.Size = new Size(230, 700);
             SidebarMenu.TabIndex = 3;
+            // 
+            // label1
+            // 
+            label1.BackColor = Color.FromArgb(10, 10, 10);
+            label1.Dock = DockStyle.Top;
+            label1.Font = new Font("Microsoft Sans Serif", 14F);
+            label1.Location = new Point(0, 50);
+            label1.Name = "label1";
+            label1.Size = new Size(230, 30);
+            label1.TabIndex = 4;
+            label1.Text = "Foldery";
+            label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // FavoritesButton
             // 
@@ -208,7 +222,7 @@
             FavoritesButton.ImageAlign = ContentAlignment.MiddleLeft;
             FavoritesButton.ImageIndex = 1;
             FavoritesButton.ImageList = SidebarMenuImages;
-            FavoritesButton.Location = new Point(0, 100);
+            FavoritesButton.Location = new Point(0, 130);
             FavoritesButton.Name = "FavoritesButton";
             FavoritesButton.Padding = new Padding(10, 0, 0, 0);
             FavoritesButton.Size = new Size(230, 50);
@@ -246,6 +260,7 @@
             LogoutButton.TextAlign = ContentAlignment.MiddleLeft;
             LogoutButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             LogoutButton.UseVisualStyleBackColor = false;
+            LogoutButton.Click += LogoutButton_Click;
             // 
             // FoldersButton
             // 
@@ -257,7 +272,7 @@
             FoldersButton.ImageAlign = ContentAlignment.MiddleLeft;
             FoldersButton.ImageIndex = 1;
             FoldersButton.ImageList = SidebarMenuImages;
-            FoldersButton.Location = new Point(0, 50);
+            FoldersButton.Location = new Point(0, 80);
             FoldersButton.Name = "FoldersButton";
             FoldersButton.Padding = new Padding(10, 0, 0, 0);
             FoldersButton.Size = new Size(230, 50);
@@ -402,6 +417,7 @@
         private Panel MarginPanel;
         private Label LogoLabel;
         private PictureBox Logo;
+        private Label label1;
     }
 }
 

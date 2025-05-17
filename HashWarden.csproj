@@ -36,7 +36,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="RegisterForm.cs">
+    <Compile Update="Forms\RegisterForm.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -46,7 +46,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="RegisterForm.resx">
+    <EmbeddedResource Update="Forms\RegisterForm.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

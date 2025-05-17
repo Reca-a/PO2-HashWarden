@@ -29,7 +29,9 @@ Baza danych składa się z trzech głównych tabel: `Users`, `Folders` i `Passwo
 
 ## Konfiguracja
 
-1. W pliku `appsettings.json` należy dodać ciąg połączenia do bazy PostgreSQL:
+1. Stworzyć plik `appsettings.json` w głównym folderze projektu.
+
+2. W pliku `appsettings.json` należy dodać ciąg połączenia do bazy PostgreSQL:
 
 ```json
 {
@@ -39,10 +41,22 @@ Baza danych składa się z trzech głównych tabel: `Users`, `Folders` i `Passwo
 }
 ```
 
-2. Wykonać migrację bazy danych:
+3. Wykonać migrację bazy danych:  
+W terminalu:
 ```bash
-    Add-Migration InitialCreate
+    dotnet ef migrations add Init
+    dotnet ef database update
+```
+
+Lub w konsoli Packet Manager:
+```bash
+    Add-Migration Init
     Update-Database
+```
+
+4. Uruchomić aplikację w terminalu:
+```bash
+    dotnet run
 ```
 
 ## Widoki
