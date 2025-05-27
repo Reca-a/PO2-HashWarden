@@ -20,7 +20,7 @@ Baza danych składa się z trzech głównych tabel: `Users`, `Folders` i `Passwo
 |------------|----------------------------------------|----------------------------------------------|
 | Users      | Id, Email, MasterHash, Salt, CreatedAt | 1:N z Folders, 1:N z Passwords               |
 | Folders    | Id, FolderName, UserId                 | N:1 z Users, 1:N z Passwords                 |
-| Passwords  | Id, Title, ServiceName, EncryptedPassword, Iv, CreatedAt, UpdatedAt, FolderId, UserId | N:1 z Users, N:1 z Folders |
+| Passwords  | Id, Title, UserName, ServiceUrl, EncryptedPassword, Iv, CreatedAt, UpdatedAt, FolderId, UserId | N:1 z Users, N:1 z Folders |
 
 ## Wymagania
 
@@ -31,12 +31,12 @@ Baza danych składa się z trzech głównych tabel: `Users`, `Folders` i `Passwo
 
 1. Stworzyć plik `appsettings.json` w głównym folderze projektu.
 
-2. W pliku `appsettings.json` należy dodać ciąg połączenia do bazy PostgreSQL:
+2. W pliku `appsettings.json` należy dodać ciąg połączenia do bazy PostgreSQL (zmienić hasło i w razie potrzeby nazwę użytkownika):
 
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Database=HashWardenDB;Username=postgres;Password=postgres"
+    "DefaultConnection": "Host=localhost;Database=HashWardenDB;Username=postgres;Password=yourpassword"
   }
 }
 ```
@@ -64,7 +64,7 @@ Lub w konsoli Packet Manager:
 ### Logowanie
 ![Logowanie](ViewImages/LoginView.png)
 ### Rejestracja
-![Logowanie](ViewImages/RegisterView.png)
+![Rejestracja](ViewImages/RegisterView.png)
 ### Główny panel
 ![Główny panel](ViewImages/MainView.png)
 ### Zapisane hasło

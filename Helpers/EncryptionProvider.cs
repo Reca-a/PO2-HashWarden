@@ -2,9 +2,9 @@
 using System.Security.Cryptography;
 using Konscious.Security.Cryptography;
 
-namespace HashWarden
+namespace HashWarden.Helpers
 {
-    class EncryptionProvider
+    static class EncryptionProvider
     {
         public static byte[] GenerateKeyFromPassword(string masterPassword, byte[] salt)
         {

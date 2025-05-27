@@ -1,19 +1,27 @@
 ﻿using HashWarden.Data;
+using HashWarden.Forms.Components;
 using System.Runtime.InteropServices;
+using Microsoft.EntityFrameworkCore;
+using HashWarden.Forms.Dialogs;
+using HashWarden.Helpers;
 
 namespace HashWarden
 {
     public partial class MainForm : Form
     {
-        private Size formSize;
-        private Form ActiveForm { get; set; } = null;
-        private User User { get; set; }
-
-        public MainForm(User user)
+        private Size _formSize;
+        private Form? _activeSubForm { get; set; }
+        
+        public MainForm()
         {
-            this.User = user;
             InitializeComponent();
-            StartPosition = FormStartPosition.CenterScreen;
+            LoadFolders();
+            Utils.LoggedUserRefreshed += OnLoggedUserRefreshed;
+        }
+
+        private void OnLoggedUserRefreshed(bool isChanged)
+        {
+            LoadFolders();
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
@@ -34,19 +42,211 @@ namespace HashWarden
             this.WindowState = FormWindowState.Minimized;
         }
 
-        //Otwieranie podformularzy w aplikacji
-        private void openSubForm(Form subForm)
+        // Załadowanie folderów użytkownika
+        private void LoadFolders()
         {
-            if (ActiveForm != null)
-                ActiveForm.Close();
-            subForm.TopLevel = false;
-            subForm.FormBorderStyle = FormBorderStyle.None;
-            subForm.Dock = DockStyle.Fill;
-            ContentPanel.Controls.Add(subForm);
-            ContentPanel.Tag = subForm;
-            subForm.BringToFront();
-            subForm.Show();
+            try
+            {
+                FolderListPanel.Controls.Clear();
+
+                if (!Utils.LoggedUser.Folders.Any())
+                {
+                    Label noFolderLabel = new Label();
+                    noFolderLabel.Text = "Brak folderów";
+                    noFolderLabel.TextAlign = ContentAlignment.MiddleCenter;
+                    noFolderLabel.Dock = DockStyle.Fill;
+                    FolderListPanel.Controls.Add(noFolderLabel);
+                    return;
+                }
+
+                foreach (Folder folder in Utils.LoggedUser.Folders)
+                {
+                    var folderButton = new FolderButtonComponent(folder);
+                    folderButton.FolderClicked += FolderButtonClicked;
+                    FolderListPanel.Controls.Add(folderButton);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Nie udało się wczytać folderów.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
         }
+
+        // Obsługa naciśnięcia na przycisk folderu
+        private async void FolderButtonClicked(object sender, Folder folder)
+        {
+            PasswordListPanel.Controls.Clear();
+
+            using (var context = new HashWardenDbContext())
+            {
+                var loadedFolder = await context.Folders
+                    .Include(f => f.Passwords)
+                    .FirstOrDefaultAsync(f => f.Id == folder.Id);
+
+                if (loadedFolder == null || !loadedFolder.Passwords.Any())
+                {
+                    PasswordListPanel.Controls.Add(new Label
+                    {
+                        Text = "Brak haseł w tym folderze",
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Dock = DockStyle.Fill,
+                        Height = 100,
+                        AutoSize = true
+                    });
+                    return;
+                }
+
+                foreach (var password in loadedFolder.Passwords)
+                {
+                    var siteButton = new SiteButtonComponent(password);
+                    siteButton.SiteClicked += SiteButtonClicked;
+                    PasswordListPanel.Controls.Add(siteButton);
+                }
+            }
+        }
+
+        // Wyświetlenie zapisanego rekordu
+        private async void SiteButtonClicked(object sender, Password password)
+        {
+            if (password == null)
+            {
+                ContentPanel.Controls.Clear();
+
+                ContentPanel.Controls.Add(new Label
+                {
+                    Text = "Brak danych",
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Top
+                });
+                return;
+            }
+
+            using (var context = new HashWardenDbContext())
+            {
+                var loadedPassword = await context.Passwords
+                    .Include(p => p.User)
+                    .Include(p => p.Folder)
+                    .FirstOrDefaultAsync(p => p.Id == password.Id);
+
+                if (loadedPassword == null)
+                {
+                    MessageBox.Show("Nie znaleziono hasła", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                var passwordSubForm = new SavedPasswordForm(loadedPassword);
+                OpenSubForm(passwordSubForm);
+            }
+        }
+
+        // Wyświetlenie wszystkich haseł na koncie
+        private void AllElementsButton_Click(object sender, EventArgs e)
+        {
+            PasswordListPanel.Controls.Clear();
+
+            if (!Utils.LoggedUser.Passwords.Any())
+            {
+                PasswordListPanel.Controls.Add(new Label
+                {
+                    Text = "Brak haseł na koncie",
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill,
+                    Height = 100,
+                    AutoSize = true
+                });
+                return;
+            }
+
+            foreach (var password in Utils.LoggedUser.Passwords)
+            {
+                var siteButton = new SiteButtonComponent(password);
+                siteButton.SiteClicked += SiteButtonClicked;
+                PasswordListPanel.Controls.Add(siteButton);
+            }
+        }
+
+        //Otwieranie podformularzy w aplikacji
+        private void OpenSubForm(Form subForm)
+        {
+            if (_activeSubForm != null)
+                _activeSubForm.Close();
+
+            _activeSubForm = subForm;
+            _activeSubForm.TopLevel = false;
+            _activeSubForm.FormBorderStyle = FormBorderStyle.None;
+            _activeSubForm.Dock = DockStyle.Fill;
+            ContentPanel.Controls.Add(_activeSubForm);
+            ContentPanel.Tag = _activeSubForm;
+            _activeSubForm.BringToFront();
+            _activeSubForm.Show();
+        }
+
+        // Wylogowanie
+        private void LogoutButton_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
+        }
+
+        // Dodanie nowego folderu
+        private async void AddFolderButton_Click(object sender, EventArgs e)
+        {
+            var addFolderDialog = new AddFolderForm(Utils.LoggedUser.Id);
+            if (addFolderDialog.ShowDialog() == DialogResult.OK)
+            {
+                var folderName = addFolderDialog.GetFolderName();
+                var newFolder = new Folder
+                {
+                    FolderName = folderName,
+                    UserId = Utils.LoggedUser.Id
+                };
+
+                using (var context = new HashWardenDbContext())
+                {
+                    context.Folders.Add(newFolder);
+                    await context.SaveChangesAsync();
+                }
+
+                MessageBox.Show("Folder dodany");
+                Utils.ReloadData();
+            }
+        }
+
+        // Dodanie nowego zapisanego hasła
+        private void AddRecordButton_Click(object sender, EventArgs e)
+        {
+            var addPasswordDialog = new AddPasswordForm(Utils.LoggedUser.Id);
+            if (addPasswordDialog.ShowDialog() == DialogResult.OK)
+            {
+                /*var folderName = addFolderDialog.GetFolderName();
+                var newFolder = new Folder
+                {
+                    FolderName = folderName,
+                    UserId = LoggedUser.Id
+                };
+
+                using (var context = new HashWardenDbContext())
+                {
+                    context.Folders.Add(newFolder);
+                    await context.SaveChangesAsync();
+                }*/
+
+                MessageBox.Show("Hasło dodane");
+                Utils.ReloadData();
+            }
+        }
+
+        //Odświeżanie w celu uniknięcia błędów graficznych
+        private void MainForm_Deactivate(object sender, EventArgs e)
+        {
+            this.Refresh();
+        }
+
+        private void MainForm_Activated(object sender, EventArgs e)
+        {
+            this.Refresh();
+        }
+
 
         //Przesuwanie okna
         [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
@@ -61,7 +261,7 @@ namespace HashWarden
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            formSize = this.ClientSize;
+            _formSize = this.ClientSize;
         }
         //Zmiana wielkości okna poprzez złapanie i przesuwanie myszki
         protected override void WndProc(ref Message m)
@@ -126,28 +326,6 @@ namespace HashWarden
                 return;
             }
             base.WndProc(ref m);
-        }
-
-        //Odświeżanie w celu uniknięcia błędów graficznych
-        private void MainForm_Deactivate(object sender, EventArgs e)
-        {
-            this.Refresh();
-        }
-
-        private void MainForm_Activated(object sender, EventArgs e)
-        {
-            this.Refresh();
-        }
-
-        private void AllElementsButton_Click(object sender, EventArgs e)
-        {
-
-            openSubForm(new SavedPasswordForm());
-        }
-
-        private void LogoutButton_Click(object sender, EventArgs e)
-        {
-            
         }
     }
 }

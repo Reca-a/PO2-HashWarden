@@ -1,4 +1,5 @@
 ﻿using HashWarden.Data;
+using HashWarden.Helpers;
 
 namespace HashWarden.Seeders
 {

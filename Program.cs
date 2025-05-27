@@ -1,4 +1,5 @@
 using HashWarden.Data;
+using HashWarden.Helpers;
 
 namespace HashWarden
 {
@@ -22,7 +23,12 @@ namespace HashWarden
                     MessageBox.Show($"B³¹d podczas inicjalizacji bazy danych: {ex.Message}");
                 }
             });
-            Application.Run(new LoginForm());
+
+            var loginForm = new LoginForm();
+            if (loginForm.ShowDialog() == DialogResult.OK)
+            {
+                Application.Run(new MainForm());
+            }
         }
     }
 }

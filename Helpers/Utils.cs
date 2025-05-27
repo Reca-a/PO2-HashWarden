@@ -1,0 +1,83 @@
+﻿using HashWarden.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
+
+namespace HashWarden.Helpers
+{
+    static class Utils
+    {
+        private static User? _user;
+
+        public static User? LoggedUser 
+        { 
+            get => _user;
+            set
+            {
+                if (_user != value)
+                {
+                    _user = value;
+                    LoggedUserRefreshed?.Invoke(true);
+                }
+            } 
+        }
+
+        public static event Action<bool>? LoggedUserRefreshed;
+
+        public static void SetLoggedUser(User user)
+        {
+            _user = user;
+        }
+
+        public static async void ReloadData()
+        {
+            using (var context = new HashWardenDbContext())
+            {
+                var user = await context.Users
+                    .Include(u => u.Folders)
+                    .Include(u => u.Passwords)
+                    .FirstOrDefaultAsync(u => u.Id == LoggedUser.Id);
+
+                SetLoggedUser(user);
+            }
+        }
+
+        public static bool VerifyMasterPassword(string password)
+        {
+            byte[] key = EncryptionProvider.GenerateKeyFromPassword(password, LoggedUser.Salt);
+            byte[] enteredHash = EncryptionProvider.Encrypt(password, key, LoggedUser.Iv);
+
+            if (!enteredHash.SequenceEqual(LoggedUser.MasterHash))
+            {
+                MessageBox.Show("Nieprawidłowe hasło.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
+        public static string CreateTitleFromUrl(string text)
+        {
+            var title = text.Split(".")[0];
+            return char.ToUpper(title[0]) + title.Substring(1);
+        }
+
+        public static bool PasswordValidation(string password)
+        {
+            var passwordRegex = new Regex(@"[!@#$%^&*]");
+
+            if (string.IsNullOrWhiteSpace(password) || password.Length < 5)
+            {
+                MessageBox.Show("Hasło musi mieć co najmniej 5 znaków.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (!passwordRegex.IsMatch(password))
+            {
+                MessageBox.Show("Hasło musi zawierać przynajmniej jeden znak specjalny (!, @, #, $, %, ^, *).", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
+    }
+}

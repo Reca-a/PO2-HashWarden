@@ -346,8 +346,9 @@
             DeleteRecordButton.Location = new Point(105, 0);
             DeleteRecordButton.Name = "DeleteRecordButton";
             DeleteRecordButton.Size = new Size(82, 50);
-            DeleteRecordButton.TabIndex = 4;
+            DeleteRecordButton.TabIndex = 10;
             DeleteRecordButton.UseVisualStyleBackColor = false;
+            DeleteRecordButton.Click += DeleteRecordButton_Click;
             // 
             // EditRecordButton
             // 
@@ -362,8 +363,9 @@
             EditRecordButton.Location = new Point(23, 0);
             EditRecordButton.Name = "EditRecordButton";
             EditRecordButton.Size = new Size(82, 50);
-            EditRecordButton.TabIndex = 3;
+            EditRecordButton.TabIndex = 9;
             EditRecordButton.UseVisualStyleBackColor = false;
+            EditRecordButton.Click += EditRecordButton_Click;
             // 
             // BottomButtonBar
             // 

@@ -1,15 +1,7 @@
 ﻿using HashWarden.Data;
-using Microsoft.VisualBasic.ApplicationServices;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using HashWarden.Helpers;
+using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace HashWarden
 {
@@ -23,7 +15,7 @@ namespace HashWarden
 
         private void ExitButton_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            this.DialogResult = DialogResult.Cancel;
         }
 
         private void MinimalizeButton_Click(object sender, EventArgs e)
@@ -31,39 +23,45 @@ namespace HashWarden
             this.WindowState = FormWindowState.Minimized;
         }
 
-        private void LoginButton_Click(object sender, EventArgs e)
+        private async void LoginButton_Click(object sender, EventArgs e)
         {
+            var email = EmailInput.Text.Trim();
+            var password = PasswordInput.Text;
+
+            // Weryfikacja emaila
+            var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+            if (!emailRegex.IsMatch(email))
+            {
+                MessageBox.Show("Nieprawidłowy format adresu email.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             using (var context = new HashWardenDbContext())
             {
-                var email = EmailInput.Text.Trim();
-                var password = PasswordInput.Text;
+                var user = await context.Users
+                        .Include(u => u.Folders)
+                        .Include(u => u.Passwords)
+                        .FirstOrDefaultAsync(u => u.Email == email);
 
-                var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
-                if (!emailRegex.IsMatch(email))
-                {
-                    MessageBox.Show("Nieprawidłowy format adresu e-mail.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                var user = context.Users.FirstOrDefault(u => u.Email == email);
                 if (user == null)
                 {
-                    MessageBox.Show("Nieprawidłowy e-mail lub hasło.", "Błąd logowania", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Nieprawidłowy email lub hasło.", "Błąd logowania", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
+                // Weryfikacja hasła
                 byte[] key = EncryptionProvider.GenerateKeyFromPassword(password, user.Salt);
                 byte[] enteredHash = EncryptionProvider.Encrypt(password, key, user.Iv);
 
                 if (enteredHash.SequenceEqual(user.MasterHash))
                 {
-                    var mainForm = new MainForm(user);
-                    mainForm.Show();
-                    this.Close();
+                    Utils.LoggedUser = user;
+                    SessionKeyManager.SetKey(key, TimeSpan.FromMinutes(10));
+                    this.DialogResult = DialogResult.OK;
                 }
                 else
                 {
-                    MessageBox.Show("Nieprawidłowy e-mail lub hasło.", "Błąd logowania", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Nieprawidłowy email lub hasło.", "Błąd logowania", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
@@ -72,8 +70,11 @@ namespace HashWarden
         private void RegisterFormButton_click(object sender, EventArgs e)
         {
             var registerForm = new RegisterForm();
-            registerForm.Show();
             this.Hide();
+            if (registerForm.ShowDialog() == DialogResult.OK || registerForm.DialogResult == DialogResult.Cancel)
+            {
+                this.Show();
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using HashWarden.Data;
 using HashWarden.Seeders;
-namespace HashWarden
+namespace HashWarden.Helpers
 {
     public static class DbInitializer
     {

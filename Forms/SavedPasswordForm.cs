@@ -1,19 +1,87 @@
-﻿namespace HashWarden
+﻿using HashWarden.Data;
+using HashWarden.Forms.Dialogs;
+using HashWarden.Helpers;
+
+namespace HashWarden
 {
     public partial class SavedPasswordForm : Form
     {
-        public SavedPasswordForm()
+        private Password _savedPassword;
+
+        public SavedPasswordForm(Password password)
         {
             InitializeComponent();
+            this._savedPassword = password;
+
+            if (_savedPassword.Title != null)
+                this.TitleLabel.Text = _savedPassword.Title;
+            else
+                this.TitleLabel.Text = Utils.CreateTitleFromUrl(_savedPassword.ServiceUrl);
+
+            this.UsernameLabel.Text = _savedPassword.UserName;
+            this.PasswordLabel.Text = "********";
+            this.ServiceNameLabel.Text = _savedPassword.ServiceUrl;
+            if (_savedPassword.Folder.FolderName != null)
+                this.FolderLabel.Text = _savedPassword.Folder.FolderName;
+            else
+                this.FolderLabel.Text = "Brak folderu";
+
+            UpdatedAtLabel.Text += _savedPassword.UpdatedAt;
+            CreatedAtLabel.Text += _savedPassword.CreatedAt;
         }
 
+        // TODO Przy odszyfrowywaniu jest błąd
         private void ViewPassButton_Click(object sender, EventArgs e)
         {
-            //TODO logika wyświetlania i chowania hasła
             if (this.ViewPassButton.ImageIndex == 0)
+            {
+                byte[] key = SessionKeyManager.GetKey();
+                if (key == null)
+                {
+                    var masterPasswordDialog = new MasterPasswordForm();
+                    if (masterPasswordDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        var masterPassword = masterPasswordDialog.GetPassword();
+                        key = EncryptionProvider.GenerateKeyFromPassword(masterPassword, Utils.LoggedUser.Salt);
+                    }
+                }
+                var decrypted = EncryptionProvider.Decrypt(_savedPassword.EncryptedPassword, key, _savedPassword.Iv);
+
+                this.PasswordLabel.Text = decrypted;
                 this.ViewPassButton.ImageIndex = 1;
+            }
             else
+            {
+                this.PasswordLabel.Text = "************";
                 this.ViewPassButton.ImageIndex = 0;
+            }
+        }
+
+        private void EditRecordButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void DeleteRecordButton_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+                "Czy na pewno chcesz usunąć ten wpis?\nNie będzie można go przywrócić.",
+                "Potwierdzenie",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (result == DialogResult.Yes && _savedPassword != null)
+            {
+                using (var context = new HashWardenDbContext())
+                {
+                    context.Passwords.Remove(_savedPassword);
+                    context.SaveChangesAsync();
+                }
+
+                MessageBox.Show("Usunięto wpis.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Utils.ReloadData();
+            }
         }
     }
 }

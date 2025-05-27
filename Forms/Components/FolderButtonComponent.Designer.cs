@@ -30,31 +30,34 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FolderButtonComponent));
-            FoldersButton = new Button();
+            FolderButton = new Button();
             SidebarMenuImages = new ImageList(components);
             SuspendLayout();
             // 
-            // FoldersButton
+            // FolderButton
             // 
-            FoldersButton.AutoEllipsis = true;
-            FoldersButton.BackColor = Color.FromArgb(40, 40, 40);
-            FoldersButton.Dock = DockStyle.Fill;
-            FoldersButton.FlatAppearance.BorderSize = 0;
-            FoldersButton.FlatStyle = FlatStyle.Popup;
-            FoldersButton.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            FoldersButton.ForeColor = Color.Gainsboro;
-            FoldersButton.ImageAlign = ContentAlignment.MiddleLeft;
-            FoldersButton.ImageIndex = 1;
-            FoldersButton.ImageList = SidebarMenuImages;
-            FoldersButton.Location = new Point(0, 0);
-            FoldersButton.Name = "FoldersButton";
-            FoldersButton.Padding = new Padding(10, 0, 0, 0);
-            FoldersButton.Size = new Size(230, 50);
-            FoldersButton.TabIndex = 2;
-            FoldersButton.Text = "   Foldery";
-            FoldersButton.TextAlign = ContentAlignment.MiddleLeft;
-            FoldersButton.TextImageRelation = TextImageRelation.ImageBeforeText;
-            FoldersButton.UseVisualStyleBackColor = false;
+            FolderButton.AutoEllipsis = true;
+            FolderButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            FolderButton.BackColor = Color.FromArgb(40, 40, 40);
+            FolderButton.Dock = DockStyle.Fill;
+            FolderButton.FlatAppearance.BorderSize = 0;
+            FolderButton.FlatStyle = FlatStyle.Popup;
+            FolderButton.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FolderButton.ForeColor = Color.Gainsboro;
+            FolderButton.ImageAlign = ContentAlignment.MiddleLeft;
+            FolderButton.ImageIndex = 1;
+            FolderButton.ImageList = SidebarMenuImages;
+            FolderButton.Location = new Point(0, 0);
+            FolderButton.Margin = new Padding(3, 4, 3, 4);
+            FolderButton.Name = "FolderButton";
+            FolderButton.Padding = new Padding(11, 0, 0, 0);
+            FolderButton.Size = new Size(260, 60);
+            FolderButton.TabIndex = 4;
+            FolderButton.Text = "   (Brak nazwy)";
+            FolderButton.TextAlign = ContentAlignment.MiddleLeft;
+            FolderButton.TextImageRelation = TextImageRelation.ImageBeforeText;
+            FolderButton.UseVisualStyleBackColor = false;
+            FolderButton.Click += FolderButton_Click;
             // 
             // SidebarMenuImages
             // 
@@ -67,17 +70,19 @@
             // 
             // FolderButtonComponent
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(FoldersButton);
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            Controls.Add(FolderButton);
+            Margin = new Padding(0);
             Name = "FolderButtonComponent";
-            Size = new Size(230, 50);
+            Size = new Size(260, 60);
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Button FoldersButton;
+        private Button FolderButton;
         private ImageList SidebarMenuImages;
     }
 }

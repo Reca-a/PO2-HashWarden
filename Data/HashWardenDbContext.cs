@@ -61,6 +61,13 @@ public partial class HashWardenDbContext : DbContext
         }
     }
 
+    public void RefreshConnectionString()
+    {
+        var configuration = LoadConfiguration();
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        this.Database.SetConnectionString(connectionString);
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>(entity =>
@@ -128,8 +135,13 @@ public partial class HashWardenDbContext : DbContext
                   .HasMaxLength(40)
                   .IsRequired();
 
-            entity.Property(p => p.ServiceName)
-                  .HasColumnName("service_name")
+            entity.Property(p => p.UserName)
+                  .HasColumnName("user_name")
+                  .HasMaxLength(40)
+                  .IsRequired();
+
+            entity.Property(p => p.ServiceUrl)
+                  .HasColumnName("service_url")
                   .HasMaxLength(40)
                   .IsRequired();
 

@@ -41,15 +41,16 @@
             Logo = new PictureBox();
             LogoImage = new ImageList(components);
             SidebarMenu = new Panel();
-            label1 = new Label();
-            FavoritesButton = new Button();
-            SidebarMenuImages = new ImageList(components);
+            FolderListPanel = new FlowLayoutPanel();
+            AddFolderButton = new Button();
             LogoutButton = new Button();
-            FoldersButton = new Button();
+            SidebarMenuImages = new ImageList(components);
+            FoldersLabel = new Label();
             AllElementsButton = new Button();
+            SettingsButton = new Button();
             SidebarSubMenu = new Panel();
+            PasswordListPanel = new FlowLayoutPanel();
             AddRecordButton = new Button();
-            NoElemLabel = new Label();
             SidebarPanel = new Panel();
             MarginPanel = new Panel();
             ContentPanel.SuspendLayout();
@@ -69,14 +70,14 @@
             ContentPanel.Dock = DockStyle.Fill;
             ContentPanel.Location = new Point(505, 68);
             ContentPanel.Name = "ContentPanel";
-            ContentPanel.Size = new Size(476, 700);
+            ContentPanel.Size = new Size(492, 716);
             ContentPanel.TabIndex = 1;
             // 
             // ContentDefaultLogo
             // 
             ContentDefaultLogo.Anchor = AnchorStyles.None;
             ContentDefaultLogo.Image = (Image)resources.GetObject("ContentDefaultLogo.Image");
-            ContentDefaultLogo.Location = new Point(32, 255);
+            ContentDefaultLogo.Location = new Point(40, 263);
             ContentDefaultLogo.Name = "ContentDefaultLogo";
             ContentDefaultLogo.Size = new Size(418, 165);
             ContentDefaultLogo.SizeMode = PictureBoxSizeMode.Zoom;
@@ -93,7 +94,7 @@
             Header.Dock = DockStyle.Top;
             Header.Location = new Point(3, 3);
             Header.Name = "Header";
-            Header.Size = new Size(978, 65);
+            Header.Size = new Size(994, 65);
             Header.TabIndex = 2;
             Header.MouseDown += Header_MouseDown;
             // 
@@ -102,13 +103,14 @@
             MinimalizeButton.BackColor = Color.FromArgb(10, 10, 10);
             MinimalizeButton.Dock = DockStyle.Right;
             MinimalizeButton.FlatAppearance.BorderSize = 0;
-            MinimalizeButton.FlatStyle = FlatStyle.Flat;
+            MinimalizeButton.FlatStyle = FlatStyle.Popup;
             MinimalizeButton.ImageIndex = 0;
             MinimalizeButton.ImageList = HeaderImages;
-            MinimalizeButton.Location = new Point(813, 0);
+            MinimalizeButton.Location = new Point(829, 0);
             MinimalizeButton.Name = "MinimalizeButton";
             MinimalizeButton.Size = new Size(55, 65);
             MinimalizeButton.TabIndex = 2;
+            MinimalizeButton.TabStop = false;
             MinimalizeButton.UseVisualStyleBackColor = false;
             MinimalizeButton.Click += MinimalizeButton_Click;
             // 
@@ -126,13 +128,14 @@
             MaximizeButton.BackColor = Color.FromArgb(10, 10, 10);
             MaximizeButton.Dock = DockStyle.Right;
             MaximizeButton.FlatAppearance.BorderSize = 0;
-            MaximizeButton.FlatStyle = FlatStyle.Flat;
+            MaximizeButton.FlatStyle = FlatStyle.Popup;
             MaximizeButton.ImageIndex = 1;
             MaximizeButton.ImageList = HeaderImages;
-            MaximizeButton.Location = new Point(868, 0);
+            MaximizeButton.Location = new Point(884, 0);
             MaximizeButton.Name = "MaximizeButton";
             MaximizeButton.Size = new Size(55, 65);
             MaximizeButton.TabIndex = 1;
+            MaximizeButton.TabStop = false;
             MaximizeButton.UseVisualStyleBackColor = false;
             MaximizeButton.Click += MaximizeButton_Click;
             // 
@@ -141,13 +144,14 @@
             ExitButton.BackColor = Color.FromArgb(10, 10, 10);
             ExitButton.Dock = DockStyle.Right;
             ExitButton.FlatAppearance.BorderSize = 0;
-            ExitButton.FlatStyle = FlatStyle.Flat;
+            ExitButton.FlatStyle = FlatStyle.Popup;
             ExitButton.ImageIndex = 2;
             ExitButton.ImageList = HeaderImages;
-            ExitButton.Location = new Point(923, 0);
+            ExitButton.Location = new Point(939, 0);
             ExitButton.Name = "ExitButton";
             ExitButton.Size = new Size(55, 65);
             ExitButton.TabIndex = 0;
+            ExitButton.TabStop = false;
             ExitButton.UseVisualStyleBackColor = false;
             ExitButton.Click += ExitButton_Click;
             // 
@@ -189,57 +193,42 @@
             // SidebarMenu
             // 
             SidebarMenu.BackColor = Color.FromArgb(25, 25, 25);
-            SidebarMenu.Controls.Add(FavoritesButton);
+            SidebarMenu.Controls.Add(FolderListPanel);
+            SidebarMenu.Controls.Add(AddFolderButton);
             SidebarMenu.Controls.Add(LogoutButton);
-            SidebarMenu.Controls.Add(FoldersButton);
-            SidebarMenu.Controls.Add(label1);
+            SidebarMenu.Controls.Add(FoldersLabel);
             SidebarMenu.Controls.Add(AllElementsButton);
+            SidebarMenu.Controls.Add(SettingsButton);
             SidebarMenu.Dock = DockStyle.Left;
             SidebarMenu.Location = new Point(0, 0);
             SidebarMenu.Name = "SidebarMenu";
-            SidebarMenu.Size = new Size(230, 700);
+            SidebarMenu.Size = new Size(230, 716);
             SidebarMenu.TabIndex = 3;
             // 
-            // label1
+            // FolderListPanel
             // 
-            label1.BackColor = Color.FromArgb(10, 10, 10);
-            label1.Dock = DockStyle.Top;
-            label1.Font = new Font("Microsoft Sans Serif", 14F);
-            label1.Location = new Point(0, 50);
-            label1.Name = "label1";
-            label1.Size = new Size(230, 30);
-            label1.TabIndex = 4;
-            label1.Text = "Foldery";
-            label1.TextAlign = ContentAlignment.MiddleCenter;
+            FolderListPanel.AutoScroll = true;
+            FolderListPanel.Dock = DockStyle.Fill;
+            FolderListPanel.FlowDirection = FlowDirection.TopDown;
+            FolderListPanel.Location = new Point(0, 200);
+            FolderListPanel.Name = "FolderListPanel";
+            FolderListPanel.Size = new Size(230, 466);
+            FolderListPanel.TabIndex = 4;
+            FolderListPanel.TabStop = true;
+            FolderListPanel.WrapContents = false;
             // 
-            // FavoritesButton
+            // AddFolderButton
             // 
-            FavoritesButton.AutoEllipsis = true;
-            FavoritesButton.BackColor = Color.FromArgb(40, 40, 40);
-            FavoritesButton.Dock = DockStyle.Top;
-            FavoritesButton.FlatAppearance.BorderSize = 0;
-            FavoritesButton.FlatStyle = FlatStyle.Popup;
-            FavoritesButton.ImageAlign = ContentAlignment.MiddleLeft;
-            FavoritesButton.ImageIndex = 1;
-            FavoritesButton.ImageList = SidebarMenuImages;
-            FavoritesButton.Location = new Point(0, 130);
-            FavoritesButton.Name = "FavoritesButton";
-            FavoritesButton.Padding = new Padding(10, 0, 0, 0);
-            FavoritesButton.Size = new Size(230, 50);
-            FavoritesButton.TabIndex = 3;
-            FavoritesButton.Text = "   Ulubione";
-            FavoritesButton.TextAlign = ContentAlignment.MiddleLeft;
-            FavoritesButton.TextImageRelation = TextImageRelation.ImageBeforeText;
-            FavoritesButton.UseVisualStyleBackColor = false;
-            // 
-            // SidebarMenuImages
-            // 
-            SidebarMenuImages.ColorDepth = ColorDepth.Depth32Bit;
-            SidebarMenuImages.ImageStream = (ImageListStreamer)resources.GetObject("SidebarMenuImages.ImageStream");
-            SidebarMenuImages.TransparentColor = Color.Transparent;
-            SidebarMenuImages.Images.SetKeyName(0, "allElementsIcon.png");
-            SidebarMenuImages.Images.SetKeyName(1, "foldersIcon.png");
-            SidebarMenuImages.Images.SetKeyName(2, "signOutIcon.png");
+            AddFolderButton.Dock = DockStyle.Top;
+            AddFolderButton.FlatStyle = FlatStyle.Popup;
+            AddFolderButton.Font = new Font("Microsoft Sans Serif", 17F);
+            AddFolderButton.Location = new Point(0, 160);
+            AddFolderButton.Name = "AddFolderButton";
+            AddFolderButton.Size = new Size(230, 40);
+            AddFolderButton.TabIndex = 3;
+            AddFolderButton.Text = "+";
+            AddFolderButton.UseVisualStyleBackColor = true;
+            AddFolderButton.Click += AddFolderButton_Click;
             // 
             // LogoutButton
             // 
@@ -251,36 +240,37 @@
             LogoutButton.ImageAlign = ContentAlignment.MiddleLeft;
             LogoutButton.ImageIndex = 2;
             LogoutButton.ImageList = SidebarMenuImages;
-            LogoutButton.Location = new Point(0, 650);
+            LogoutButton.Location = new Point(0, 666);
             LogoutButton.Name = "LogoutButton";
             LogoutButton.Padding = new Padding(10, 0, 0, 5);
             LogoutButton.Size = new Size(230, 50);
-            LogoutButton.TabIndex = 2;
+            LogoutButton.TabIndex = 5;
             LogoutButton.Text = "   Wyloguj";
             LogoutButton.TextAlign = ContentAlignment.MiddleLeft;
             LogoutButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             LogoutButton.UseVisualStyleBackColor = false;
             LogoutButton.Click += LogoutButton_Click;
             // 
-            // FoldersButton
+            // SidebarMenuImages
             // 
-            FoldersButton.AutoEllipsis = true;
-            FoldersButton.BackColor = Color.FromArgb(40, 40, 40);
-            FoldersButton.Dock = DockStyle.Top;
-            FoldersButton.FlatAppearance.BorderSize = 0;
-            FoldersButton.FlatStyle = FlatStyle.Popup;
-            FoldersButton.ImageAlign = ContentAlignment.MiddleLeft;
-            FoldersButton.ImageIndex = 1;
-            FoldersButton.ImageList = SidebarMenuImages;
-            FoldersButton.Location = new Point(0, 80);
-            FoldersButton.Name = "FoldersButton";
-            FoldersButton.Padding = new Padding(10, 0, 0, 0);
-            FoldersButton.Size = new Size(230, 50);
-            FoldersButton.TabIndex = 1;
-            FoldersButton.Text = "   Foldery";
-            FoldersButton.TextAlign = ContentAlignment.MiddleLeft;
-            FoldersButton.TextImageRelation = TextImageRelation.ImageBeforeText;
-            FoldersButton.UseVisualStyleBackColor = false;
+            SidebarMenuImages.ColorDepth = ColorDepth.Depth32Bit;
+            SidebarMenuImages.ImageStream = (ImageListStreamer)resources.GetObject("SidebarMenuImages.ImageStream");
+            SidebarMenuImages.TransparentColor = Color.Transparent;
+            SidebarMenuImages.Images.SetKeyName(0, "allElementsIcon.png");
+            SidebarMenuImages.Images.SetKeyName(1, "foldersIcon.png");
+            SidebarMenuImages.Images.SetKeyName(2, "signOutIcon.png");
+            // 
+            // FoldersLabel
+            // 
+            FoldersLabel.BackColor = Color.FromArgb(10, 10, 10);
+            FoldersLabel.Dock = DockStyle.Top;
+            FoldersLabel.Font = new Font("Microsoft Sans Serif", 14F);
+            FoldersLabel.Location = new Point(0, 120);
+            FoldersLabel.Name = "FoldersLabel";
+            FoldersLabel.Size = new Size(230, 40);
+            FoldersLabel.TabIndex = 4;
+            FoldersLabel.Text = "Foldery";
+            FoldersLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // AllElementsButton
             // 
@@ -292,30 +282,61 @@
             AllElementsButton.ImageAlign = ContentAlignment.MiddleLeft;
             AllElementsButton.ImageIndex = 0;
             AllElementsButton.ImageList = SidebarMenuImages;
-            AllElementsButton.Location = new Point(0, 0);
+            AllElementsButton.Location = new Point(0, 60);
             AllElementsButton.Name = "AllElementsButton";
-            AllElementsButton.Padding = new Padding(10, 0, 0, 0);
-            AllElementsButton.Size = new Size(230, 50);
-            AllElementsButton.TabIndex = 0;
+            AllElementsButton.Padding = new Padding(10, 0, 0, 10);
+            AllElementsButton.Size = new Size(230, 60);
+            AllElementsButton.TabIndex = 2;
             AllElementsButton.Text = "   Wszystkie elementy";
             AllElementsButton.TextAlign = ContentAlignment.MiddleLeft;
             AllElementsButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             AllElementsButton.UseVisualStyleBackColor = false;
             AllElementsButton.Click += AllElementsButton_Click;
             // 
+            // SettingsButton
+            // 
+            SettingsButton.AutoEllipsis = true;
+            SettingsButton.BackColor = Color.FromArgb(40, 40, 40);
+            SettingsButton.Dock = DockStyle.Top;
+            SettingsButton.FlatAppearance.BorderSize = 0;
+            SettingsButton.FlatStyle = FlatStyle.Popup;
+            SettingsButton.ImageAlign = ContentAlignment.MiddleLeft;
+            SettingsButton.ImageIndex = 0;
+            SettingsButton.ImageList = SidebarMenuImages;
+            SettingsButton.Location = new Point(0, 0);
+            SettingsButton.Name = "SettingsButton";
+            SettingsButton.Padding = new Padding(10, 0, 0, 10);
+            SettingsButton.Size = new Size(230, 60);
+            SettingsButton.TabIndex = 1;
+            SettingsButton.Text = "   Ustawienia";
+            SettingsButton.TextAlign = ContentAlignment.MiddleLeft;
+            SettingsButton.TextImageRelation = TextImageRelation.ImageBeforeText;
+            SettingsButton.UseVisualStyleBackColor = false;
+            // 
             // SidebarSubMenu
             // 
             SidebarSubMenu.BackColor = Color.FromArgb(15, 15, 15);
+            SidebarSubMenu.Controls.Add(PasswordListPanel);
             SidebarSubMenu.Controls.Add(AddRecordButton);
-            SidebarSubMenu.Controls.Add(NoElemLabel);
             SidebarSubMenu.Dock = DockStyle.Right;
             SidebarSubMenu.Location = new Point(232, 0);
             SidebarSubMenu.Name = "SidebarSubMenu";
-            SidebarSubMenu.Size = new Size(270, 700);
+            SidebarSubMenu.Size = new Size(270, 716);
             SidebarSubMenu.TabIndex = 4;
+            // 
+            // PasswordListPanel
+            // 
+            PasswordListPanel.AutoScroll = true;
+            PasswordListPanel.Dock = DockStyle.Fill;
+            PasswordListPanel.FlowDirection = FlowDirection.TopDown;
+            PasswordListPanel.Location = new Point(0, 0);
+            PasswordListPanel.Name = "PasswordListPanel";
+            PasswordListPanel.Size = new Size(270, 666);
+            PasswordListPanel.TabIndex = 6;
             // 
             // AddRecordButton
             // 
+            AddRecordButton.AccessibleRole = AccessibleRole.None;
             AddRecordButton.AutoEllipsis = true;
             AddRecordButton.BackColor = Color.FromArgb(25, 25, 25);
             AddRecordButton.Dock = DockStyle.Bottom;
@@ -324,24 +345,15 @@
             AddRecordButton.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Regular, GraphicsUnit.Point, 238);
             AddRecordButton.ImageAlign = ContentAlignment.MiddleLeft;
             AddRecordButton.ImageIndex = 2;
-            AddRecordButton.Location = new Point(0, 650);
+            AddRecordButton.Location = new Point(0, 666);
             AddRecordButton.Name = "AddRecordButton";
             AddRecordButton.Padding = new Padding(10, 0, 0, 5);
             AddRecordButton.Size = new Size(270, 50);
-            AddRecordButton.TabIndex = 5;
+            AddRecordButton.TabIndex = 7;
             AddRecordButton.Text = "+";
             AddRecordButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             AddRecordButton.UseVisualStyleBackColor = false;
-            // 
-            // NoElemLabel
-            // 
-            NoElemLabel.Dock = DockStyle.Fill;
-            NoElemLabel.Location = new Point(0, 0);
-            NoElemLabel.Name = "NoElemLabel";
-            NoElemLabel.Size = new Size(270, 700);
-            NoElemLabel.TabIndex = 4;
-            NoElemLabel.Text = "Brak elementów";
-            NoElemLabel.TextAlign = ContentAlignment.MiddleCenter;
+            AddRecordButton.Click += AddRecordButton_Click;
             // 
             // SidebarPanel
             // 
@@ -350,24 +362,24 @@
             SidebarPanel.Dock = DockStyle.Left;
             SidebarPanel.Location = new Point(3, 68);
             SidebarPanel.Name = "SidebarPanel";
-            SidebarPanel.Size = new Size(502, 700);
+            SidebarPanel.Size = new Size(502, 716);
             SidebarPanel.TabIndex = 2;
             // 
             // MarginPanel
             // 
             MarginPanel.BackColor = Color.FromArgb(10, 10, 10);
             MarginPanel.Dock = DockStyle.Bottom;
-            MarginPanel.Location = new Point(3, 768);
+            MarginPanel.Location = new Point(3, 784);
             MarginPanel.Name = "MarginPanel";
-            MarginPanel.Size = new Size(978, 13);
+            MarginPanel.Size = new Size(994, 13);
             MarginPanel.TabIndex = 3;
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 16F);
+            AutoScaleDimensions = new SizeF(10F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(10, 10, 10);
-            ClientSize = new Size(984, 784);
+            ClientSize = new Size(1000, 800);
             ControlBox = false;
             Controls.Add(ContentPanel);
             Controls.Add(SidebarPanel);
@@ -375,12 +387,14 @@
             Controls.Add(MarginPanel);
             Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular, GraphicsUnit.Point, 238);
             ForeColor = Color.Gainsboro;
+            FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             MinimumSize = new Size(1000, 800);
             Name = "MainForm";
             Padding = new Padding(3);
             SizeGripStyle = SizeGripStyle.Show;
+            StartPosition = FormStartPosition.CenterScreen;
             Activated += MainForm_Activated;
             Deactivate += MainForm_Deactivate;
             Load += MainForm_Load;
@@ -401,7 +415,6 @@
         private System.Windows.Forms.Panel SidebarMenu;
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.Button LogoutButton;
-        private System.Windows.Forms.Button FoldersButton;
         private System.Windows.Forms.Button AllElementsButton;
         private System.Windows.Forms.Button MinimalizeButton;
         private System.Windows.Forms.Button MaximizeButton;
@@ -411,13 +424,15 @@
         private System.Windows.Forms.PictureBox ContentDefaultLogo;
         private System.Windows.Forms.Panel SidebarSubMenu;
         private System.Windows.Forms.Panel SidebarPanel;
-        private System.Windows.Forms.Label NoElemLabel;
-        private System.Windows.Forms.Button FavoritesButton;
         private System.Windows.Forms.Button AddRecordButton;
         private Panel MarginPanel;
         private Label LogoLabel;
         private PictureBox Logo;
-        private Label label1;
+        private Label FoldersLabel;
+        private FlowLayoutPanel FolderListPanel;
+        private FlowLayoutPanel PasswordListPanel;
+        private Button AddFolderButton;
+        private Button SettingsButton;
     }
 }
 

@@ -1,15 +1,6 @@
 ﻿using HashWarden.Data;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using HashWarden.Helpers;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace HashWarden
 {
@@ -23,7 +14,7 @@ namespace HashWarden
 
         private void ExitButton_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            this.DialogResult = DialogResult.Cancel;
         }
 
         private void MinimalizeButton_Click(object sender, EventArgs e)
@@ -33,9 +24,8 @@ namespace HashWarden
 
         private void LoginFormButton_click(object sender, EventArgs e)
         {
-            var loginForm = new LoginForm();
-            loginForm.Show();
-            this.Hide();
+            this.DialogResult = DialogResult.Cancel;
+            
         }
 
         private void RegisterButton_Click(object sender, EventArgs e)
@@ -59,18 +49,8 @@ namespace HashWarden
             }
 
             // Walidacja hasła
-            if (string.IsNullOrWhiteSpace(password) || password.Length < 5)
-            {
-                MessageBox.Show("Hasło musi mieć co najmniej 5 znaków.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            if (!Utils.PasswordValidation(password))
                 return;
-            }
-
-            var passwordRegex = new Regex(@"[!@#$%^&*(),.?""{}|<>]");
-            if (!passwordRegex.IsMatch(password))
-            {
-                MessageBox.Show("Hasło musi zawierać przynajmniej jeden znak specjalny (!@#$% itp.).", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
 
             if (password != passwordRepeat)
             {
@@ -115,10 +95,8 @@ namespace HashWarden
                 context.SaveChanges();
 
                 MessageBox.Show("Rejestracja zakończona sukcesem", "Zarejestrowano", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                
-                var loginForm = new LoginForm();
-                loginForm.Show();
-                this.Close();
+
+                this.DialogResult = DialogResult.OK;
             }
         }
     }

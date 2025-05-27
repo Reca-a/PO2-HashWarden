@@ -1,4 +1,5 @@
 ﻿using HashWarden.Data;
+using HashWarden.Helpers;
 
 namespace HashWarden.Seeders
 {
@@ -31,7 +32,6 @@ namespace HashWarden.Seeders
 
                     for (int siteIndex = 0; siteIndex < sites.GetLength(1); siteIndex++)
                     {
-                        var title = sites[userIndex, siteIndex].Split(".")[0];
                         var randomDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(random.Next(-25, 0)));
 
                         string plainPassword = "zaq1";
@@ -46,8 +46,9 @@ namespace HashWarden.Seeders
                         {
                             UserId = users[userIndex].Id,
                             FolderId = userFolders[siteIndex % 2].Id,
-                            Title = char.ToUpper(title[0]) + title.Substring(1),
-                            ServiceName = sites[userIndex, siteIndex],
+                            Title = Utils.CreateTitleFromUrl(sites[userIndex, siteIndex]),
+                            UserName = users[userIndex].Email,
+                            ServiceUrl = sites[userIndex, siteIndex],
                             EncryptedPassword = encrypted,
                             Iv = iv,
                             CreatedAt = randomDate,

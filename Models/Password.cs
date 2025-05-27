@@ -10,7 +10,9 @@ public partial class Password
 
     public string? Title { get; set; }
 
-    public string ServiceName { get; set; } = null!;
+    public string UserName { get; set; } = null!;
+
+    public string ServiceUrl { get; set; } = null!;
 
     public byte[] EncryptedPassword { get; set; } = null!;
 
