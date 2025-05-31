@@ -19,9 +19,9 @@ namespace HashWarden
                 this.TitleLabel.Text = Utils.CreateTitleFromUrl(_savedPassword.ServiceUrl);
 
             this.UsernameLabel.Text = _savedPassword.UserName;
-            this.PasswordLabel.Text = "********";
+            this.PasswordLabel.Text = "************";
             this.ServiceNameLabel.Text = _savedPassword.ServiceUrl;
-            if (_savedPassword.Folder.FolderName != null)
+            if (_savedPassword.Folder != null && _savedPassword.Folder.FolderName != null)
                 this.FolderLabel.Text = _savedPassword.Folder.FolderName;
             else
                 this.FolderLabel.Text = "Brak folderu";
@@ -30,7 +30,6 @@ namespace HashWarden
             CreatedAtLabel.Text += _savedPassword.CreatedAt;
         }
 
-        // TODO Przy odszyfrowywaniu jest błąd
         private void ViewPassButton_Click(object sender, EventArgs e)
         {
             if (this.ViewPassButton.ImageIndex == 0)
@@ -57,9 +56,14 @@ namespace HashWarden
             }
         }
 
-        private void EditRecordButton_Click(object sender, EventArgs e)
+        private async void EditRecordButton_Click(object sender, EventArgs e)
         {
-
+            var addPasswordDialog = new AddPasswordForm(Utils.LoggedUser.Id, true, _savedPassword);
+            if (addPasswordDialog.ShowDialog() == DialogResult.OK)
+            {
+                MessageBox.Show("Hasło zaktualizowane");
+                await Utils.ReloadData();
+            }
         }
 
         private async void DeleteRecordButton_Click(object sender, EventArgs e)
@@ -71,16 +75,24 @@ namespace HashWarden
                 MessageBoxIcon.Warning
             );
 
-            if (result == DialogResult.Yes && _savedPassword != null)
+            try
             {
-                using (var context = new HashWardenDbContext())
+                if (result == DialogResult.Yes && _savedPassword != null)
                 {
-                    context.Passwords.Remove(_savedPassword);
-                    context.SaveChangesAsync();
-                }
+                    using (var context = new HashWardenDbContext())
+                    {
+                        context.Passwords.Remove(_savedPassword);
+                        context.SaveChangesAsync();
+                    }
 
+                    MessageBox.Show("Usunięto wpis.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    await Utils.ReloadData();
+                }
+            }
+            catch(Npgsql.NpgsqlException ex)
+            {
                 MessageBox.Show("Usunięto wpis.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Utils.ReloadData();
+                await Utils.ReloadData();
             }
         }
     }

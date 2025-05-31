@@ -3,6 +3,7 @@ using HashWarden.Helpers;
 
 namespace HashWarden
 {
+    // TODO Dodaæ mo¿liwoœæ zmiany stringa do bazy
     internal static class Program
     {
         [STAThread]

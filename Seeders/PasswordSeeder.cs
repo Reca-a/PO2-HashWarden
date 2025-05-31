@@ -15,8 +15,8 @@ namespace HashWarden.Seeders
             var folders = context.Folders.ToList();
 
             string[,] sites = { 
-                { "facebook.com", "google.com", "instagram.com", "ur.edu.pl" },
-                { "google.com", "github.com", "facebook.com", "company.net" }
+                { "www.facebook.com", "www.google.com", "www.instagram.com", "www.ur.edu.pl" },
+                { "www.google.com", "www.github.com", "www.facebook.com", "www.company.net" }
             };
 
             string[] masterPassword = { "123", "TrudneHaslo" };
@@ -34,7 +34,7 @@ namespace HashWarden.Seeders
                     {
                         var randomDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(random.Next(-25, 0)));
 
-                        string plainPassword = "zaq1";
+                        string plainPassword = "zaq1@WSX";
                         byte[] key = EncryptionProvider.GenerateKeyFromPassword(masterPassword[userIndex], users[userIndex].Salt);
 
                         aes.Key = key;

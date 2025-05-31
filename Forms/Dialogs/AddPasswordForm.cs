@@ -1,7 +1,6 @@
 ﻿using HashWarden.Data;
 using HashWarden.Helpers;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Text.RegularExpressions;
 
 namespace HashWarden.Forms.Dialogs
@@ -9,14 +8,25 @@ namespace HashWarden.Forms.Dialogs
     public partial class AddPasswordForm : Form
     {
         private int _userId;
+        private bool _isEditing;
+        private Password? _editedPassword;
 
-        public AddPasswordForm(int userId)
+        public AddPasswordForm(int userId, bool isEditing, Password? editedPassword = null)
         {
             InitializeComponent();
             _userId = userId;
+            _isEditing = isEditing;
+            _editedPassword = editedPassword;
+
             StartPosition = FormStartPosition.CenterScreen;
             FolderPicker.DropDownStyle = ComboBoxStyle.DropDownList;
             LoadFolderPicker();
+
+            if (isEditing)
+            {
+                EditedDataLoader();
+                AddButton.Text = "Zapisz";
+            }
         }
 
         // Wczytanie listy folderów
@@ -46,11 +56,17 @@ namespace HashWarden.Forms.Dialogs
             var password = PasswordInput.Text.Trim();
             var serviceUrl = ServiceUrlInput.Text.Trim().ToLower();
             
-            Folder folder = null;
-            if(!FolderPicker.SelectedItem.Equals("Brak"))
+            Folder? folder = null;
+            if(FolderPicker.SelectedItem != null || !FolderPicker.SelectedItem.Equals("Brak"))
                 folder = FolderPicker.SelectedItem as Folder;
 
             var date = DateOnly.FromDateTime(DateTime.UtcNow);
+            DateOnly? createdDate;
+
+            if (_isEditing && _editedPassword != null)
+                createdDate = _editedPassword.CreatedAt;
+            else
+                createdDate = date;
 
             // Walidacja tytułu (nieobowiązkowy)
             if (title.Length > 40)
@@ -79,7 +95,7 @@ namespace HashWarden.Forms.Dialogs
             }
 
             byte[] salt = Utils.LoggedUser.Salt;
-            byte[] key = SessionKeyManager.GetKey();
+            byte[]? key = SessionKeyManager.GetKey();
             byte[] iv;
             byte[] encrypted;
 
@@ -110,18 +126,74 @@ namespace HashWarden.Forms.Dialogs
                 EncryptedPassword = encrypted,
                 Iv = iv,
                 CreatedAt = date,
-                UpdatedAt = date,
+                UpdatedAt = createdDate,
                 FolderId = folder.Id
             };
 
             using (var context = new HashWardenDbContext())
             {
-                await context.Passwords.AddAsync(savedPassword);
+                if (_isEditing && _editedPassword != null)
+                {
+                    var editedPasswordDb = await context.Passwords
+                        .FirstOrDefaultAsync(p => p.Id == _editedPassword.Id);
+
+                    if (editedPasswordDb == null)
+                    {
+                        MessageBox.Show("Nie znaleziono wpisu.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    editedPasswordDb = savedPassword;
+                }
+                else
+                    await context.Passwords.AddAsync(savedPassword);
+                
                 await context.SaveChangesAsync();
             }
 
             MessageBox.Show("Dodano rekord", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.DialogResult = DialogResult.OK;
+        }
+
+        private void EditedDataLoader()
+        {
+            if (_editedPassword == null)
+                return;
+
+            byte[] key = SessionKeyManager.GetKey();
+            if (key == null)
+            {
+                var masterPasswordDialog = new MasterPasswordForm();
+                if (masterPasswordDialog.ShowDialog() == DialogResult.OK)
+                {
+                    var masterPassword = masterPasswordDialog.GetPassword();
+                    key = EncryptionProvider.GenerateKeyFromPassword(masterPassword, Utils.LoggedUser.Salt);
+                }
+            }
+            var decrypted = EncryptionProvider.Decrypt(_editedPassword.EncryptedPassword, key, _editedPassword.Iv);
+            this.PasswordInput.Text = decrypted;
+
+            if(_editedPassword.Title != null)
+                TitleInput.Text = _editedPassword.Title;
+            if (_editedPassword.Folder != null)
+                FolderPicker.SelectedItem = _editedPassword.Folder;
+
+
+            UsernameInput.Text = _editedPassword.UserName;
+            ServiceUrlInput.Text = _editedPassword.ServiceUrl;
+        }
+
+        private void ViewPassButton_Click(object sender, EventArgs e)
+        {
+            if (this.ViewPassButton.ImageIndex == 0)
+            {
+                this.PasswordInput.UseSystemPasswordChar = false;
+                this.ViewPassButton.ImageIndex = 1;
+            }
+            else
+            {
+                this.PasswordInput.UseSystemPasswordChar = true;
+                this.ViewPassButton.ImageIndex = 0;
+            }
         }
 
         private void ExitButton_Click(object sender, EventArgs e)

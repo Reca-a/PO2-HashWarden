@@ -8,16 +8,13 @@ namespace HashWarden.Forms.Dialogs
         private string _folderName;
         private int _loggedUserId;
 
+        public string FolderName { get => _folderName;}
+
         public AddFolderForm(int loggedUserId)
         {
             _loggedUserId = loggedUserId;
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
-        }
-
-        public string GetFolderName()
-        {
-            return _folderName;
         }
 
         private void AddButton_Click(object sender, EventArgs e)

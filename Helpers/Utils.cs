@@ -25,11 +25,14 @@ namespace HashWarden.Helpers
 
         public static void SetLoggedUser(User user)
         {
-            _user = user;
+            LoggedUser = user;
         }
 
-        public static async void ReloadData()
+        public static async Task ReloadData()
         {
+            if (LoggedUser == null)
+                return;
+
             using (var context = new HashWardenDbContext())
             {
                 var user = await context.Users
@@ -37,7 +40,8 @@ namespace HashWarden.Helpers
                     .Include(u => u.Passwords)
                     .FirstOrDefaultAsync(u => u.Id == LoggedUser.Id);
 
-                SetLoggedUser(user);
+                if (user != null)
+                    LoggedUser = user;
             }
         }
 

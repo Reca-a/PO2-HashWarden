@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HashWarden.Helpers;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace HashWarden.Data;
@@ -14,37 +15,6 @@ public partial class HashWardenDbContext : DbContext
     {
     }
 
-    public static IConfiguration LoadConfiguration()
-    {
-        try
-        {
-            string baseDirectory = AppContext.BaseDirectory;
-            string configPath = Path.Combine(baseDirectory, "appsettings.json");
-
-            if (!File.Exists(configPath))
-            {
-                string projectDirectory = Path.GetFullPath(Path.Combine(baseDirectory, "..", "..", ".."));
-                configPath = Path.Combine(projectDirectory, "appsettings.json");
-
-                if (!File.Exists(configPath))
-                {
-                    throw new FileNotFoundException($"Nie znaleziono pliku appsettings.json w ścieżkach:\n" +
-                        $"- {Path.Combine(baseDirectory, "appsettings.json")}\n" +
-                        $"- {configPath}");
-                }
-            }
-            return new ConfigurationBuilder()
-                .AddJsonFile(configPath, optional: false, reloadOnChange: true)
-                .Build();
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Błąd podczas wczytywania konfiguracji: {ex.Message}", "Błąd konfiguracji",
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return null;
-        }
-    }
-
     public virtual DbSet<Folder> Folders { get; set; }
 
     public virtual DbSet<Password> Passwords { get; set; }
@@ -55,17 +25,24 @@ public partial class HashWardenDbContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            var configuration = LoadConfiguration();
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            string? connectionString = AppConfiguration.GetConnectionString();
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                MessageBox.Show("Brak poprawnego connection stringa w pliku konfiguracyjnym.", "Błąd połączenia",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             optionsBuilder.UseNpgsql(connectionString);
         }
     }
 
     public void RefreshConnectionString()
     {
-        var configuration = LoadConfiguration();
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-        this.Database.SetConnectionString(connectionString);
+        var connectionString = AppConfiguration.GetConnectionString();
+        if (!string.IsNullOrWhiteSpace(connectionString))
+        {
+            this.Database.SetConnectionString(connectionString);
+        }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

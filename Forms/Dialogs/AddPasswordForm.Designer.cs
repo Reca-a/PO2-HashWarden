@@ -38,7 +38,10 @@
             DescLabel5 = new Label();
             ServiceUrlInput = new TextBox();
             DescLabel4 = new Label();
+            PasswordContainer = new TableLayoutPanel();
             PasswordInput = new TextBox();
+            ViewPassButton = new Button();
+            Icons = new ImageList(components);
             DescLabel3 = new Label();
             UsernameInput = new TextBox();
             DescLabel2 = new Label();
@@ -51,6 +54,7 @@
             HeaderImages = new ImageList(components);
             LayoutPanel.SuspendLayout();
             panel2.SuspendLayout();
+            PasswordContainer.SuspendLayout();
             Header.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Logo).BeginInit();
             SuspendLayout();
@@ -71,7 +75,7 @@
             LayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 11F));
             LayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 78F));
             LayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 11F));
-            LayoutPanel.Size = new Size(450, 620);
+            LayoutPanel.Size = new Size(450, 831);
             LayoutPanel.TabIndex = 6;
             // 
             // panel2
@@ -82,16 +86,16 @@
             panel2.Controls.Add(DescLabel5);
             panel2.Controls.Add(ServiceUrlInput);
             panel2.Controls.Add(DescLabel4);
-            panel2.Controls.Add(PasswordInput);
+            panel2.Controls.Add(PasswordContainer);
             panel2.Controls.Add(DescLabel3);
             panel2.Controls.Add(UsernameInput);
             panel2.Controls.Add(DescLabel2);
             panel2.Controls.Add(TitleInput);
             panel2.Controls.Add(DescLabel1);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(70, 71);
+            panel2.Location = new Point(70, 94);
             panel2.Name = "panel2";
-            panel2.Size = new Size(309, 477);
+            panel2.Size = new Size(309, 642);
             panel2.TabIndex = 0;
             // 
             // AddButton
@@ -104,7 +108,7 @@
             AddButton.ForeColor = Color.Gainsboro;
             AddButton.ImageAlign = ContentAlignment.MiddleLeft;
             AddButton.ImageIndex = 2;
-            AddButton.Location = new Point(0, 404);
+            AddButton.Location = new Point(0, 425);
             AddButton.Name = "AddButton";
             AddButton.Padding = new Padding(10, 0, 0, 5);
             AddButton.Size = new Size(309, 51);
@@ -118,7 +122,7 @@
             // 
             label2.Dock = DockStyle.Top;
             label2.ForeColor = Color.Gainsboro;
-            label2.Location = new Point(0, 364);
+            label2.Location = new Point(0, 385);
             label2.Name = "label2";
             label2.Size = new Size(309, 40);
             label2.TabIndex = 8;
@@ -132,7 +136,7 @@
             FolderPicker.DropDownHeight = 120;
             FolderPicker.FormattingEnabled = true;
             FolderPicker.IntegralHeight = false;
-            FolderPicker.Location = new Point(0, 336);
+            FolderPicker.Location = new Point(0, 357);
             FolderPicker.MaxDropDownItems = 6;
             FolderPicker.MaxLength = 50;
             FolderPicker.Name = "FolderPicker";
@@ -145,7 +149,7 @@
             DescLabel5.Dock = DockStyle.Top;
             DescLabel5.Font = new Font("Segoe UI", 12F);
             DescLabel5.ForeColor = Color.Gainsboro;
-            DescLabel5.Location = new Point(0, 296);
+            DescLabel5.Location = new Point(0, 317);
             DescLabel5.Name = "DescLabel5";
             DescLabel5.Size = new Size(309, 40);
             DescLabel5.TabIndex = 16;
@@ -157,7 +161,7 @@
             ServiceUrlInput.Dock = DockStyle.Top;
             ServiceUrlInput.Font = new Font("Segoe UI", 12F);
             ServiceUrlInput.ImeMode = ImeMode.NoControl;
-            ServiceUrlInput.Location = new Point(0, 262);
+            ServiceUrlInput.Location = new Point(0, 283);
             ServiceUrlInput.MaxLength = 40;
             ServiceUrlInput.Name = "ServiceUrlInput";
             ServiceUrlInput.PlaceholderText = "www.adres.pl";
@@ -169,24 +173,67 @@
             DescLabel4.Dock = DockStyle.Top;
             DescLabel4.Font = new Font("Segoe UI", 12F);
             DescLabel4.ForeColor = Color.Gainsboro;
-            DescLabel4.Location = new Point(0, 222);
+            DescLabel4.Location = new Point(0, 243);
             DescLabel4.Name = "DescLabel4";
             DescLabel4.Size = new Size(309, 40);
             DescLabel4.TabIndex = 14;
             DescLabel4.Text = "Strona";
             DescLabel4.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // PasswordContainer
+            // 
+            PasswordContainer.BackColor = Color.FromArgb(15, 15, 15);
+            PasswordContainer.ColumnCount = 2;
+            PasswordContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 80F));
+            PasswordContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            PasswordContainer.Controls.Add(PasswordInput, 0, 0);
+            PasswordContainer.Controls.Add(ViewPassButton, 1, 0);
+            PasswordContainer.Dock = DockStyle.Top;
+            PasswordContainer.Location = new Point(0, 188);
+            PasswordContainer.Name = "PasswordContainer";
+            PasswordContainer.Padding = new Padding(0, 10, 0, 10);
+            PasswordContainer.RowCount = 1;
+            PasswordContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            PasswordContainer.Size = new Size(309, 55);
+            PasswordContainer.TabIndex = 17;
+            // 
             // PasswordInput
             // 
-            PasswordInput.Dock = DockStyle.Top;
+            PasswordInput.Dock = DockStyle.Fill;
             PasswordInput.Font = new Font("Segoe UI", 12F);
             PasswordInput.ImeMode = ImeMode.NoControl;
-            PasswordInput.Location = new Point(0, 188);
+            PasswordInput.Location = new Point(0, 10);
+            PasswordInput.Margin = new Padding(0);
             PasswordInput.MaxLength = 40;
             PasswordInput.Name = "PasswordInput";
             PasswordInput.PlaceholderText = "Hasło";
-            PasswordInput.Size = new Size(309, 34);
+            PasswordInput.Size = new Size(247, 34);
             PasswordInput.TabIndex = 2;
+            PasswordInput.UseSystemPasswordChar = true;
+            // 
+            // ViewPassButton
+            // 
+            ViewPassButton.Dock = DockStyle.Left;
+            ViewPassButton.FlatAppearance.BorderSize = 0;
+            ViewPassButton.FlatStyle = FlatStyle.Flat;
+            ViewPassButton.ImageIndex = 0;
+            ViewPassButton.ImageList = Icons;
+            ViewPassButton.Location = new Point(250, 13);
+            ViewPassButton.Name = "ViewPassButton";
+            ViewPassButton.Size = new Size(51, 29);
+            ViewPassButton.TabIndex = 8;
+            ViewPassButton.UseVisualStyleBackColor = true;
+            ViewPassButton.Click += ViewPassButton_Click;
+            // 
+            // Icons
+            // 
+            Icons.ColorDepth = ColorDepth.Depth32Bit;
+            Icons.ImageStream = (ImageListStreamer)resources.GetObject("Icons.ImageStream");
+            Icons.TransparentColor = Color.Transparent;
+            Icons.Images.SetKeyName(0, "viewPassFalse.png");
+            Icons.Images.SetKeyName(1, "viewPassTrue.png");
+            Icons.Images.SetKeyName(2, "edit.png");
+            Icons.Images.SetKeyName(3, "trash.png");
             // 
             // DescLabel3
             // 
@@ -319,7 +366,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(450, 700);
+            ClientSize = new Size(450, 911);
             ControlBox = false;
             Controls.Add(LayoutPanel);
             Controls.Add(Header);
@@ -333,6 +380,8 @@
             LayoutPanel.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            PasswordContainer.ResumeLayout(false);
+            PasswordContainer.PerformLayout();
             Header.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)Logo).EndInit();
             ResumeLayout(false);
@@ -359,5 +408,8 @@
         private ImageList HeaderImages;
         private ComboBox FolderPicker;
         private Label DescLabel5;
+        private TableLayoutPanel PasswordContainer;
+        private Button ViewPassButton;
+        private ImageList Icons;
     }
 }

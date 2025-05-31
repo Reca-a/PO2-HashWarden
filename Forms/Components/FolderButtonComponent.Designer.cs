@@ -51,7 +51,7 @@
             FolderButton.Margin = new Padding(3, 4, 3, 4);
             FolderButton.Name = "FolderButton";
             FolderButton.Padding = new Padding(11, 0, 0, 0);
-            FolderButton.Size = new Size(260, 60);
+            FolderButton.Size = new Size(230, 60);
             FolderButton.TabIndex = 4;
             FolderButton.Text = "   (Brak nazwy)";
             FolderButton.TextAlign = ContentAlignment.MiddleLeft;
@@ -76,7 +76,7 @@
             Controls.Add(FolderButton);
             Margin = new Padding(0);
             Name = "FolderButtonComponent";
-            Size = new Size(260, 60);
+            Size = new Size(230, 60);
             ResumeLayout(false);
         }
 
