@@ -244,7 +244,7 @@
             ViewPassButton.Location = new Point(362, 13);
             ViewPassButton.Name = "ViewPassButton";
             ViewPassButton.Size = new Size(51, 29);
-            ViewPassButton.TabIndex = 8;
+            ViewPassButton.TabIndex = 1;
             ViewPassButton.UseVisualStyleBackColor = true;
             ViewPassButton.Click += ViewPassButton_Click;
             // 
@@ -346,7 +346,7 @@
             DeleteRecordButton.Location = new Point(105, 0);
             DeleteRecordButton.Name = "DeleteRecordButton";
             DeleteRecordButton.Size = new Size(82, 50);
-            DeleteRecordButton.TabIndex = 10;
+            DeleteRecordButton.TabIndex = 3;
             DeleteRecordButton.UseVisualStyleBackColor = false;
             DeleteRecordButton.Click += DeleteRecordButton_Click;
             // 
@@ -363,7 +363,7 @@
             EditRecordButton.Location = new Point(23, 0);
             EditRecordButton.Name = "EditRecordButton";
             EditRecordButton.Size = new Size(82, 50);
-            EditRecordButton.TabIndex = 9;
+            EditRecordButton.TabIndex = 2;
             EditRecordButton.UseVisualStyleBackColor = false;
             EditRecordButton.Click += EditRecordButton_Click;
             // 

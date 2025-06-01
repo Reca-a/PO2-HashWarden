@@ -29,7 +29,7 @@ namespace HashWarden.Forms.Dialogs
                 using (var context = new HashWardenDbContext(optionsBuilder.Options))
                 {
                     if (!context.Database.CanConnect())
-                        throw new Exception("Nie można połączyć się z bazą danych.");
+                        throw new Exception("Nie można połączyć się z bazą danych");
                 }
 
                 AppConfiguration.SetConnectionString(newConn);

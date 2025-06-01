@@ -64,7 +64,7 @@
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(450, 700);
+            panel1.Size = new Size(432, 653);
             panel1.TabIndex = 0;
             // 
             // LayoutPanel
@@ -82,7 +82,7 @@
             LayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 11F));
             LayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 78F));
             LayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 11F));
-            LayoutPanel.Size = new Size(450, 620);
+            LayoutPanel.Size = new Size(432, 573);
             LayoutPanel.TabIndex = 4;
             // 
             // panel2
@@ -96,9 +96,9 @@
             panel2.Controls.Add(EmailInput);
             panel2.Controls.Add(UsernameLabel);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(70, 71);
+            panel2.Location = new Point(67, 66);
             panel2.Name = "panel2";
-            panel2.Size = new Size(309, 477);
+            panel2.Size = new Size(296, 440);
             panel2.TabIndex = 0;
             // 
             // RegisterFormButton
@@ -114,7 +114,7 @@
             RegisterFormButton.Location = new Point(0, 359);
             RegisterFormButton.Name = "RegisterFormButton";
             RegisterFormButton.Padding = new Padding(10, 0, 0, 5);
-            RegisterFormButton.Size = new Size(309, 51);
+            RegisterFormButton.Size = new Size(296, 51);
             RegisterFormButton.TabIndex = 3;
             RegisterFormButton.Text = "Zarejestruj się";
             RegisterFormButton.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -129,7 +129,7 @@
             label1.Location = new Point(0, 239);
             label1.Name = "label1";
             label1.Padding = new Padding(0, 0, 0, 11);
-            label1.Size = new Size(309, 120);
+            label1.Size = new Size(296, 120);
             label1.TabIndex = 0;
             label1.Text = "Nie masz konta?";
             label1.TextAlign = ContentAlignment.BottomCenter;
@@ -147,7 +147,7 @@
             LoginButton.Location = new Point(0, 188);
             LoginButton.Name = "LoginButton";
             LoginButton.Padding = new Padding(10, 0, 0, 5);
-            LoginButton.Size = new Size(309, 51);
+            LoginButton.Size = new Size(296, 51);
             LoginButton.TabIndex = 2;
             LoginButton.Text = "Zaloguj";
             LoginButton.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -160,7 +160,7 @@
             label2.ForeColor = Color.Gainsboro;
             label2.Location = new Point(0, 148);
             label2.Name = "label2";
-            label2.Size = new Size(309, 40);
+            label2.Size = new Size(296, 40);
             label2.TabIndex = 8;
             label2.TextAlign = ContentAlignment.MiddleLeft;
             // 
@@ -173,7 +173,7 @@
             PasswordInput.MaxLength = 40;
             PasswordInput.Name = "PasswordInput";
             PasswordInput.PlaceholderText = "Hasło";
-            PasswordInput.Size = new Size(309, 34);
+            PasswordInput.Size = new Size(296, 34);
             PasswordInput.TabIndex = 1;
             PasswordInput.UseSystemPasswordChar = true;
             // 
@@ -184,7 +184,7 @@
             PasswordLabel.ForeColor = Color.Gainsboro;
             PasswordLabel.Location = new Point(0, 74);
             PasswordLabel.Name = "PasswordLabel";
-            PasswordLabel.Size = new Size(309, 40);
+            PasswordLabel.Size = new Size(296, 40);
             PasswordLabel.TabIndex = 2;
             PasswordLabel.Text = "Hasło";
             PasswordLabel.TextAlign = ContentAlignment.MiddleLeft;
@@ -198,7 +198,7 @@
             EmailInput.MaxLength = 40;
             EmailInput.Name = "EmailInput";
             EmailInput.PlaceholderText = "nazwa@email.com";
-            EmailInput.Size = new Size(309, 34);
+            EmailInput.Size = new Size(296, 34);
             EmailInput.TabIndex = 0;
             // 
             // UsernameLabel
@@ -208,7 +208,7 @@
             UsernameLabel.ForeColor = Color.Gainsboro;
             UsernameLabel.Location = new Point(0, 0);
             UsernameLabel.Name = "UsernameLabel";
-            UsernameLabel.Size = new Size(309, 40);
+            UsernameLabel.Size = new Size(296, 40);
             UsernameLabel.TabIndex = 0;
             UsernameLabel.Text = "Email";
             UsernameLabel.TextAlign = ContentAlignment.MiddleLeft;
@@ -223,7 +223,7 @@
             Header.Dock = DockStyle.Top;
             Header.Location = new Point(0, 0);
             Header.Name = "Header";
-            Header.Size = new Size(450, 80);
+            Header.Size = new Size(432, 80);
             Header.TabIndex = 3;
             // 
             // LogoLabel
@@ -265,7 +265,7 @@
             MinimalizeButton.ForeColor = Color.Gainsboro;
             MinimalizeButton.ImageIndex = 0;
             MinimalizeButton.ImageList = HeaderImages;
-            MinimalizeButton.Location = new Point(340, 0);
+            MinimalizeButton.Location = new Point(322, 0);
             MinimalizeButton.Name = "MinimalizeButton";
             MinimalizeButton.Size = new Size(55, 80);
             MinimalizeButton.TabIndex = 0;
@@ -290,7 +290,7 @@
             ExitButton.FlatStyle = FlatStyle.Popup;
             ExitButton.ImageIndex = 2;
             ExitButton.ImageList = HeaderImages;
-            ExitButton.Location = new Point(395, 0);
+            ExitButton.Location = new Point(377, 0);
             ExitButton.Name = "ExitButton";
             ExitButton.Size = new Size(55, 80);
             ExitButton.TabIndex = 0;
@@ -310,14 +310,15 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(450, 700);
-            ControlBox = false;
             Controls.Add(panel1);
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MaximumSize = new Size(450, 700);
+            MinimizeBox = false;
             MinimumSize = new Size(450, 700);
             Name = "LoginForm";
+            ShowInTaskbar = false;
             Text = "LoginForm";
             panel1.ResumeLayout(false);
             LayoutPanel.ResumeLayout(false);

@@ -20,17 +20,23 @@ namespace HashWarden.Forms.Dialogs
 
             StartPosition = FormStartPosition.CenterScreen;
             FolderPicker.DropDownStyle = ComboBoxStyle.DropDownList;
-            LoadFolderPicker();
+            _ = InitializeFormAsync();
+        }
 
-            if (isEditing)
+        private async Task InitializeFormAsync()
+        {
+            await LoadFolderPicker();
+
+            if (_isEditing)
             {
                 EditedDataLoader();
                 AddButton.Text = "Zapisz";
+                this.Text = "Edycja wpisu";
             }
         }
 
         // Wczytanie listy folderów
-        private async void LoadFolderPicker()
+        private async Task LoadFolderPicker()
         {
             using (var context = new HashWardenDbContext())
             {
@@ -43,9 +49,7 @@ namespace HashWarden.Forms.Dialogs
                 FolderPicker.DataSource = folders;
                 FolderPicker.DisplayMember = "FolderName";
                 FolderPicker.ValueMember = "Id";
-
-                if (folders.Count > 0)
-                    FolderPicker.SelectedIndex = 0;
+                FolderPicker.SelectedValue = 0;
             }
         }
 
@@ -57,16 +61,10 @@ namespace HashWarden.Forms.Dialogs
             var serviceUrl = ServiceUrlInput.Text.Trim().ToLower();
             
             Folder? folder = null;
-            if(FolderPicker.SelectedItem != null || !FolderPicker.SelectedItem.Equals("Brak"))
+            if(FolderPicker.SelectedItem != null && !FolderPicker.SelectedItem.Equals("Brak"))
                 folder = FolderPicker.SelectedItem as Folder;
 
             var date = DateOnly.FromDateTime(DateTime.UtcNow);
-            DateOnly? createdDate;
-
-            if (_isEditing && _editedPassword != null)
-                createdDate = _editedPassword.CreatedAt;
-            else
-                createdDate = date;
 
             // Walidacja tytułu (nieobowiązkowy)
             if (title.Length > 40)
@@ -126,8 +124,8 @@ namespace HashWarden.Forms.Dialogs
                 EncryptedPassword = encrypted,
                 Iv = iv,
                 CreatedAt = date,
-                UpdatedAt = createdDate,
-                FolderId = folder.Id
+                UpdatedAt = date,
+                FolderId = folder != null && folder.Id != 0 ? folder.Id : null
             };
 
             using (var context = new HashWardenDbContext())
@@ -142,15 +140,22 @@ namespace HashWarden.Forms.Dialogs
                         MessageBox.Show("Nie znaleziono wpisu.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-                    editedPasswordDb = savedPassword;
+                    editedPasswordDb.Title = savedPassword.Title;
+                    editedPasswordDb.UserName = savedPassword.UserName;
+                    editedPasswordDb.ServiceUrl = savedPassword.ServiceUrl;
+                    editedPasswordDb.EncryptedPassword = savedPassword.EncryptedPassword;
+                    editedPasswordDb.Iv = savedPassword.Iv;
+                    editedPasswordDb.UpdatedAt = savedPassword.UpdatedAt;
+                    editedPasswordDb.FolderId = savedPassword.FolderId;
                 }
                 else
                     await context.Passwords.AddAsync(savedPassword);
                 
                 await context.SaveChangesAsync();
             }
-
-            MessageBox.Show("Dodano rekord", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if(!_isEditing)
+                MessageBox.Show("Dodano rekord", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
             this.DialogResult = DialogResult.OK;
         }
 
@@ -172,14 +177,10 @@ namespace HashWarden.Forms.Dialogs
             var decrypted = EncryptionProvider.Decrypt(_editedPassword.EncryptedPassword, key, _editedPassword.Iv);
             this.PasswordInput.Text = decrypted;
 
-            if(_editedPassword.Title != null)
-                TitleInput.Text = _editedPassword.Title;
-            if (_editedPassword.Folder != null)
-                FolderPicker.SelectedItem = _editedPassword.Folder;
-
-
+            TitleInput.Text = _editedPassword.Title;
             UsernameInput.Text = _editedPassword.UserName;
             ServiceUrlInput.Text = _editedPassword.ServiceUrl;
+            FolderPicker.SelectedValue = _editedPassword.FolderId ?? 0;
         }
 
         private void ViewPassButton_Click(object sender, EventArgs e)

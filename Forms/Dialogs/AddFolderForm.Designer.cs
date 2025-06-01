@@ -39,7 +39,6 @@
             Header = new Panel();
             LogoLabel = new Label();
             Logo = new PictureBox();
-            ExitButton = new Button();
             HeaderImages = new ImageList(components);
             LayoutPanel.SuspendLayout();
             panel2.SuspendLayout();
@@ -63,7 +62,7 @@
             LayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 11F));
             LayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 78F));
             LayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 11F));
-            LayoutPanel.Size = new Size(450, 220);
+            LayoutPanel.Size = new Size(432, 223);
             LayoutPanel.TabIndex = 5;
             // 
             // panel2
@@ -73,9 +72,9 @@
             panel2.Controls.Add(NameInput);
             panel2.Controls.Add(NameLabel);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(70, 27);
+            panel2.Location = new Point(67, 27);
             panel2.Name = "panel2";
-            panel2.Size = new Size(309, 165);
+            panel2.Size = new Size(296, 167);
             panel2.TabIndex = 0;
             // 
             // AddButton
@@ -91,8 +90,8 @@
             AddButton.Location = new Point(0, 114);
             AddButton.Name = "AddButton";
             AddButton.Padding = new Padding(10, 0, 0, 5);
-            AddButton.Size = new Size(309, 51);
-            AddButton.TabIndex = 1;
+            AddButton.Size = new Size(296, 51);
+            AddButton.TabIndex = 2;
             AddButton.Text = "Dodaj";
             AddButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             AddButton.UseVisualStyleBackColor = false;
@@ -104,7 +103,7 @@
             label2.ForeColor = Color.Gainsboro;
             label2.Location = new Point(0, 74);
             label2.Name = "label2";
-            label2.Size = new Size(309, 40);
+            label2.Size = new Size(296, 40);
             label2.TabIndex = 8;
             label2.TextAlign = ContentAlignment.MiddleLeft;
             // 
@@ -117,8 +116,8 @@
             NameInput.MaxLength = 40;
             NameInput.Name = "NameInput";
             NameInput.PlaceholderText = "Nazwa";
-            NameInput.Size = new Size(309, 34);
-            NameInput.TabIndex = 0;
+            NameInput.Size = new Size(296, 34);
+            NameInput.TabIndex = 1;
             // 
             // NameLabel
             // 
@@ -127,7 +126,7 @@
             NameLabel.ForeColor = Color.Gainsboro;
             NameLabel.Location = new Point(0, 0);
             NameLabel.Name = "NameLabel";
-            NameLabel.Size = new Size(309, 40);
+            NameLabel.Size = new Size(296, 40);
             NameLabel.TabIndex = 0;
             NameLabel.Text = "Nazwa folderu";
             NameLabel.TextAlign = ContentAlignment.MiddleLeft;
@@ -137,11 +136,10 @@
             Header.BackColor = Color.FromArgb(10, 10, 10);
             Header.Controls.Add(LogoLabel);
             Header.Controls.Add(Logo);
-            Header.Controls.Add(ExitButton);
             Header.Dock = DockStyle.Top;
             Header.Location = new Point(0, 0);
             Header.Name = "Header";
-            Header.Size = new Size(450, 80);
+            Header.Size = new Size(432, 80);
             Header.TabIndex = 6;
             // 
             // LogoLabel
@@ -174,22 +172,6 @@
             Logo.TabIndex = 7;
             Logo.TabStop = false;
             // 
-            // ExitButton
-            // 
-            ExitButton.BackColor = Color.FromArgb(10, 10, 10);
-            ExitButton.Dock = DockStyle.Right;
-            ExitButton.FlatAppearance.BorderSize = 0;
-            ExitButton.FlatStyle = FlatStyle.Popup;
-            ExitButton.ImageIndex = 2;
-            ExitButton.ImageList = HeaderImages;
-            ExitButton.Location = new Point(395, 0);
-            ExitButton.Name = "ExitButton";
-            ExitButton.Size = new Size(55, 80);
-            ExitButton.TabIndex = 0;
-            ExitButton.TabStop = false;
-            ExitButton.UseVisualStyleBackColor = false;
-            ExitButton.Click += ExitButton_Click;
-            // 
             // HeaderImages
             // 
             HeaderImages.ColorDepth = ColorDepth.Depth32Bit;
@@ -203,15 +185,17 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(450, 300);
-            ControlBox = false;
+            ClientSize = new Size(432, 303);
             Controls.Add(LayoutPanel);
             Controls.Add(Header);
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
-            MaximumSize = new Size(450, 300);
-            MinimumSize = new Size(450, 300);
+            MaximumSize = new Size(450, 350);
+            MinimizeBox = false;
+            MinimumSize = new Size(450, 350);
             Name = "AddFolderForm";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "AddFolderForm";
             LayoutPanel.ResumeLayout(false);
@@ -233,7 +217,6 @@
         private Panel Header;
         private Label LogoLabel;
         private PictureBox Logo;
-        private Button ExitButton;
         private ImageList HeaderImages;
     }
 }

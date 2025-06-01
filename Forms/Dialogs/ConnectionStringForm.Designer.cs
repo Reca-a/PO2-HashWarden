@@ -54,7 +54,7 @@
             Header.Dock = DockStyle.Top;
             Header.Location = new Point(0, 0);
             Header.Name = "Header";
-            Header.Size = new Size(800, 80);
+            Header.Size = new Size(782, 80);
             Header.TabIndex = 7;
             // 
             // LogoLabel
@@ -94,7 +94,7 @@
             ExitButton.FlatAppearance.BorderSize = 0;
             ExitButton.FlatStyle = FlatStyle.Popup;
             ExitButton.ImageIndex = 2;
-            ExitButton.Location = new Point(745, 0);
+            ExitButton.Location = new Point(727, 0);
             ExitButton.Name = "ExitButton";
             ExitButton.Size = new Size(55, 80);
             ExitButton.TabIndex = 0;
@@ -117,7 +117,7 @@
             LayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 11F));
             LayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 78F));
             LayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 11F));
-            LayoutPanel.Size = new Size(800, 273);
+            LayoutPanel.Size = new Size(782, 273);
             LayoutPanel.TabIndex = 8;
             // 
             // panel2
@@ -127,9 +127,9 @@
             panel2.Controls.Add(StringInput);
             panel2.Controls.Add(NameLabel);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(123, 33);
+            panel2.Location = new Point(120, 33);
             panel2.Name = "panel2";
-            panel2.Size = new Size(554, 206);
+            panel2.Size = new Size(541, 206);
             panel2.TabIndex = 0;
             // 
             // ChangeButton
@@ -145,8 +145,8 @@
             ChangeButton.Location = new Point(0, 114);
             ChangeButton.Name = "ChangeButton";
             ChangeButton.Padding = new Padding(10, 0, 0, 5);
-            ChangeButton.Size = new Size(554, 51);
-            ChangeButton.TabIndex = 1;
+            ChangeButton.Size = new Size(541, 51);
+            ChangeButton.TabIndex = 2;
             ChangeButton.Text = "Zmień";
             ChangeButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             ChangeButton.UseVisualStyleBackColor = false;
@@ -158,7 +158,7 @@
             label2.ForeColor = Color.Gainsboro;
             label2.Location = new Point(0, 74);
             label2.Name = "label2";
-            label2.Size = new Size(554, 40);
+            label2.Size = new Size(541, 40);
             label2.TabIndex = 8;
             label2.TextAlign = ContentAlignment.MiddleLeft;
             // 
@@ -171,8 +171,8 @@
             StringInput.MaxLength = 255;
             StringInput.Name = "StringInput";
             StringInput.PlaceholderText = "...";
-            StringInput.Size = new Size(554, 34);
-            StringInput.TabIndex = 0;
+            StringInput.Size = new Size(541, 34);
+            StringInput.TabIndex = 1;
             // 
             // NameLabel
             // 
@@ -181,7 +181,7 @@
             NameLabel.ForeColor = Color.Gainsboro;
             NameLabel.Location = new Point(0, 0);
             NameLabel.Name = "NameLabel";
-            NameLabel.Size = new Size(554, 40);
+            NameLabel.Size = new Size(541, 40);
             NameLabel.TabIndex = 0;
             NameLabel.Text = "Podaj ConnectionString";
             NameLabel.TextAlign = ContentAlignment.MiddleLeft;
@@ -190,12 +190,15 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 353);
+            ClientSize = new Size(782, 353);
             Controls.Add(LayoutPanel);
             Controls.Add(Header);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
+            MaximumSize = new Size(800, 400);
             MinimizeBox = false;
+            MinimumSize = new Size(800, 400);
             Name = "ConnectionStringForm";
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;

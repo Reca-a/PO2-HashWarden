@@ -31,7 +31,7 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegisterForm));
             panel1 = new Panel();
-            tableLayoutPanel1 = new TableLayoutPanel();
+            TableLayoutPanel = new TableLayoutPanel();
             panel2 = new Panel();
             LoginFormButton = new Button();
             label1 = new Label();
@@ -46,12 +46,9 @@
             Header = new Panel();
             LogoLabel = new Label();
             Logo = new PictureBox();
-            MinimalizeButton = new Button();
-            HeaderImages = new ImageList(components);
-            ExitButton = new Button();
             LogoImage = new ImageList(components);
             panel1.SuspendLayout();
-            tableLayoutPanel1.SuspendLayout();
+            TableLayoutPanel.SuspendLayout();
             panel2.SuspendLayout();
             Header.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Logo).BeginInit();
@@ -61,30 +58,30 @@
             // 
             panel1.BackColor = Color.FromArgb(15, 15, 15);
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
-            panel1.Controls.Add(tableLayoutPanel1);
+            panel1.Controls.Add(TableLayoutPanel);
             panel1.Controls.Add(Header);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(450, 698);
+            panel1.Size = new Size(432, 651);
             panel1.TabIndex = 0;
             // 
-            // tableLayoutPanel1
+            // TableLayoutPanel
             // 
-            tableLayoutPanel1.ColumnCount = 3;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
-            tableLayoutPanel1.Controls.Add(panel2, 1, 1);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 80);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 3;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 8.791209F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 82.41758F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 8.791209F));
-            tableLayoutPanel1.Size = new Size(450, 618);
-            tableLayoutPanel1.TabIndex = 4;
+            TableLayoutPanel.ColumnCount = 3;
+            TableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
+            TableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
+            TableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
+            TableLayoutPanel.Controls.Add(panel2, 1, 1);
+            TableLayoutPanel.Dock = DockStyle.Fill;
+            TableLayoutPanel.Location = new Point(0, 80);
+            TableLayoutPanel.Name = "TableLayoutPanel";
+            TableLayoutPanel.RowCount = 3;
+            TableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 8.791209F));
+            TableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 82.41758F));
+            TableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 8.791209F));
+            TableLayoutPanel.Size = new Size(432, 571);
+            TableLayoutPanel.TabIndex = 4;
             // 
             // panel2
             // 
@@ -99,9 +96,9 @@
             panel2.Controls.Add(EmailInput);
             panel2.Controls.Add(UsernameLabel);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(70, 57);
+            panel2.Location = new Point(67, 53);
             panel2.Name = "panel2";
-            panel2.Size = new Size(309, 503);
+            panel2.Size = new Size(296, 464);
             panel2.TabIndex = 0;
             // 
             // LoginFormButton
@@ -117,7 +114,7 @@
             LoginFormButton.Location = new Point(0, 393);
             LoginFormButton.Name = "LoginFormButton";
             LoginFormButton.Padding = new Padding(10, 0, 0, 5);
-            LoginFormButton.Size = new Size(309, 51);
+            LoginFormButton.Size = new Size(296, 51);
             LoginFormButton.TabIndex = 4;
             LoginFormButton.Text = "Zaloguj się";
             LoginFormButton.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -132,7 +129,7 @@
             label1.Location = new Point(0, 313);
             label1.Name = "label1";
             label1.Padding = new Padding(0, 0, 0, 11);
-            label1.Size = new Size(309, 80);
+            label1.Size = new Size(296, 80);
             label1.TabIndex = 6;
             label1.Text = "Masz już konto?";
             label1.TextAlign = ContentAlignment.BottomCenter;
@@ -150,7 +147,7 @@
             RegisterButton.Location = new Point(0, 262);
             RegisterButton.Name = "RegisterButton";
             RegisterButton.Padding = new Padding(10, 0, 0, 5);
-            RegisterButton.Size = new Size(309, 51);
+            RegisterButton.Size = new Size(296, 51);
             RegisterButton.TabIndex = 3;
             RegisterButton.Text = "Zarejestruj";
             RegisterButton.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -163,7 +160,7 @@
             label2.ForeColor = Color.Gainsboro;
             label2.Location = new Point(0, 222);
             label2.Name = "label2";
-            label2.Size = new Size(309, 40);
+            label2.Size = new Size(296, 40);
             label2.TabIndex = 8;
             label2.TextAlign = ContentAlignment.MiddleLeft;
             // 
@@ -174,7 +171,7 @@
             PasswordRepeatInput.ImeMode = ImeMode.NoControl;
             PasswordRepeatInput.Location = new Point(0, 188);
             PasswordRepeatInput.Name = "PasswordRepeatInput";
-            PasswordRepeatInput.Size = new Size(309, 34);
+            PasswordRepeatInput.Size = new Size(296, 34);
             PasswordRepeatInput.TabIndex = 2;
             PasswordRepeatInput.UseSystemPasswordChar = true;
             // 
@@ -185,7 +182,7 @@
             label3.ForeColor = Color.Gainsboro;
             label3.Location = new Point(0, 148);
             label3.Name = "label3";
-            label3.Size = new Size(309, 40);
+            label3.Size = new Size(296, 40);
             label3.TabIndex = 9;
             label3.Text = "Powtórz hasło";
             label3.TextAlign = ContentAlignment.MiddleLeft;
@@ -197,7 +194,7 @@
             PasswordInput.ImeMode = ImeMode.NoControl;
             PasswordInput.Location = new Point(0, 114);
             PasswordInput.Name = "PasswordInput";
-            PasswordInput.Size = new Size(309, 34);
+            PasswordInput.Size = new Size(296, 34);
             PasswordInput.TabIndex = 1;
             PasswordInput.UseSystemPasswordChar = true;
             // 
@@ -208,7 +205,7 @@
             PasswordLabel.ForeColor = Color.Gainsboro;
             PasswordLabel.Location = new Point(0, 74);
             PasswordLabel.Name = "PasswordLabel";
-            PasswordLabel.Size = new Size(309, 40);
+            PasswordLabel.Size = new Size(296, 40);
             PasswordLabel.TabIndex = 2;
             PasswordLabel.Text = "Hasło";
             PasswordLabel.TextAlign = ContentAlignment.MiddleLeft;
@@ -220,7 +217,7 @@
             EmailInput.ImeMode = ImeMode.NoControl;
             EmailInput.Location = new Point(0, 40);
             EmailInput.Name = "EmailInput";
-            EmailInput.Size = new Size(309, 34);
+            EmailInput.Size = new Size(296, 34);
             EmailInput.TabIndex = 0;
             // 
             // UsernameLabel
@@ -230,7 +227,7 @@
             UsernameLabel.ForeColor = Color.Gainsboro;
             UsernameLabel.Location = new Point(0, 0);
             UsernameLabel.Name = "UsernameLabel";
-            UsernameLabel.Size = new Size(309, 40);
+            UsernameLabel.Size = new Size(296, 40);
             UsernameLabel.TabIndex = 0;
             UsernameLabel.Text = "Email";
             UsernameLabel.TextAlign = ContentAlignment.MiddleLeft;
@@ -240,12 +237,10 @@
             Header.BackColor = Color.FromArgb(10, 10, 10);
             Header.Controls.Add(LogoLabel);
             Header.Controls.Add(Logo);
-            Header.Controls.Add(MinimalizeButton);
-            Header.Controls.Add(ExitButton);
             Header.Dock = DockStyle.Top;
             Header.Location = new Point(0, 0);
             Header.Name = "Header";
-            Header.Size = new Size(450, 80);
+            Header.Size = new Size(432, 80);
             Header.TabIndex = 3;
             // 
             // LogoLabel
@@ -278,48 +273,6 @@
             Logo.TabIndex = 7;
             Logo.TabStop = false;
             // 
-            // MinimalizeButton
-            // 
-            MinimalizeButton.BackColor = Color.FromArgb(10, 10, 10);
-            MinimalizeButton.Dock = DockStyle.Right;
-            MinimalizeButton.FlatAppearance.BorderSize = 0;
-            MinimalizeButton.FlatStyle = FlatStyle.Popup;
-            MinimalizeButton.ForeColor = Color.Gainsboro;
-            MinimalizeButton.ImageIndex = 0;
-            MinimalizeButton.ImageList = HeaderImages;
-            MinimalizeButton.Location = new Point(340, 0);
-            MinimalizeButton.Name = "MinimalizeButton";
-            MinimalizeButton.Size = new Size(55, 80);
-            MinimalizeButton.TabIndex = 2;
-            MinimalizeButton.TabStop = false;
-            MinimalizeButton.UseVisualStyleBackColor = false;
-            MinimalizeButton.Click += MinimalizeButton_Click;
-            // 
-            // HeaderImages
-            // 
-            HeaderImages.ColorDepth = ColorDepth.Depth32Bit;
-            HeaderImages.ImageStream = (ImageListStreamer)resources.GetObject("HeaderImages.ImageStream");
-            HeaderImages.TransparentColor = Color.Transparent;
-            HeaderImages.Images.SetKeyName(0, "minimizeIcon.png");
-            HeaderImages.Images.SetKeyName(1, "maximizeIcon.png");
-            HeaderImages.Images.SetKeyName(2, "closeIcon.png");
-            // 
-            // ExitButton
-            // 
-            ExitButton.BackColor = Color.FromArgb(10, 10, 10);
-            ExitButton.Dock = DockStyle.Right;
-            ExitButton.FlatAppearance.BorderSize = 0;
-            ExitButton.FlatStyle = FlatStyle.Popup;
-            ExitButton.ImageIndex = 2;
-            ExitButton.ImageList = HeaderImages;
-            ExitButton.Location = new Point(395, 0);
-            ExitButton.Name = "ExitButton";
-            ExitButton.Size = new Size(55, 80);
-            ExitButton.TabIndex = 0;
-            ExitButton.TabStop = false;
-            ExitButton.UseVisualStyleBackColor = false;
-            ExitButton.Click += ExitButton_Click;
-            // 
             // LogoImage
             // 
             LogoImage.ColorDepth = ColorDepth.Depth32Bit;
@@ -331,17 +284,19 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(432, 651);
-            ControlBox = false;
+            ClientSize = new Size(450, 698);
             Controls.Add(panel1);
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             MaximumSize = new Size(450, 698);
+            MinimizeBox = false;
             MinimumSize = new Size(450, 698);
             Name = "RegisterForm";
-            Text = "RegisterForm";
+            ShowInTaskbar = false;
+            Text = "Rejestracja";
             panel1.ResumeLayout(false);
-            tableLayoutPanel1.ResumeLayout(false);
+            TableLayoutPanel.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             Header.ResumeLayout(false);
@@ -357,7 +312,7 @@
         private Button ExitButton;
         private ImageList HeaderImages;
         private ImageList LogoImage;
-        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel TableLayoutPanel;
         private Panel panel2;
         private Label UsernameLabel;
         private TextBox PasswordInput;

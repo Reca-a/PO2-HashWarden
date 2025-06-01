@@ -136,7 +136,7 @@
             ExportButton.Name = "ExportButton";
             ExportButton.Padding = new Padding(10, 0, 0, 5);
             ExportButton.Size = new Size(293, 51);
-            ExportButton.TabIndex = 5;
+            ExportButton.TabIndex = 1;
             ExportButton.Text = "Eksportuj";
             ExportButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             ExportButton.UseVisualStyleBackColor = false;
@@ -193,7 +193,7 @@
             ImportButton.Name = "ImportButton";
             ImportButton.Padding = new Padding(10, 0, 0, 5);
             ImportButton.Size = new Size(293, 51);
-            ImportButton.TabIndex = 17;
+            ImportButton.TabIndex = 2;
             ImportButton.Text = "Importuj";
             ImportButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             ImportButton.UseVisualStyleBackColor = false;
@@ -214,7 +214,7 @@
             ConnStringButton.Name = "ConnStringButton";
             ConnStringButton.Padding = new Padding(10, 0, 0, 5);
             ConnStringButton.Size = new Size(293, 51);
-            ConnStringButton.TabIndex = 18;
+            ConnStringButton.TabIndex = 3;
             ConnStringButton.Text = "Zmień";
             ConnStringButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             ConnStringButton.UseVisualStyleBackColor = false;
@@ -234,7 +234,7 @@
             Name = "SettingsForm";
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "SettingsForm";
+            Text = "Ustawienia";
             Header.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)Logo).EndInit();
             LayoutPanel.ResumeLayout(false);

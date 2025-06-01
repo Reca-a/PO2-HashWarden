@@ -92,7 +92,7 @@
             ProceedButton.Name = "ProceedButton";
             ProceedButton.Padding = new Padding(10, 0, 0, 5);
             ProceedButton.Size = new Size(274, 51);
-            ProceedButton.TabIndex = 1;
+            ProceedButton.TabIndex = 2;
             ProceedButton.Text = "Zatwierdź";
             ProceedButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             ProceedButton.UseVisualStyleBackColor = false;
@@ -118,7 +118,7 @@
             PasswordInput.Name = "PasswordInput";
             PasswordInput.PlaceholderText = "Hasło";
             PasswordInput.Size = new Size(274, 34);
-            PasswordInput.TabIndex = 0;
+            PasswordInput.TabIndex = 1;
             // 
             // DescLabel3
             // 
@@ -204,16 +204,20 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(400, 300);
-            ControlBox = false;
             Controls.Add(LayoutPanel);
             Controls.Add(Header);
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
+            MaximumSize = new Size(400, 300);
+            MinimizeBox = false;
+            MinimumSize = new Size(400, 300);
             Name = "MasterPasswordForm";
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "MasterPasswordForm";
             TopMost = true;
+            Click += ExitButton_Click;
             LayoutPanel.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
@@ -233,7 +237,7 @@
         private Panel Header;
         private Label LogoLabel;
         private PictureBox Logo;
-        private Button ExitButton;
         private ImageList HeaderImages;
+        private Button ExitButton;
     }
 }

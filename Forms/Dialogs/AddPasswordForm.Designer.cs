@@ -50,7 +50,6 @@
             Header = new Panel();
             LogoLabel = new Label();
             Logo = new PictureBox();
-            ExitButton = new Button();
             HeaderImages = new ImageList(components);
             LayoutPanel.SuspendLayout();
             panel2.SuspendLayout();
@@ -75,7 +74,7 @@
             LayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 11F));
             LayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 78F));
             LayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 11F));
-            LayoutPanel.Size = new Size(450, 831);
+            LayoutPanel.Size = new Size(432, 623);
             LayoutPanel.TabIndex = 6;
             // 
             // panel2
@@ -93,9 +92,9 @@
             panel2.Controls.Add(TitleInput);
             panel2.Controls.Add(DescLabel1);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(70, 94);
+            panel2.Location = new Point(67, 71);
             panel2.Name = "panel2";
-            panel2.Size = new Size(309, 642);
+            panel2.Size = new Size(296, 479);
             panel2.TabIndex = 0;
             // 
             // AddButton
@@ -111,8 +110,8 @@
             AddButton.Location = new Point(0, 425);
             AddButton.Name = "AddButton";
             AddButton.Padding = new Padding(10, 0, 0, 5);
-            AddButton.Size = new Size(309, 51);
-            AddButton.TabIndex = 5;
+            AddButton.Size = new Size(296, 51);
+            AddButton.TabIndex = 7;
             AddButton.Text = "Dodaj";
             AddButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             AddButton.UseVisualStyleBackColor = false;
@@ -124,7 +123,7 @@
             label2.ForeColor = Color.Gainsboro;
             label2.Location = new Point(0, 385);
             label2.Name = "label2";
-            label2.Size = new Size(309, 40);
+            label2.Size = new Size(296, 40);
             label2.TabIndex = 8;
             label2.TextAlign = ContentAlignment.MiddleLeft;
             // 
@@ -140,9 +139,9 @@
             FolderPicker.MaxDropDownItems = 6;
             FolderPicker.MaxLength = 50;
             FolderPicker.Name = "FolderPicker";
-            FolderPicker.Size = new Size(309, 28);
+            FolderPicker.Size = new Size(296, 28);
             FolderPicker.Sorted = true;
-            FolderPicker.TabIndex = 4;
+            FolderPicker.TabIndex = 6;
             // 
             // DescLabel5
             // 
@@ -151,7 +150,7 @@
             DescLabel5.ForeColor = Color.Gainsboro;
             DescLabel5.Location = new Point(0, 317);
             DescLabel5.Name = "DescLabel5";
-            DescLabel5.Size = new Size(309, 40);
+            DescLabel5.Size = new Size(296, 40);
             DescLabel5.TabIndex = 16;
             DescLabel5.Text = "Folder";
             DescLabel5.TextAlign = ContentAlignment.MiddleLeft;
@@ -165,8 +164,8 @@
             ServiceUrlInput.MaxLength = 40;
             ServiceUrlInput.Name = "ServiceUrlInput";
             ServiceUrlInput.PlaceholderText = "www.adres.pl";
-            ServiceUrlInput.Size = new Size(309, 34);
-            ServiceUrlInput.TabIndex = 3;
+            ServiceUrlInput.Size = new Size(296, 34);
+            ServiceUrlInput.TabIndex = 5;
             // 
             // DescLabel4
             // 
@@ -175,7 +174,7 @@
             DescLabel4.ForeColor = Color.Gainsboro;
             DescLabel4.Location = new Point(0, 243);
             DescLabel4.Name = "DescLabel4";
-            DescLabel4.Size = new Size(309, 40);
+            DescLabel4.Size = new Size(296, 40);
             DescLabel4.TabIndex = 14;
             DescLabel4.Text = "Strona";
             DescLabel4.TextAlign = ContentAlignment.MiddleLeft;
@@ -194,8 +193,8 @@
             PasswordContainer.Padding = new Padding(0, 10, 0, 10);
             PasswordContainer.RowCount = 1;
             PasswordContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            PasswordContainer.Size = new Size(309, 55);
-            PasswordContainer.TabIndex = 17;
+            PasswordContainer.Size = new Size(296, 55);
+            PasswordContainer.TabIndex = 3;
             // 
             // PasswordInput
             // 
@@ -207,8 +206,8 @@
             PasswordInput.MaxLength = 40;
             PasswordInput.Name = "PasswordInput";
             PasswordInput.PlaceholderText = "Hasło";
-            PasswordInput.Size = new Size(247, 34);
-            PasswordInput.TabIndex = 2;
+            PasswordInput.Size = new Size(236, 34);
+            PasswordInput.TabIndex = 3;
             PasswordInput.UseSystemPasswordChar = true;
             // 
             // ViewPassButton
@@ -218,10 +217,10 @@
             ViewPassButton.FlatStyle = FlatStyle.Flat;
             ViewPassButton.ImageIndex = 0;
             ViewPassButton.ImageList = Icons;
-            ViewPassButton.Location = new Point(250, 13);
+            ViewPassButton.Location = new Point(239, 13);
             ViewPassButton.Name = "ViewPassButton";
             ViewPassButton.Size = new Size(51, 29);
-            ViewPassButton.TabIndex = 8;
+            ViewPassButton.TabIndex = 4;
             ViewPassButton.UseVisualStyleBackColor = true;
             ViewPassButton.Click += ViewPassButton_Click;
             // 
@@ -242,7 +241,7 @@
             DescLabel3.ForeColor = Color.Gainsboro;
             DescLabel3.Location = new Point(0, 148);
             DescLabel3.Name = "DescLabel3";
-            DescLabel3.Size = new Size(309, 40);
+            DescLabel3.Size = new Size(296, 40);
             DescLabel3.TabIndex = 12;
             DescLabel3.Text = "Hasło";
             DescLabel3.TextAlign = ContentAlignment.MiddleLeft;
@@ -256,8 +255,8 @@
             UsernameInput.MaxLength = 40;
             UsernameInput.Name = "UsernameInput";
             UsernameInput.PlaceholderText = "Nazwa";
-            UsernameInput.Size = new Size(309, 34);
-            UsernameInput.TabIndex = 1;
+            UsernameInput.Size = new Size(296, 34);
+            UsernameInput.TabIndex = 2;
             // 
             // DescLabel2
             // 
@@ -266,7 +265,7 @@
             DescLabel2.ForeColor = Color.Gainsboro;
             DescLabel2.Location = new Point(0, 74);
             DescLabel2.Name = "DescLabel2";
-            DescLabel2.Size = new Size(309, 40);
+            DescLabel2.Size = new Size(296, 40);
             DescLabel2.TabIndex = 10;
             DescLabel2.Text = "Nazwa użytkownika";
             DescLabel2.TextAlign = ContentAlignment.MiddleLeft;
@@ -280,8 +279,8 @@
             TitleInput.MaxLength = 40;
             TitleInput.Name = "TitleInput";
             TitleInput.PlaceholderText = "Tytuł";
-            TitleInput.Size = new Size(309, 34);
-            TitleInput.TabIndex = 0;
+            TitleInput.Size = new Size(296, 34);
+            TitleInput.TabIndex = 1;
             // 
             // DescLabel1
             // 
@@ -290,7 +289,7 @@
             DescLabel1.ForeColor = Color.Gainsboro;
             DescLabel1.Location = new Point(0, 0);
             DescLabel1.Name = "DescLabel1";
-            DescLabel1.Size = new Size(309, 40);
+            DescLabel1.Size = new Size(296, 40);
             DescLabel1.TabIndex = 0;
             DescLabel1.Text = "Tytuł wpisu";
             DescLabel1.TextAlign = ContentAlignment.MiddleLeft;
@@ -300,11 +299,10 @@
             Header.BackColor = Color.FromArgb(10, 10, 10);
             Header.Controls.Add(LogoLabel);
             Header.Controls.Add(Logo);
-            Header.Controls.Add(ExitButton);
             Header.Dock = DockStyle.Top;
             Header.Location = new Point(0, 0);
             Header.Name = "Header";
-            Header.Size = new Size(450, 80);
+            Header.Size = new Size(432, 80);
             Header.TabIndex = 7;
             // 
             // LogoLabel
@@ -337,22 +335,6 @@
             Logo.TabIndex = 7;
             Logo.TabStop = false;
             // 
-            // ExitButton
-            // 
-            ExitButton.BackColor = Color.FromArgb(10, 10, 10);
-            ExitButton.Dock = DockStyle.Right;
-            ExitButton.FlatAppearance.BorderSize = 0;
-            ExitButton.FlatStyle = FlatStyle.Popup;
-            ExitButton.ImageIndex = 2;
-            ExitButton.ImageList = HeaderImages;
-            ExitButton.Location = new Point(395, 0);
-            ExitButton.Name = "ExitButton";
-            ExitButton.Size = new Size(55, 80);
-            ExitButton.TabIndex = 0;
-            ExitButton.TabStop = false;
-            ExitButton.UseVisualStyleBackColor = false;
-            ExitButton.Click += ExitButton_Click;
-            // 
             // HeaderImages
             // 
             HeaderImages.ColorDepth = ColorDepth.Depth32Bit;
@@ -366,17 +348,18 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(450, 911);
-            ControlBox = false;
+            ClientSize = new Size(432, 703);
             Controls.Add(LayoutPanel);
             Controls.Add(Header);
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
+            MaximumSize = new Size(450, 750);
             MinimizeBox = false;
+            MinimumSize = new Size(450, 750);
             Name = "AddPasswordForm";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "AddPasswordForm";
+            Text = "Dodawanie wpisu";
             LayoutPanel.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
@@ -398,7 +381,6 @@
         private Panel Header;
         private Label LogoLabel;
         private PictureBox Logo;
-        private Button ExitButton;
         private TextBox ServiceUrlInput;
         private Label DescLabel4;
         private TextBox PasswordInput;

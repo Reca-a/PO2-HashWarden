@@ -45,7 +45,7 @@ namespace HashWarden.Forms.Dialogs
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Eksport haseł się nie powiódł: " + ex.Message,
+                    "Eksport haseł się nie powiódł.",
                     "Błąd",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
