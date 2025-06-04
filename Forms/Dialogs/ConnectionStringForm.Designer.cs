@@ -173,6 +173,7 @@
             StringInput.PlaceholderText = "...";
             StringInput.Size = new Size(541, 34);
             StringInput.TabIndex = 1;
+            StringInput.KeyDown += Input_KeyDown;
             // 
             // NameLabel
             // 

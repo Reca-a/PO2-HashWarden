@@ -118,6 +118,7 @@
             NameInput.PlaceholderText = "Nazwa";
             NameInput.Size = new Size(296, 34);
             NameInput.TabIndex = 1;
+            NameInput.KeyDown += Input_KeyDown;
             // 
             // NameLabel
             // 

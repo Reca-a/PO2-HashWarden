@@ -38,10 +38,14 @@ namespace HashWarden.Forms.Dialogs
             _folderName = folderName;
             this.DialogResult = DialogResult.OK;
         }
-
-        private void ExitButton_Click(object sender, EventArgs e)
+        private void Input_KeyDown(object sender, KeyEventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                AddButton_Click(sender, e);
+            }
         }
     }
 }

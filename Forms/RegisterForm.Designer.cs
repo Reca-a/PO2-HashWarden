@@ -174,6 +174,7 @@
             PasswordRepeatInput.Size = new Size(296, 34);
             PasswordRepeatInput.TabIndex = 2;
             PasswordRepeatInput.UseSystemPasswordChar = true;
+            PasswordRepeatInput.KeyDown += Input_KeyDown;
             // 
             // label3
             // 
@@ -197,6 +198,7 @@
             PasswordInput.Size = new Size(296, 34);
             PasswordInput.TabIndex = 1;
             PasswordInput.UseSystemPasswordChar = true;
+            PasswordInput.KeyDown += Input_KeyDown;
             // 
             // PasswordLabel
             // 
@@ -219,6 +221,7 @@
             EmailInput.Name = "EmailInput";
             EmailInput.Size = new Size(296, 34);
             EmailInput.TabIndex = 0;
+            EmailInput.KeyDown += Input_KeyDown;
             // 
             // UsernameLabel
             // 
@@ -284,7 +287,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(450, 698);
+            ClientSize = new Size(432, 651);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");

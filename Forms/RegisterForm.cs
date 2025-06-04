@@ -13,16 +13,6 @@ namespace HashWarden
             StartPosition = FormStartPosition.CenterScreen;
         }
 
-        private void ExitButton_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
-        }
-
-        private void MinimalizeButton_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
         private void LoginFormButton_click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
@@ -98,6 +88,16 @@ namespace HashWarden
                 MessageBox.Show("Rejestracja zakończona sukcesem", "Zarejestrowano", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 this.DialogResult = DialogResult.OK;
+            }
+        }
+
+        private void Input_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                RegisterButton_Click(sender, e);
             }
         }
     }

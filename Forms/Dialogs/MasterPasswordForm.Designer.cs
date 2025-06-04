@@ -119,6 +119,7 @@
             PasswordInput.PlaceholderText = "Hasło";
             PasswordInput.Size = new Size(274, 34);
             PasswordInput.TabIndex = 1;
+            PasswordInput.KeyDown += Input_KeyDown;
             // 
             // DescLabel3
             // 

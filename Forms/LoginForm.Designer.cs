@@ -174,6 +174,7 @@
             PasswordInput.Size = new Size(296, 34);
             PasswordInput.TabIndex = 1;
             PasswordInput.UseSystemPasswordChar = true;
+            PasswordInput.KeyDown += Input_KeyDown;
             // 
             // PasswordLabel
             // 
@@ -198,6 +199,7 @@
             EmailInput.PlaceholderText = "nazwa@email.com";
             EmailInput.Size = new Size(296, 34);
             EmailInput.TabIndex = 0;
+            EmailInput.KeyDown += Input_KeyDown;
             // 
             // UsernameLabel
             // 

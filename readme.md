@@ -55,32 +55,32 @@ Baza danych składa się z trzech głównych tabel: `Users`, `Folders` i `Passwo
 
 ### Tabela Users
 
-| Atrybut      | Typ danych | Opis                                       |
-| ------------ | ---------- | ------------------------------------------ |
-| `Id`         | GUID       | Unikalny identyfikator użytkownika         |
-| `Email`      | string     | Adres e-mail użytkownika                   |
-| `MasterHash` | string     | Hasz hasła głównego (Argon2)               |
-| `Salt`       | string     | Unikalna sól używana do haszowania         |
-| `Iv`         | string     | Wektor inicjalizacyjny dla szyfrowania AES |
+| Atrybut      | Typ danych    | Opis                                       |
+| ------------ | ------------- | ------------------------------------------ |
+| `Id`         | INT (serial)  | Klucz główny                               |
+| `Email`      | string        | Adres e-mail użytkownika                   |
+| `MasterHash` | string        | Hasz hasła głównego (Argon2)               |
+| `Salt`       | string        | Unikalna sól używana do haszowania         |
+| `Iv`         | string        | Wektor inicjalizacyjny dla szyfrowania AES |
 
 ### Tabela Folders
 
-| Atrybut      | Typ danych | Opis                                           |
-| ------------ | ---------- | ---------------------------------------------- |
-| `Id`         | GUID       | Unikalny identyfikator folderu                 |
-| `FolderName` | string     | Nazwa folderu                                  |
-| `UserId`     | GUID       | Identyfikator użytkownika, właściciela folderu |
+| Atrybut      | Typ danych   | Opis                                           |
+| ------------ | ------------ | ---------------------------------------------- |
+| `Id`         | INT (serial) | Klucz główny                                   |
+| `FolderName` | string       | Nazwa folderu                                  |
+| `UserId`     | INT          | Klucz obcy → Users(Id)                         |
 
 ### Tabela Passwords
 
-| Atrybut             | Typ danych | Opis                                           |
-| ------------------- | ---------- | ---------------------------------------------- |
-| `Id`                | GUID       | Unikalny identyfikator hasła                   |
-| `Title`             | string     | Tytuł lub opis hasła                           |
-| `EncryptedPassword` | string     | Zaszyfrowane hasło                             |
-| `Iv`                | string     | Wektor inicjalizacyjny dla szyfrowania AES     |
-| `UserId`            | GUID       | Identyfikator użytkownika, właściciela hasła   |
-| `FolderId`          | GUID       | Identyfikator folderu, do którego należy hasło |
+| Atrybut             | Typ danych    | Opis                                           |
+| ------------------- | ------------- | ---------------------------------------------- |
+| `Id`                | INT (serial)  | Klucz główny                                   |
+| `Title`             | string        | Tytuł lub opis hasła                           |
+| `EncryptedPassword` | string        | Zaszyfrowane hasło                             |
+| `Iv`                | string        | Wektor inicjalizacyjny dla szyfrowania AES     |
+| `UserId`            | INT           | Klucz obcy → Users(Id)                         |
+| `FolderId`          | INT           | Klucz obcy → Folders(Id)                       |
 
 ### Relacje
 * **User -< Folder** (1 - N): Jeden użytkownik może posiadać wiele folderów.
@@ -126,8 +126,23 @@ Punkt wejścia aplikacji to **Program.cs**, który inicjalizuje kontekst bazy da
   }
 }
 ```
+3. Pobrać wymagane narzędzia:
+W terminalu:
+```bash
+    dotnet restore
+```
+lub
 
-3. Wykonać migrację bazy danych:  
+```bash
+    dotnet add package Konscious.Security.Cryptography.Argon2 --version 1.3.1
+    dotnet add package Microsoft.EntityFrameworkCore --version 9.0.5
+    dotnet add package Microsoft.EntityFrameworkCore.Tools --version 9.0.5
+    dotnet add package Microsoft.Extensions.Configuration --version 9.0.5
+    dotnet add package Microsoft.Extensions.Configuration.Json --version 9.0.5
+    dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 9.0.4
+```
+
+4. Wykonać migrację bazy danych:  
 W terminalu:
 ```bash
     dotnet ef migrations add Init
@@ -140,10 +155,56 @@ Lub w konsoli Packet Manager:
     Update-Database
 ```
 
-4. Uruchomić aplikację w terminalu:
+5. Uruchomić aplikację w terminalu:
 ```bash
     dotnet run
 ```
+## Rozwiązywanie problemów
+
+### Ogólne problemy
+
+#### Zawieszenie się aplikacji przy usuwaniu zaimportowanego rekordu
+**Przyczyny**
+1. Błąd sterownika Npgsql
+
+**Rozwiązania**
+1. Poczekaj aż aplikacja zacznie odpowiadać
+2. Zrestartuj aplikację
+
+### Problemy z połączeniem do bazy danych
+
+#### Błąd: "Could not connect to server"
+**Rozwiązania:**
+1. Sprawdź czy serwis PostgreSQL jest uruchomiony
+2. Zweryfikuj parametry połączenia w appsettings.json
+3. Sprawdź ustawienia firewall
+4. Upewnij się, że port 5432 jest dostępny
+
+#### Błąd: "Password authentication failed"
+**Rozwiązania:**
+1. Zweryfikuj nazwę użytkownika i hasło
+2. Sprawdź uprawnienia użytkownika w PostgreSQL
+3. Upewnij się, że użytkownik ma dostęp do bazy HashWardenDB
+
+### Problemy z migracjami
+
+#### Błąd: "No migrations were applied"
+**Rozwiązania:**
+1. Usuń folder Migrations i utwórz migrację ponownie
+2. Sprawdź czy connection string jest poprawny
+3. Uruchom `dotnet ef database drop` i `dotnet ef database update`
+
+### Problemy z szyfrowaniem
+
+#### Błąd: "Unable to decrypt password"
+**Przyczyny:**
+1. Uszkodzone dane w bazie
+2. Nieprawidłowy klucz sesji
+3. Zmiana hasła głównego bez aktualizacji haseł
+
+**Rozwiązania:**
+1. Wyloguj się i zaloguj ponownie
+2. Sprawdź integralność danych w bazie
 
 ## Widoki
 
@@ -153,5 +214,13 @@ Lub w konsoli Packet Manager:
 ![Rejestracja](ViewImages/RegisterView.png)
 ### Główny panel
 ![Główny panel](ViewImages/MainView.png)
-### Zapisane hasło
-![Zapisane hasło](ViewImages/SavedPasswordView.png)
+### Ustawienia
+![Ustawienia](ViewImages/SettingsView.png)
+### Dodawanie folderu
+![Dodawanie folderu](ViewImages/AddFolderView.png)
+### Dodawanie wpisu
+![Dodawanie wpisu](ViewImages/AddRecordView.png)
+### Edycja wpisu
+![Edycja wpisu](ViewImages/EditRecordView.png)
+### Zmiana połączenia z bazą
+![Zmiana połączenia](ViewImages/ConnStringView.png)

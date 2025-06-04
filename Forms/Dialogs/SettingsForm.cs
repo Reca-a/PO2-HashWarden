@@ -13,11 +13,6 @@ namespace HashWarden.Forms.Dialogs
             InitializeComponent();
         }
 
-        private void ExitButton_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
-        }
-
         // Zapis eksportowanych danych do pliku .json
         private async void ExportButton_Click(object sender, EventArgs e)
         {

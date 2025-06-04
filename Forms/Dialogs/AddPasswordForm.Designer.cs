@@ -142,6 +142,7 @@
             FolderPicker.Size = new Size(296, 28);
             FolderPicker.Sorted = true;
             FolderPicker.TabIndex = 6;
+            FolderPicker.KeyDown += Input_KeyDown;
             // 
             // DescLabel5
             // 
@@ -167,6 +168,7 @@
             ServiceUrlInput.Size = new Size(296, 34);
             ServiceUrlInput.TabIndex = 5;
             ServiceUrlInput.Text = "www.";
+            ServiceUrlInput.KeyDown += Input_KeyDown;
             // 
             // DescLabel4
             // 
@@ -210,6 +212,7 @@
             PasswordInput.Size = new Size(236, 34);
             PasswordInput.TabIndex = 3;
             PasswordInput.UseSystemPasswordChar = true;
+            PasswordInput.KeyDown += Input_KeyDown;
             // 
             // ViewPassButton
             // 
@@ -258,6 +261,7 @@
             UsernameInput.PlaceholderText = "Nazwa";
             UsernameInput.Size = new Size(296, 34);
             UsernameInput.TabIndex = 2;
+            UsernameInput.KeyDown += Input_KeyDown;
             // 
             // DescLabel2
             // 
@@ -282,6 +286,7 @@
             TitleInput.PlaceholderText = "Tytuł";
             TitleInput.Size = new Size(296, 34);
             TitleInput.TabIndex = 1;
+            TitleInput.KeyDown += Input_KeyDown;
             // 
             // DescLabel1
             // 

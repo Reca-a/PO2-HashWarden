@@ -187,7 +187,7 @@
             AddFolderButton.Location = new Point(0, 629);
             AddFolderButton.Name = "AddFolderButton";
             AddFolderButton.Size = new Size(230, 40);
-            AddFolderButton.TabIndex = 2;
+            AddFolderButton.TabIndex = 4;
             AddFolderButton.Text = "+";
             AddFolderButton.UseVisualStyleBackColor = true;
             AddFolderButton.Click += AddFolderButton_Click;
@@ -203,7 +203,7 @@
             FolderSearchPanel.Margin = new Padding(0);
             FolderSearchPanel.Name = "FolderSearchPanel";
             FolderSearchPanel.Size = new Size(230, 28);
-            FolderSearchPanel.TabIndex = 5;
+            FolderSearchPanel.TabIndex = 2;
             // 
             // FolderSearchTextBox
             // 
@@ -307,7 +307,7 @@
             LogoutButton.Location = new Point(0, 0);
             LogoutButton.Name = "LogoutButton";
             LogoutButton.Size = new Size(108, 50);
-            LogoutButton.TabIndex = 4;
+            LogoutButton.TabIndex = 5;
             LogoutButton.TextAlign = ContentAlignment.MiddleLeft;
             LogoutButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             LogoutButton.UseVisualStyleBackColor = false;
@@ -335,7 +335,7 @@
             SettingsButton.Location = new Point(0, 0);
             SettingsButton.Name = "SettingsButton";
             SettingsButton.Size = new Size(121, 50);
-            SettingsButton.TabIndex = 5;
+            SettingsButton.TabIndex = 6;
             SettingsButton.TextAlign = ContentAlignment.MiddleLeft;
             SettingsButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             SettingsButton.UseVisualStyleBackColor = false;
@@ -381,7 +381,7 @@
             PasswordListPanel.Location = new Point(0, 28);
             PasswordListPanel.Name = "PasswordListPanel";
             PasswordListPanel.Size = new Size(270, 641);
-            PasswordListPanel.TabIndex = 6;
+            PasswordListPanel.TabIndex = 8;
             // 
             // AddRecordButton
             // 
@@ -395,7 +395,7 @@
             AddRecordButton.Location = new Point(0, 669);
             AddRecordButton.Name = "AddRecordButton";
             AddRecordButton.Size = new Size(270, 50);
-            AddRecordButton.TabIndex = 7;
+            AddRecordButton.TabIndex = 9;
             AddRecordButton.Text = "+";
             AddRecordButton.UseVisualStyleBackColor = true;
             AddRecordButton.Click += AddRecordButton_Click;
@@ -411,7 +411,7 @@
             PasswordSearchPanel.Margin = new Padding(0);
             PasswordSearchPanel.Name = "PasswordSearchPanel";
             PasswordSearchPanel.Size = new Size(270, 28);
-            PasswordSearchPanel.TabIndex = 8;
+            PasswordSearchPanel.TabIndex = 7;
             // 
             // PasswordSearchTextBox
             // 

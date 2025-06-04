@@ -41,5 +41,15 @@ namespace HashWarden.Forms.Dialogs
                 Application.Restart();
             }
         }
+
+        private void Input_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                ProceedButton_Click(sender, e);
+            }
+        }
     }
 }

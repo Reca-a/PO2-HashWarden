@@ -66,5 +66,15 @@ namespace HashWarden
                 this.Show();
             }
         }
+
+        private void Input_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                LoginButton_Click(sender, e);
+            }
+        }
     }
 }

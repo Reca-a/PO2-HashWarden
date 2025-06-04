@@ -42,5 +42,15 @@ namespace HashWarden.Forms.Dialogs
                 MessageBox.Show($"Błąd połączenia: {ex.Message}.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void Input_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                ChangeButton_Click(sender, e);
+            }
+        }
     }
 }
