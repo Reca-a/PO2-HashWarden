@@ -13,16 +13,6 @@ namespace HashWarden
             StartPosition = FormStartPosition.CenterScreen;
         }
 
-        private void ExitButton_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
-        }
-
-        private void MinimalizeButton_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
         private async void LoginButton_Click(object sender, EventArgs e)
         {
             var email = EmailInput.Text.Trim();

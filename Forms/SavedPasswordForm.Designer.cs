@@ -186,7 +186,7 @@
             ServiceNameLabel.Padding = new Padding(10);
             ServiceNameLabel.Size = new Size(457, 45);
             ServiceNameLabel.TabIndex = 9;
-            ServiceNameLabel.Text = "google.com";
+            ServiceNameLabel.Text = "www.google.com";
             ServiceNameLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // DescLabel4
@@ -285,7 +285,7 @@
             UsernameLabel.Padding = new Padding(10);
             UsernameLabel.Size = new Size(457, 45);
             UsernameLabel.TabIndex = 5;
-            UsernameLabel.Text = "roszul@wp.pl";
+            UsernameLabel.Text = "jan@wp.pl";
             UsernameLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // DescLabel2

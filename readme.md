@@ -2,25 +2,111 @@
 
 ## Opis aplikacji
 
-HashWarden to aplikacja desktopowa służąca do zarządzania hasłami użytkownika. Umożliwia tworzenie i organizowanie zapisanych danych logowania w folderach, przypisywanie ich do kont użytkowników oraz bezpieczne przechowywanie haseł w formie zaszyfrowanej. Aplikacja została zbudowana w technologii C# przy użyciu Windows Forms oraz Entity Framework Core w podejściu Code First. Jako system bazodanowy wykorzystano PostgreSQL.
+**HashWarden** to aplikacja desktopowa służąca do zarządzania hasłami użytkownika. Umożliwia tworzenie i organizowanie zapisanych danych logowania w folderach, przypisywanie ich do kont użytkowników oraz bezpieczne przechowywanie haseł w formie zaszyfrowanej. Aplikacja została zbudowana w technologii C# przy użyciu Windows Forms oraz Entity Framework Core w podejściu Code First. Jako system bazodanowy wykorzystano PostgreSQL.
 
 ## Funkcje
 
-- Logowanie
-- Zapisywanie kont
-- Przechowywanie szyfrowanych haseł
-- Sortowanie wpisów po folderach
-- Zarządzanie hasłami
+- **Uwierzytelnianie użytkownika**
+- **Przechowywanie szyfrowanych haseł**
+- **Organizacja folderów**
+- **Zarządzanie hasłami**
+- **Zarządzanie sesją**
+- **Eksport/import danych**
+- **Wyszukiwanie wpisów**
+- **Zmiana połączenia w aplikacji**
+
+## Implementacja Bezpieczeństwa
+
+Bezpieczeństwo danych użytkownika jest kluczowym aspektem aplikacji HashWarden. Implementacja obejmuje:
+
+### Haszowanie Hasła Głównego
+
+**Algorytm: Argon2**  
+
+Proces: Hasło główne użytkownika jest haszowane przy użyciu algorytmu Argon2 z unikalną solą dla każdego użytkownika. Hasz i sól są przechowywane w bazie danych.
+
+### Szyfrowanie Haseł
+
+**Algorytm: AES (Advanced Encryption Standard)**  
+
+Proces: Hasła użytkownika są szyfrowane przy użyciu algorytmu AES z unikalnym wektorem inicjalizacyjnym (IV) dla każdego hasła. Klucz szyfrowania jest pochodną hasła głównego użytkownika.
+
+### Zarządzanie Kluczem Sesji
+
+**Komponent: SessionKeyManager**  
+
+Funkcja: Po pomyślnym uwierzytelnieniu, aplikacja generuje i przechowuje klucz sesji w pamięci, umożliwiając szyfrowanie i deszyfrowanie haseł podczas sesji użytkownika. Klucz sesji jest usuwany z pamięci po wylogowaniu lub zamknięciu aplikacji.
+
+## Technologie
+
+* **Język programowania:** C# (.NET)
+
+* **Interfejs użytkownika:** Windows Forms
+
+* **Baza danych:** Entity Framework z relacyjnym modelem danych
+
+* **Szyfrowanie:** AES dla danych, Argon2 dla haseł
+
+* **Serializacja:** JSON dla importu/eksportu danych
 
 ## Opis bazy danych
 
 Baza danych składa się z trzech głównych tabel: `Users`, `Folders` i `Passwords`.
 
-| Tabela     | Kolumny                                | Relacje                                      |
-|------------|----------------------------------------|----------------------------------------------|
-| Users      | Id, Email, MasterHash, Salt, CreatedAt | 1:N z Folders, 1:N z Passwords               |
-| Folders    | Id, FolderName, UserId                 | N:1 z Users, 1:N z Passwords                 |
-| Passwords  | Id, Title, UserName, ServiceUrl, EncryptedPassword, Iv, CreatedAt, UpdatedAt, FolderId, UserId | N:1 z Users, N:1 z Folders |
+### Tabela Users
+
+| Atrybut      | Typ danych | Opis                                       |
+| ------------ | ---------- | ------------------------------------------ |
+| `Id`         | GUID       | Unikalny identyfikator użytkownika         |
+| `Email`      | string     | Adres e-mail użytkownika                   |
+| `MasterHash` | string     | Hasz hasła głównego (Argon2)               |
+| `Salt`       | string     | Unikalna sól używana do haszowania         |
+| `Iv`         | string     | Wektor inicjalizacyjny dla szyfrowania AES |
+
+### Tabela Folders
+
+| Atrybut      | Typ danych | Opis                                           |
+| ------------ | ---------- | ---------------------------------------------- |
+| `Id`         | GUID       | Unikalny identyfikator folderu                 |
+| `FolderName` | string     | Nazwa folderu                                  |
+| `UserId`     | GUID       | Identyfikator użytkownika, właściciela folderu |
+
+### Tabela Passwords
+
+| Atrybut             | Typ danych | Opis                                           |
+| ------------------- | ---------- | ---------------------------------------------- |
+| `Id`                | GUID       | Unikalny identyfikator hasła                   |
+| `Title`             | string     | Tytuł lub opis hasła                           |
+| `EncryptedPassword` | string     | Zaszyfrowane hasło                             |
+| `Iv`                | string     | Wektor inicjalizacyjny dla szyfrowania AES     |
+| `UserId`            | GUID       | Identyfikator użytkownika, właściciela hasła   |
+| `FolderId`          | GUID       | Identyfikator folderu, do którego należy hasło |
+
+### Relacje
+* **User -< Folder** (1 - N): Jeden użytkownik może posiadać wiele folderów.
+
+* **Folder -< Password** (1 - N): Jeden folder może zawierać wiele haseł.
+
+* **User -< Password** (1 - N): Jeden użytkownik może posiadać wiele haseł.
+
+## Struktura projektu
+Projekt HashWarden jest zorganizowany zgodnie ze standardami .NET:
+
+* **Forms**: Komponenty interfejsu użytkownika (LoginForm, MainForm, AddPasswordForm, itp.)
+
+* **Models**: Modele danych Entity Framework (User, Password, Folder) oraz model eksportu haseł(ExportModel)
+
+* **Data**: Kontekst bazy danych i logika inicjalizacji (HashWardenDbContext, DatabaseSeeder)
+
+* **Utils**: Klasy pomocnicze i logika biznesowa (EncryptionProvider, SessionKeyManager)
+
+* **Images**: Ikony aplikacji i zasoby interfejsu użytkownika
+
+* **Seeders**: Seedery do zapełniania bazy danych
+
+* **Migrations**: Automatycznie generowane pliki migracji EF Core służące do tworzenia i aktualizacji schematu bazy danych
+
+Punkt wejścia aplikacji to **Program.cs**, który inicjalizuje kontekst bazy danych, stosuje wszelkie oczekujące migracje, inicjalizuje dane i uruchamia formularz logowania.
 
 ## Wymagania
 

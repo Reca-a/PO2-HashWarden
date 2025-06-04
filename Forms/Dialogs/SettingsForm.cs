@@ -56,7 +56,7 @@ namespace HashWarden.Forms.Dialogs
         // Import danych
         private async void ImportButton_Click(object sender, EventArgs e)
         {
-            await ImportUserDataAsync(Utils.LoggedUser.Id);
+            await ImportUserData(Utils.LoggedUser.Id);
         }
 
         // Przygotowanie eksportowanych danych
@@ -112,7 +112,7 @@ namespace HashWarden.Forms.Dialogs
         }
 
         // Zapis importowanych danych do bazy
-        public async Task ImportUserDataAsync(int userId)
+        public async Task ImportUserData(int userId)
         {
             using (var context = new HashWardenDbContext())
             {

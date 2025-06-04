@@ -11,13 +11,13 @@ namespace HashWarden.Forms.Dialogs
             StringInput.Text = AppConfiguration.GetConnectionString();
         }
 
-        private void ChangeButton_Click(object sender, EventArgs e)
+        private async void ChangeButton_Click(object sender, EventArgs e)
         {
             string newConn = StringInput.Text.Trim();
 
             if (string.IsNullOrWhiteSpace(newConn))
             {
-                MessageBox.Show("Connection string nie może być pusty.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Connection string nie może być pusty.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -28,7 +28,7 @@ namespace HashWarden.Forms.Dialogs
 
                 using (var context = new HashWardenDbContext(optionsBuilder.Options))
                 {
-                    if (!context.Database.CanConnect())
+                    if (!await context.Database.CanConnectAsync())
                         throw new Exception("Nie można połączyć się z bazą danych");
                 }
 

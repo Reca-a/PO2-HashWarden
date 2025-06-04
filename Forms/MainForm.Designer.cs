@@ -40,6 +40,11 @@
             SidebarMenu = new Panel();
             FolderListPanel = new FlowLayoutPanel();
             AddFolderButton = new Button();
+            FolderSearchPanel = new Panel();
+            FolderSearchTextBox = new TextBox();
+            FolderSearchButton = new Button();
+            FolderClearSearchButton = new Button();
+            FolderSortButton = new Button();
             FoldersLabel = new Label();
             AccountContainer = new SplitContainer();
             LogoutButton = new Button();
@@ -49,6 +54,11 @@
             SidebarSubMenu = new Panel();
             PasswordListPanel = new FlowLayoutPanel();
             AddRecordButton = new Button();
+            PasswordSearchPanel = new Panel();
+            PasswordSearchTextBox = new TextBox();
+            PasswordSearchButton = new Button();
+            PasswordClearSearchButton = new Button();
+            PasswordSortButton = new Button();
             SidebarPanel = new Panel();
             MarginPanel = new Panel();
             ContentPanel.SuspendLayout();
@@ -56,11 +66,13 @@
             Header.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Logo).BeginInit();
             SidebarMenu.SuspendLayout();
+            FolderSearchPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)AccountContainer).BeginInit();
             AccountContainer.Panel1.SuspendLayout();
             AccountContainer.Panel2.SuspendLayout();
             AccountContainer.SuspendLayout();
             SidebarSubMenu.SuspendLayout();
+            PasswordSearchPanel.SuspendLayout();
             SidebarPanel.SuspendLayout();
             SuspendLayout();
             // 
@@ -145,6 +157,7 @@
             SidebarMenu.BackColor = Color.FromArgb(25, 25, 25);
             SidebarMenu.Controls.Add(FolderListPanel);
             SidebarMenu.Controls.Add(AddFolderButton);
+            SidebarMenu.Controls.Add(FolderSearchPanel);
             SidebarMenu.Controls.Add(FoldersLabel);
             SidebarMenu.Controls.Add(AccountContainer);
             SidebarMenu.Controls.Add(AllElementsButton);
@@ -159,25 +172,96 @@
             FolderListPanel.AutoScroll = true;
             FolderListPanel.Dock = DockStyle.Fill;
             FolderListPanel.FlowDirection = FlowDirection.TopDown;
-            FolderListPanel.Location = new Point(0, 140);
+            FolderListPanel.Location = new Point(0, 128);
             FolderListPanel.Name = "FolderListPanel";
-            FolderListPanel.Size = new Size(230, 529);
+            FolderListPanel.Size = new Size(230, 501);
             FolderListPanel.TabIndex = 3;
             FolderListPanel.TabStop = true;
             FolderListPanel.WrapContents = false;
             // 
             // AddFolderButton
             // 
-            AddFolderButton.Dock = DockStyle.Top;
+            AddFolderButton.Dock = DockStyle.Bottom;
             AddFolderButton.FlatStyle = FlatStyle.Popup;
             AddFolderButton.Font = new Font("Microsoft Sans Serif", 17F);
-            AddFolderButton.Location = new Point(0, 100);
+            AddFolderButton.Location = new Point(0, 629);
             AddFolderButton.Name = "AddFolderButton";
             AddFolderButton.Size = new Size(230, 40);
             AddFolderButton.TabIndex = 2;
             AddFolderButton.Text = "+";
             AddFolderButton.UseVisualStyleBackColor = true;
             AddFolderButton.Click += AddFolderButton_Click;
+            // 
+            // FolderSearchPanel
+            // 
+            FolderSearchPanel.Controls.Add(FolderSearchTextBox);
+            FolderSearchPanel.Controls.Add(FolderSearchButton);
+            FolderSearchPanel.Controls.Add(FolderClearSearchButton);
+            FolderSearchPanel.Controls.Add(FolderSortButton);
+            FolderSearchPanel.Dock = DockStyle.Top;
+            FolderSearchPanel.Location = new Point(0, 100);
+            FolderSearchPanel.Margin = new Padding(0);
+            FolderSearchPanel.Name = "FolderSearchPanel";
+            FolderSearchPanel.Size = new Size(230, 28);
+            FolderSearchPanel.TabIndex = 5;
+            // 
+            // FolderSearchTextBox
+            // 
+            FolderSearchTextBox.BackColor = Color.FromArgb(40, 40, 40);
+            FolderSearchTextBox.BorderStyle = BorderStyle.FixedSingle;
+            FolderSearchTextBox.Dock = DockStyle.Fill;
+            FolderSearchTextBox.Font = new Font("Microsoft Sans Serif", 11F);
+            FolderSearchTextBox.ForeColor = Color.Gainsboro;
+            FolderSearchTextBox.Location = new Point(0, 0);
+            FolderSearchTextBox.Margin = new Padding(0);
+            FolderSearchTextBox.MaxLength = 50;
+            FolderSearchTextBox.Name = "FolderSearchTextBox";
+            FolderSearchTextBox.PlaceholderText = "Szukaj folderu...";
+            FolderSearchTextBox.Size = new Size(149, 28);
+            FolderSearchTextBox.TabIndex = 0;
+            FolderSearchTextBox.KeyDown += FolderSearchTextBox_KeyDown;
+            // 
+            // FolderSearchButton
+            // 
+            FolderSearchButton.BackColor = Color.FromArgb(40, 40, 40);
+            FolderSearchButton.Dock = DockStyle.Right;
+            FolderSearchButton.FlatAppearance.BorderSize = 0;
+            FolderSearchButton.FlatStyle = FlatStyle.Popup;
+            FolderSearchButton.Location = new Point(149, 0);
+            FolderSearchButton.Name = "FolderSearchButton";
+            FolderSearchButton.Size = new Size(30, 28);
+            FolderSearchButton.TabIndex = 1;
+            FolderSearchButton.Text = "🔍";
+            FolderSearchButton.UseVisualStyleBackColor = false;
+            FolderSearchButton.Click += FolderSearchButton_Click;
+            // 
+            // FolderClearSearchButton
+            // 
+            FolderClearSearchButton.BackColor = Color.FromArgb(40, 40, 40);
+            FolderClearSearchButton.Dock = DockStyle.Right;
+            FolderClearSearchButton.FlatAppearance.BorderSize = 0;
+            FolderClearSearchButton.FlatStyle = FlatStyle.Popup;
+            FolderClearSearchButton.Location = new Point(179, 0);
+            FolderClearSearchButton.Name = "FolderClearSearchButton";
+            FolderClearSearchButton.Size = new Size(26, 28);
+            FolderClearSearchButton.TabIndex = 2;
+            FolderClearSearchButton.Text = "✕";
+            FolderClearSearchButton.UseVisualStyleBackColor = false;
+            FolderClearSearchButton.Click += FolderClearSearchButton_Click;
+            // 
+            // FolderSortButton
+            // 
+            FolderSortButton.BackColor = Color.FromArgb(40, 40, 40);
+            FolderSortButton.Dock = DockStyle.Right;
+            FolderSortButton.FlatAppearance.BorderSize = 0;
+            FolderSortButton.FlatStyle = FlatStyle.Popup;
+            FolderSortButton.Location = new Point(205, 0);
+            FolderSortButton.Name = "FolderSortButton";
+            FolderSortButton.Size = new Size(25, 28);
+            FolderSortButton.TabIndex = 3;
+            FolderSortButton.Text = "↕";
+            FolderSortButton.UseVisualStyleBackColor = false;
+            FolderSortButton.Click += FolderSortButton_Click;
             // 
             // FoldersLabel
             // 
@@ -283,6 +367,7 @@
             SidebarSubMenu.BackColor = Color.FromArgb(15, 15, 15);
             SidebarSubMenu.Controls.Add(PasswordListPanel);
             SidebarSubMenu.Controls.Add(AddRecordButton);
+            SidebarSubMenu.Controls.Add(PasswordSearchPanel);
             SidebarSubMenu.Dock = DockStyle.Right;
             SidebarSubMenu.Location = new Point(232, 0);
             SidebarSubMenu.Name = "SidebarSubMenu";
@@ -293,10 +378,9 @@
             // 
             PasswordListPanel.AutoScroll = true;
             PasswordListPanel.Dock = DockStyle.Fill;
-            PasswordListPanel.FlowDirection = FlowDirection.TopDown;
-            PasswordListPanel.Location = new Point(0, 0);
+            PasswordListPanel.Location = new Point(0, 28);
             PasswordListPanel.Name = "PasswordListPanel";
-            PasswordListPanel.Size = new Size(270, 669);
+            PasswordListPanel.Size = new Size(270, 641);
             PasswordListPanel.TabIndex = 6;
             // 
             // AddRecordButton
@@ -315,6 +399,77 @@
             AddRecordButton.Text = "+";
             AddRecordButton.UseVisualStyleBackColor = true;
             AddRecordButton.Click += AddRecordButton_Click;
+            // 
+            // PasswordSearchPanel
+            // 
+            PasswordSearchPanel.Controls.Add(PasswordSearchTextBox);
+            PasswordSearchPanel.Controls.Add(PasswordSearchButton);
+            PasswordSearchPanel.Controls.Add(PasswordClearSearchButton);
+            PasswordSearchPanel.Controls.Add(PasswordSortButton);
+            PasswordSearchPanel.Dock = DockStyle.Top;
+            PasswordSearchPanel.Location = new Point(0, 0);
+            PasswordSearchPanel.Margin = new Padding(0);
+            PasswordSearchPanel.Name = "PasswordSearchPanel";
+            PasswordSearchPanel.Size = new Size(270, 28);
+            PasswordSearchPanel.TabIndex = 8;
+            // 
+            // PasswordSearchTextBox
+            // 
+            PasswordSearchTextBox.BackColor = Color.FromArgb(40, 40, 40);
+            PasswordSearchTextBox.BorderStyle = BorderStyle.FixedSingle;
+            PasswordSearchTextBox.Dock = DockStyle.Fill;
+            PasswordSearchTextBox.Font = new Font("Microsoft Sans Serif", 11F);
+            PasswordSearchTextBox.ForeColor = Color.Gainsboro;
+            PasswordSearchTextBox.Location = new Point(0, 0);
+            PasswordSearchTextBox.Margin = new Padding(0);
+            PasswordSearchTextBox.MaxLength = 50;
+            PasswordSearchTextBox.Name = "PasswordSearchTextBox";
+            PasswordSearchTextBox.PlaceholderText = "Szukaj wpisu...";
+            PasswordSearchTextBox.Size = new Size(189, 28);
+            PasswordSearchTextBox.TabIndex = 0;
+            PasswordSearchTextBox.KeyDown += PasswordSearchTextBox_KeyDown;
+            // 
+            // PasswordSearchButton
+            // 
+            PasswordSearchButton.BackColor = Color.FromArgb(40, 40, 40);
+            PasswordSearchButton.Dock = DockStyle.Right;
+            PasswordSearchButton.FlatAppearance.BorderSize = 0;
+            PasswordSearchButton.FlatStyle = FlatStyle.Popup;
+            PasswordSearchButton.Location = new Point(189, 0);
+            PasswordSearchButton.Name = "PasswordSearchButton";
+            PasswordSearchButton.Size = new Size(30, 28);
+            PasswordSearchButton.TabIndex = 1;
+            PasswordSearchButton.Text = "🔍";
+            PasswordSearchButton.UseVisualStyleBackColor = false;
+            PasswordSearchButton.Click += PasswordSearchButton_Click;
+            // 
+            // PasswordClearSearchButton
+            // 
+            PasswordClearSearchButton.BackColor = Color.FromArgb(40, 40, 40);
+            PasswordClearSearchButton.Dock = DockStyle.Right;
+            PasswordClearSearchButton.FlatAppearance.BorderSize = 0;
+            PasswordClearSearchButton.FlatStyle = FlatStyle.Popup;
+            PasswordClearSearchButton.Location = new Point(219, 0);
+            PasswordClearSearchButton.Name = "PasswordClearSearchButton";
+            PasswordClearSearchButton.Size = new Size(26, 28);
+            PasswordClearSearchButton.TabIndex = 2;
+            PasswordClearSearchButton.Text = "✕";
+            PasswordClearSearchButton.UseVisualStyleBackColor = false;
+            PasswordClearSearchButton.Click += PasswordClearSearchButton_Click;
+            // 
+            // PasswordSortButton
+            // 
+            PasswordSortButton.BackColor = Color.FromArgb(40, 40, 40);
+            PasswordSortButton.Dock = DockStyle.Right;
+            PasswordSortButton.FlatAppearance.BorderSize = 0;
+            PasswordSortButton.FlatStyle = FlatStyle.Popup;
+            PasswordSortButton.Location = new Point(245, 0);
+            PasswordSortButton.Name = "PasswordSortButton";
+            PasswordSortButton.Size = new Size(25, 28);
+            PasswordSortButton.TabIndex = 3;
+            PasswordSortButton.Text = "↕";
+            PasswordSortButton.UseVisualStyleBackColor = false;
+            PasswordSortButton.Click += PasswordSortButton_Click;
             // 
             // SidebarPanel
             // 
@@ -359,11 +514,15 @@
             Header.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)Logo).EndInit();
             SidebarMenu.ResumeLayout(false);
+            FolderSearchPanel.ResumeLayout(false);
+            FolderSearchPanel.PerformLayout();
             AccountContainer.Panel1.ResumeLayout(false);
             AccountContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)AccountContainer).EndInit();
             AccountContainer.ResumeLayout(false);
             SidebarSubMenu.ResumeLayout(false);
+            PasswordSearchPanel.ResumeLayout(false);
+            PasswordSearchPanel.PerformLayout();
             SidebarPanel.ResumeLayout(false);
             ResumeLayout(false);
 
@@ -382,6 +541,11 @@
         private System.Windows.Forms.Panel SidebarSubMenu;
         private System.Windows.Forms.Panel SidebarPanel;
         private System.Windows.Forms.Button AddRecordButton;
+        private System.Windows.Forms.Panel FolderSearchPanel;
+        private System.Windows.Forms.TextBox FolderSearchTextBox;
+        private System.Windows.Forms.Button FolderSortButton;
+        private System.Windows.Forms.Button FolderSearchButton;
+        private System.Windows.Forms.Button FolderClearSearchButton;
         private Panel MarginPanel;
         private Label LogoLabel;
         private PictureBox Logo;
@@ -391,6 +555,11 @@
         private Button AddFolderButton;
         private Button SettingsButton;
         private SplitContainer AccountContainer;
+        private Panel PasswordSearchPanel;
+        private TextBox PasswordSearchTextBox;
+        private Button PasswordSortButton;
+        private Button PasswordSearchButton;
+        private Button PasswordClearSearchButton;
     }
 }
 

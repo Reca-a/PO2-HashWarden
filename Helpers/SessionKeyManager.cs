@@ -1,4 +1,6 @@
-﻿namespace HashWarden.Helpers
+﻿using System.Security.Cryptography;
+
+namespace HashWarden.Helpers
 {
     static class SessionKeyManager
     {
@@ -28,9 +30,14 @@
 
         public static void ClearKey()
         {
-            // Wyczyszczenie pamięci (nadpisanie zerami)
+            // Wyczyszczenie pamięci (nadpisanie losowymi danymi przed wyczyszczeniem)
             if (_key != null)
+            {
+                var random = new byte[_key.Length];
+                RandomNumberGenerator.Fill(random);
+                Array.Copy(random, _key, _key.Length);
                 Array.Clear(_key, 0, _key.Length);
+            }
 
             _key = null;
             _inactivityTimer?.Dispose();

@@ -1,16 +1,17 @@
 ﻿using HashWarden.Data;
 using HashWarden.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace HashWarden.Seeders
 {
     public static class UserSeeder
     {
-        public static void Seed(HashWardenDbContext context)
+        public static async Task Seed(HashWardenDbContext context)
         {
-            if (context.Users.Any()) return;
+            if (await context.Users.AnyAsync()) 
+                return;
 
-
-            string[] masterPasswords = { "123", "TrudneHaslo"};
+            string[] masterPasswords = { "123", "zaq1@WSX"};
             var salts = new List<byte[]>();
             byte[] key;
             var iv = new List<byte[]>();
@@ -18,7 +19,6 @@ namespace HashWarden.Seeders
 
             using (var aes = System.Security.Cryptography.Aes.Create())
             {
-
                 for (int i = 0; i < masterPasswords.Length; i++) {
                     salts.Add(EncryptionProvider.GenerateSalt());
                     key = EncryptionProvider.GenerateKeyFromPassword(masterPasswords[i], salts[i]);
@@ -50,8 +50,8 @@ namespace HashWarden.Seeders
                 }
             };
 
-            context.Users.AddRange(users);
-            context.SaveChanges();
+            await context.Users.AddRangeAsync(users);
+            await context.SaveChangesAsync();
         }
     }
 }

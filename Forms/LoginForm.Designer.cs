@@ -44,9 +44,7 @@
             Header = new Panel();
             LogoLabel = new Label();
             Logo = new PictureBox();
-            MinimalizeButton = new Button();
             HeaderImages = new ImageList(components);
-            ExitButton = new Button();
             LogoImage = new ImageList(components);
             panel1.SuspendLayout();
             LayoutPanel.SuspendLayout();
@@ -218,8 +216,6 @@
             Header.BackColor = Color.FromArgb(10, 10, 10);
             Header.Controls.Add(LogoLabel);
             Header.Controls.Add(Logo);
-            Header.Controls.Add(MinimalizeButton);
-            Header.Controls.Add(ExitButton);
             Header.Dock = DockStyle.Top;
             Header.Location = new Point(0, 0);
             Header.Name = "Header";
@@ -256,23 +252,6 @@
             Logo.TabIndex = 7;
             Logo.TabStop = false;
             // 
-            // MinimalizeButton
-            // 
-            MinimalizeButton.BackColor = Color.FromArgb(10, 10, 10);
-            MinimalizeButton.Dock = DockStyle.Right;
-            MinimalizeButton.FlatAppearance.BorderSize = 0;
-            MinimalizeButton.FlatStyle = FlatStyle.Popup;
-            MinimalizeButton.ForeColor = Color.Gainsboro;
-            MinimalizeButton.ImageIndex = 0;
-            MinimalizeButton.ImageList = HeaderImages;
-            MinimalizeButton.Location = new Point(322, 0);
-            MinimalizeButton.Name = "MinimalizeButton";
-            MinimalizeButton.Size = new Size(55, 80);
-            MinimalizeButton.TabIndex = 0;
-            MinimalizeButton.TabStop = false;
-            MinimalizeButton.UseVisualStyleBackColor = false;
-            MinimalizeButton.Click += MinimalizeButton_Click;
-            // 
             // HeaderImages
             // 
             HeaderImages.ColorDepth = ColorDepth.Depth32Bit;
@@ -281,22 +260,6 @@
             HeaderImages.Images.SetKeyName(0, "minimizeIcon.png");
             HeaderImages.Images.SetKeyName(1, "maximizeIcon.png");
             HeaderImages.Images.SetKeyName(2, "closeIcon.png");
-            // 
-            // ExitButton
-            // 
-            ExitButton.BackColor = Color.FromArgb(10, 10, 10);
-            ExitButton.Dock = DockStyle.Right;
-            ExitButton.FlatAppearance.BorderSize = 0;
-            ExitButton.FlatStyle = FlatStyle.Popup;
-            ExitButton.ImageIndex = 2;
-            ExitButton.ImageList = HeaderImages;
-            ExitButton.Location = new Point(377, 0);
-            ExitButton.Name = "ExitButton";
-            ExitButton.Size = new Size(55, 80);
-            ExitButton.TabIndex = 0;
-            ExitButton.TabStop = false;
-            ExitButton.UseVisualStyleBackColor = false;
-            ExitButton.Click += ExitButton_Click;
             // 
             // LogoImage
             // 
@@ -309,7 +272,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(450, 700);
+            ClientSize = new Size(432, 653);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -333,8 +296,6 @@
 
         private Panel panel1;
         private Panel Header;
-        private Button MinimalizeButton;
-        private Button ExitButton;
         private ImageList HeaderImages;
         private ImageList LogoImage;
         private TableLayoutPanel LayoutPanel;

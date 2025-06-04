@@ -1,5 +1,6 @@
 ﻿using HashWarden.Data;
 using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace HashWarden.Forms.Dialogs
 {
@@ -17,7 +18,7 @@ namespace HashWarden.Forms.Dialogs
             StartPosition = FormStartPosition.CenterScreen;
         }
 
-        private void AddButton_Click(object sender, EventArgs e)
+        private async void AddButton_Click(object sender, EventArgs e)
         {
             var folderName = NameInput.Text.Trim();
             var nameRegex = new Regex(@"^[a-zA-Z0-9 ]{1,49}$");
@@ -28,7 +29,7 @@ namespace HashWarden.Forms.Dialogs
             }
             using (var context = new HashWardenDbContext())
             {
-                if (context.Folders.Any(f => f.FolderName == folderName && f.UserId == _loggedUserId))
+                if (await context.Folders.AnyAsync(f => f.FolderName == folderName && f.UserId == _loggedUserId))
                 {
                     MessageBox.Show("Folder o takiej nazwie już istnieje", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;

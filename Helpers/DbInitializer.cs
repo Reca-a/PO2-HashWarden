@@ -4,23 +4,23 @@ namespace HashWarden.Helpers
 {
     public static class DbInitializer
     {
-        public static void Initialize(HashWardenDbContext context) {
+        public static async Task Initialize(HashWardenDbContext context) {
             using (var transaction = context.Database.BeginTransaction())
             {
                 try
                 {
-                    UserSeeder.Seed(context);
+                    await UserSeeder.Seed(context);
 
-                    FolderSeeder.Seed(context);
+                    await FolderSeeder.Seed(context);
 
-                    PasswordSeeder.Seed(context);
-                
-                    transaction.Commit();
+                    await PasswordSeeder.Seed(context);
+
+                    await transaction.CommitAsync();
                 }
                 catch (Exception ex)
                 {
-                    transaction.Rollback();
-                    throw;
+                    await transaction.RollbackAsync();
+                    throw new Exception("Błąd przy seedowaniu bazy");
                 }
             }
         }

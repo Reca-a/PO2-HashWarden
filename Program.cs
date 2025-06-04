@@ -3,20 +3,23 @@ using HashWarden.Helpers;
 
 namespace HashWarden
 {
-    // TODO Dodaæ mo¿liwoœæ zmiany stringa do bazy
     internal static class Program
     {
         [STAThread]
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 try
                 {
                     using (var context = new HashWardenDbContext())
                     {
-                        DbInitializer.Initialize(context);
+                        if(!context.Users.Any() || !context.Folders.Any() || !context.Passwords.Any())
+                        {
+                            await DbInitializer.Initialize(context);
+                            MessageBox.Show("Zainicjalizowano bazê");
+                        }
                     }
                 }
                 catch (Exception ex)

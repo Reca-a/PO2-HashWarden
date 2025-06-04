@@ -61,23 +61,27 @@ namespace HashWarden.Helpers
 
         public static string CreateTitleFromUrl(string text)
         {
+            if (text.StartsWith("www.")) text = text.Substring(4);
             var title = text.Split(".")[0];
             return char.ToUpper(title[0]) + title.Substring(1);
         }
 
         public static bool PasswordValidation(string password)
         {
-            var passwordRegex = new Regex(@"[!@#$%^&*]");
-
             if (string.IsNullOrWhiteSpace(password) || password.Length < 5)
             {
                 MessageBox.Show("Hasło musi mieć co najmniej 5 znaków.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
-            if (!passwordRegex.IsMatch(password))
+            var hasUpper = password.Any(char.IsUpper);
+            var hasLower = password.Any(char.IsLower);
+            var hasDigit = password.Any(char.IsDigit);
+            var passwordRegex = new Regex(@"[!@#$%^&*]");
+
+            if (!(hasUpper && hasLower && hasDigit && passwordRegex.IsMatch(password)))
             {
-                MessageBox.Show("Hasło musi zawierać przynajmniej jeden znak specjalny (!, @, #, $, %, ^, *).", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Hasło musi zawierać duże i małe litery, cyfry oraz jeden znak specjalny (!, @, #, $, %, ^, *).", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 

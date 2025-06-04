@@ -53,6 +53,9 @@ public partial class HashWardenDbContext : DbContext
 
             entity.HasKey(u => u.Id);
 
+            entity.Property(u => u.Id)
+                  .HasColumnName("id");
+
             entity.Property(u => u.Email)
                   .HasColumnName("email")
                   .HasMaxLength(40)
@@ -72,8 +75,7 @@ public partial class HashWardenDbContext : DbContext
 
             entity.Property(u => u.CreatedAt)
                   .HasColumnName("created_at")
-                  .HasColumnType("date")
-                  .HasDefaultValueSql("null");
+                  .HasColumnType("date");
 
             entity.HasIndex(u => u.Email)
                   .IsUnique()
@@ -86,6 +88,9 @@ public partial class HashWardenDbContext : DbContext
 
             entity.HasKey(f => f.Id);
 
+            entity.Property(f => f.Id)
+                  .HasColumnName("id");
+
             entity.Property(f => f.FolderName)
                   .HasColumnName("folder_name")
                   .HasMaxLength(50)
@@ -94,9 +99,9 @@ public partial class HashWardenDbContext : DbContext
             entity.Property(f => f.UserId)
                   .HasColumnName("user_id");
 
-            entity.HasOne(u => u.User)
-                  .WithMany(f => f.Folders)
-                  .HasForeignKey(u => u.UserId)
+            entity.HasOne(f => f.User)
+                  .WithMany(u => u.Folders)
+                  .HasForeignKey(f => f.UserId)
                   .HasConstraintName("folders_user_id_fkey")
                   .OnDelete(DeleteBehavior.Cascade);
         });
@@ -107,10 +112,12 @@ public partial class HashWardenDbContext : DbContext
 
             entity.HasKey(p => p.Id);
 
+            entity.Property(p => p.Id)
+                  .HasColumnName("id");
+
             entity.Property(p => p.Title)
                   .HasColumnName("title")
-                  .HasMaxLength(40)
-                  .IsRequired();
+                  .HasMaxLength(40);
 
             entity.Property(p => p.UserName)
                   .HasColumnName("user_name")
@@ -138,23 +145,21 @@ public partial class HashWardenDbContext : DbContext
 
             entity.Property(p => p.CreatedAt)
                   .HasColumnName("created_at")
-                  .HasColumnType("date")
-                  .HasDefaultValueSql("null");
+                  .HasColumnType("date");
 
             entity.Property(p => p.UpdatedAt)
                   .HasColumnName("updated_at")
-                  .HasColumnType("date")
-                  .HasDefaultValueSql("null");
+                  .HasColumnType("date");
 
-            entity.HasOne(u => u.User)
-                  .WithMany(p => p.Passwords)
-                  .HasForeignKey(u => u.UserId)
+            entity.HasOne(p => p.User)
+                  .WithMany(u => u.Passwords)
+                  .HasForeignKey(p => p.UserId)
                   .HasConstraintName("passwords_user_id_fkey")
                   .OnDelete(DeleteBehavior.Cascade);
 
-            entity.HasOne(f => f.Folder)
-                  .WithMany(p => p.Passwords)
-                  .HasForeignKey(f => f.FolderId)
+            entity.HasOne(p => p.Folder)
+                  .WithMany(f => f.Passwords)
+                  .HasForeignKey(p => p.FolderId)
                   .HasConstraintName("passwords_folder_id_fkey")
                   .OnDelete(DeleteBehavior.SetNull);
         });

@@ -166,6 +166,7 @@
             ServiceUrlInput.PlaceholderText = "www.adres.pl";
             ServiceUrlInput.Size = new Size(296, 34);
             ServiceUrlInput.TabIndex = 5;
+            ServiceUrlInput.Text = "www.";
             // 
             // DescLabel4
             // 

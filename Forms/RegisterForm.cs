@@ -1,6 +1,7 @@
 ﻿using HashWarden.Data;
 using HashWarden.Helpers;
 using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace HashWarden
 {
@@ -28,7 +29,7 @@ namespace HashWarden
             
         }
 
-        private void RegisterButton_Click(object sender, EventArgs e)
+        private async void RegisterButton_Click(object sender, EventArgs e)
         {
             var email = EmailInput.Text.Trim();
             var password = PasswordInput.Text;
@@ -60,7 +61,7 @@ namespace HashWarden
 
             using (var context = new HashWardenDbContext())
             {
-                if (context.Users.Any(u => u.Email == email))
+                if (await context.Users.AnyAsync(u => u.Email == email))
                 {
                     MessageBox.Show("Użytkownik z tym adresem e-mail już istnieje.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -91,8 +92,8 @@ namespace HashWarden
                     CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow)
                 };
 
-                context.Users.Add(user);
-                context.SaveChanges();
+                await context.Users.AddAsync(user);
+                await context.SaveChangesAsync();
 
                 MessageBox.Show("Rejestracja zakończona sukcesem", "Zarejestrowano", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

@@ -85,7 +85,7 @@ namespace HashWarden.Forms.Dialogs
                 return;
 
             // Walidacja adresu strony
-            var serviceUrlRegex = new Regex(@"^www\.[a-z0-9-]+\.[a-z]{2,24}$");
+            var serviceUrlRegex = new Regex(@"^www\.[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,24}$");
             if (!serviceUrlRegex.IsMatch(serviceUrl))
             {
                 MessageBox.Show("Nieprawidłowy format adresu strony.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);

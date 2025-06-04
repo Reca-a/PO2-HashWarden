@@ -1,43 +1,45 @@
 ﻿using HashWarden.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace HashWarden.Seeders
 {
     public static class FolderSeeder
     {
-        public static void Seed(HashWardenDbContext context)
+        public static async Task Seed(HashWardenDbContext context)
         {
-            if (context.Folders.Any()) return;
+            if (await context.Folders.AnyAsync()) 
+                return;
 
-            var users = context.Users.ToList();
-            if (!users.Any()) return;
+            var users = await context.Users.ToListAsync();
+            if (!users.Any()) 
+                return;
 
 
-            var folders = new List<Folder>
+            var folderNames = new Dictionary<int, string[]>
             {
-                new Folder
-                {
-                    UserId = users[0].Id,
-                    FolderName = "Social media"
-                },
-                new Folder
-                {
-                    UserId = users[0].Id,
-                    FolderName = "Inne"
-                },
-                new Folder
-                {
-                    UserId = users[1].Id,
-                    FolderName = "Osobiste"
-                },
-                new Folder
-                {
-                    UserId = users[1].Id,
-                    FolderName = "Praca"
-                },
+                [0] = ["Social media", "Inne", "Banking", "Shopping", "Praca"],
+                [1] = ["Osobiste", "Praca", "Finanse", "Rozrywka", "Edukacja"],
             };
 
-            context.Folders.AddRange(folders);
-            context.SaveChanges();
+            var folders = new List<Folder>();
+
+            for (int userIndex = 0; userIndex < users.Count; userIndex++)
+            {
+                var userFolderNames = folderNames.GetValueOrDefault((userIndex % 2),
+                    ["Social media", "Inne", "Banking", "Shopping", "Praca"]);
+
+                foreach (var folderName in userFolderNames)
+                {
+                    folders.Add(new Folder
+                    {
+                        UserId = users[userIndex].Id,
+                        FolderName = folderName
+                    });
+                }
+            }
+
+            await context.Folders.AddRangeAsync(folders);
+            await context.SaveChangesAsync();
         }
     }
 }

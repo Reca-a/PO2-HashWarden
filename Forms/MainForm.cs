@@ -1,6 +1,5 @@
 ﻿using HashWarden.Data;
 using HashWarden.Forms.Components;
-using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
 using HashWarden.Forms.Dialogs;
 using HashWarden.Helpers;
@@ -9,16 +8,23 @@ namespace HashWarden
 {
     public partial class MainForm : Form
     {
-        private Size _formSize;
         private Form? _activeSubForm { get; set; }
 
         private Folder? _loadedFolder;
+
+        private string _folderSearchText = "";
+        private string _passwordSearchText = "";
+        private SortOrder _folderSortOrder = SortOrder.Ascending;
+        private SortOrder _passwordSortOrder = SortOrder.Ascending;
 
         public MainForm()
         {
             InitializeComponent();
             LoadFolders();
             Utils.LoggedUserRefreshed += OnLoggedUserRefreshed;
+
+            PasswordListPanel.WrapContents = true;
+            FolderListPanel.WrapContents = false;
         }
 
         private void OnLoggedUserRefreshed(bool isChanged)
@@ -27,7 +33,7 @@ namespace HashWarden
             {
                 LoadFolders();
                 if (_loadedFolder != null)
-                    FolderButtonClicked(this.FolderListPanel, _loadedFolder);
+                    FolderButton_Click(this.FolderListPanel, _loadedFolder);
                 else
                     AllElementsButton_Click(this.FolderListPanel, new EventArgs());
             });
@@ -50,10 +56,34 @@ namespace HashWarden
                     return;
                 }
 
-                foreach (Folder folder in Utils.LoggedUser.Folders)
+                // Filtrowanie i sortowanie folderów
+                var folders = Utils.LoggedUser.Folders.AsEnumerable();
+
+                if (!string.IsNullOrWhiteSpace(_folderSearchText))
+                {
+                    folders = folders.Where(f => f.FolderName.Contains(_folderSearchText, StringComparison.OrdinalIgnoreCase));
+                }
+
+                folders = _folderSortOrder == SortOrder.Ascending
+                    ? folders.OrderBy(f => f.FolderName)
+                    : folders.OrderByDescending(f => f.FolderName);
+
+                var folderList = folders.ToList();
+
+                if (!folderList.Any())
+                {
+                    Label noResultLabel = new Label();
+                    noResultLabel.Text = "Brak wyników wyszukiwania";
+                    noResultLabel.TextAlign = ContentAlignment.MiddleCenter;
+                    noResultLabel.Dock = DockStyle.Fill;
+                    FolderListPanel.Controls.Add(noResultLabel);
+                    return;
+                }
+
+                foreach (Folder folder in folderList)
                 {
                     var folderButton = new FolderButtonComponent(folder);
-                    folderButton.FolderClicked += FolderButtonClicked;
+                    folderButton.FolderClicked += FolderButton_Click;
                     FolderListPanel.Controls.Add(folderButton);
                 }
             }
@@ -65,7 +95,7 @@ namespace HashWarden
         }
 
         // Obsługa naciśnięcia na przycisk folderu
-        private async void FolderButtonClicked(object sender, Folder folder)
+        private async void FolderButton_Click(object sender, Folder folder)
         {
             PasswordListPanel.Controls.Clear();
 
@@ -88,19 +118,69 @@ namespace HashWarden
                     return;
                 }
 
-                foreach (var password in loadedFolder.Passwords)
-                {
-                    var siteButton = new SiteButtonComponent(password);
-                    siteButton.SiteClicked += SiteButtonClicked;
-                    PasswordListPanel.Controls.Add(siteButton);
-                }
-
+                LoadPasswordsForFolder(loadedFolder.Passwords.ToList());
                 _loadedFolder = loadedFolder;
             }
         }
 
+        // Ladowanie haseł
+        private void LoadPasswordsForFolder(List<Password> passwords)
+        {
+            PasswordListPanel.Controls.Clear();
+
+            if (!passwords.Any())
+            {
+                PasswordListPanel.Controls.Add(new Label
+                {
+                    Text = "Brak haseł",
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill,
+                    Height = 100,
+                    AutoSize = true
+                });
+                return;
+            }
+
+            // Filtrowanie i sortowanie haseł
+            var filteredPasswords = passwords.AsEnumerable();
+
+            if (!string.IsNullOrWhiteSpace(_passwordSearchText))
+            {
+                filteredPasswords = filteredPasswords.Where(p =>
+                    p.Title.Contains(_passwordSearchText, StringComparison.OrdinalIgnoreCase) ||
+                    (!string.IsNullOrEmpty(p.UserName) && p.UserName.Contains(_passwordSearchText, StringComparison.OrdinalIgnoreCase)) ||
+                    (!string.IsNullOrEmpty(p.ServiceUrl) && p.ServiceUrl.Contains(_passwordSearchText, StringComparison.OrdinalIgnoreCase)));
+            }
+
+            filteredPasswords = _passwordSortOrder == SortOrder.Ascending
+                ? filteredPasswords.OrderBy(p => p.Title)
+                : filteredPasswords.OrderByDescending(p => p.Title);
+
+            var passwordList = filteredPasswords.ToList();
+
+            if (!passwordList.Any())
+            {
+                PasswordListPanel.Controls.Add(new Label
+                {
+                    Text = "Brak wyników wyszukiwania",
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill,
+                    Height = 100,
+                    AutoSize = true
+                });
+                return;
+            }
+
+            foreach (var password in passwordList)
+            {
+                var siteButton = new SiteButtonComponent(password);
+                siteButton.SiteClicked += SiteButton_Click;
+                PasswordListPanel.Controls.Add(siteButton);
+            }
+        }
+
         // Wyświetlenie zapisanego rekordu
-        private async void SiteButtonClicked(object sender, Password password)
+        private async void SiteButton_Click(object sender, Password password)
         {
             if (password == null)
             {
@@ -136,28 +216,8 @@ namespace HashWarden
         // Wyświetlenie wszystkich haseł na koncie
         private void AllElementsButton_Click(object sender, EventArgs e)
         {
-            PasswordListPanel.Controls.Clear();
-
-            if (!Utils.LoggedUser.Passwords.Any())
-            {
-                PasswordListPanel.Controls.Add(new Label
-                {
-                    Text = "Brak haseł na koncie",
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    Dock = DockStyle.Fill,
-                    Height = 100,
-                    AutoSize = true
-                });
-                return;
-            }
-
-            foreach (var password in Utils.LoggedUser.Passwords)
-            {
-                var siteButton = new SiteButtonComponent(password);
-                siteButton.SiteClicked += SiteButtonClicked;
-                PasswordListPanel.Controls.Add(siteButton);
-            }
             _loadedFolder = null;
+            LoadPasswordsForFolder(Utils.LoggedUser.Passwords.ToList());
         }
 
         //Otwieranie podformularzy w aplikacji
@@ -231,6 +291,125 @@ namespace HashWarden
                 MessageBox.Show("Hasło dodane");
                 await Utils.ReloadData();
             }
+        }
+
+        // Obsługa wyszukiwania folderów
+        private void FolderSearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                SearchFolders(FolderSearchTextBox.Text);
+            }
+        }
+
+        private void FolderSearchButton_Click(object sender, EventArgs e)
+        {
+            SearchFolders(FolderSearchTextBox.Text);
+        }
+
+        private void FolderClearSearchButton_Click(object sender, EventArgs e)
+        {
+            FolderSearchTextBox.Clear();
+            ClearFolderSearch();
+        }
+
+        private void FolderSortButton_Click(object sender, EventArgs e)
+        {
+            ToggleFolderSort();
+        }
+
+        private void PasswordSearchButton_Click(object sender, EventArgs e)
+        {
+            SearchPasswords(PasswordSearchTextBox.Text);
+        }
+
+        private void PasswordClearSearchButton_Click(object sender, EventArgs e)
+        {
+            PasswordSearchTextBox.Clear();
+            ClearPasswordSearch();
+        }
+
+        private void PasswordSortButton_Click(object sender, EventArgs e)
+        {
+            TogglePasswordSort();
+        }
+
+        private void PasswordSearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                SearchPasswords(PasswordSearchTextBox.Text);
+            }
+        }
+
+        // Metody do wyszukiwania folderów
+        public void SearchFolders(string searchText)
+        {
+            _folderSearchText = searchText;
+            LoadFolders();
+        }
+
+        public void ClearFolderSearch()
+        {
+            _folderSearchText = "";
+            LoadFolders();
+        }
+
+        public void ToggleFolderSort()
+        {
+            _folderSortOrder = _folderSortOrder == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
+            LoadFolders();
+        }
+
+        // Metody do wyszukiwania haseł
+        public void SearchPasswords(string searchText)
+        {
+            _passwordSearchText = searchText;
+            if (_loadedFolder != null)
+            {
+                LoadPasswordsForFolder(_loadedFolder.Passwords.ToList());
+            }
+            else
+            {
+                LoadPasswordsForFolder(Utils.LoggedUser.Passwords.ToList());
+            }
+        }
+
+        public void ClearPasswordSearch()
+        {
+            _passwordSearchText = "";
+            if (_loadedFolder != null)
+            {
+                LoadPasswordsForFolder(_loadedFolder.Passwords.ToList());
+            }
+            else
+            {
+                LoadPasswordsForFolder(Utils.LoggedUser.Passwords.ToList());
+            }
+        }
+
+        public void TogglePasswordSort()
+        {
+            _passwordSortOrder = _passwordSortOrder == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
+            if (_loadedFolder != null)
+            {
+                LoadPasswordsForFolder(_loadedFolder.Passwords.ToList());
+            }
+            else
+            {
+                LoadPasswordsForFolder(Utils.LoggedUser.Passwords.ToList());
+            }
+        }
+
+        // Enum dla kierunku sortowania
+        public enum SortOrder
+        {
+            Ascending,
+            Descending
         }
     }
 }

@@ -1,36 +1,44 @@
 ﻿using HashWarden.Data;
 using HashWarden.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace HashWarden.Seeders
 {
     public static class PasswordSeeder
     {
-        public static void Seed(HashWardenDbContext context)
+        public static async Task Seed(HashWardenDbContext context)
         {
-            if (context.Passwords.Any()) return;
+            if (await context.Passwords.AnyAsync()) 
+                return;
 
-            var users = context.Users.ToList();
-            if (!users.Any() || users.Count < 2) return;
+            var users = await context.Users.ToListAsync();
+            if (!users.Any() || users.Count < 2) 
+                return;
 
-            var folders = context.Folders.ToList();
+            var folders = await context.Folders.ToListAsync();
 
-            string[,] sites = { 
-                { "www.facebook.com", "www.google.com", "www.instagram.com", "www.ur.edu.pl" },
-                { "www.google.com", "www.github.com", "www.facebook.com", "www.company.net" }
+            var sites = new Dictionary<int, string[]>
+            {
+                [0] = ["www.facebook.com", "www.google.com", "www.instagram.com", "www.ur.edu.pl", "www.github.com", "www.netflix.com", "www.spotify.com", "www.amazon.com"],
+                [1] = ["www.google.com", "www.github.com", "www.facebook.com", "www.company.net", "www.linkedin.com", "www.stackoverflow.com", "www.youtube.com", "www.twitter.com"]
             };
 
-            string[] masterPassword = { "123", "TrudneHaslo" };
+            string[] masterPassword = { "123", "zaq1@WSX" };
 
             var passwords = new List<Password>();
 
             Random random = new Random();
 
             using (var aes = System.Security.Cryptography.Aes.Create()) {
-                for (int userIndex = 0; userIndex < sites.GetLength(0); userIndex++)
+                for (int userIndex = 0; userIndex < users.Count; userIndex++)
                 {
                     var userFolders = folders.Where(f => f.UserId == users[userIndex].Id).ToList();
 
-                    for (int siteIndex = 0; siteIndex < sites.GetLength(1); siteIndex++)
+                    var siteNames = sites.GetValueOrDefault((userIndex % 2),
+                        ["www.facebook.com", "www.google.com", "www.instagram.com", "www.ur.edu.pl", 
+                        "www.github.com", "www.netflix.com", "www.spotify.com", "www.amazon.com"]).ToList();
+
+                    foreach (var site in siteNames)
                     {
                         var randomDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(random.Next(-25, 0)));
 
@@ -45,10 +53,10 @@ namespace HashWarden.Seeders
                         var password = new Password
                         {
                             UserId = users[userIndex].Id,
-                            FolderId = userFolders[siteIndex % 2].Id,
-                            Title = Utils.CreateTitleFromUrl(sites[userIndex, siteIndex]),
+                            FolderId = userFolders[siteNames.IndexOf(site) % userFolders.Count].Id,
+                            Title = Utils.CreateTitleFromUrl(site),
                             UserName = users[userIndex].Email,
-                            ServiceUrl = sites[userIndex, siteIndex],
+                            ServiceUrl = site,
                             EncryptedPassword = encrypted,
                             Iv = iv,
                             CreatedAt = randomDate,
@@ -60,8 +68,8 @@ namespace HashWarden.Seeders
                 }
             }
 
-            context.Passwords.AddRange(passwords);
-            context.SaveChanges();
+            await context.Passwords.AddRangeAsync(passwords);
+            await context.SaveChangesAsync();
         }
     }
 }
