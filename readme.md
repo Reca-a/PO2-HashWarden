@@ -206,6 +206,48 @@ Lub w konsoli Packet Manager:
 1. Wyloguj się i zaloguj ponownie
 2. Sprawdź integralność danych w bazie
 
+## Przypadki brzegowe
+
+### Logowanie
+
+* **Logowanie z nieistniejącym emailem:** Aplikacja wyśiwetla błąd informujący o nieprawidłowym polu email lub hasła (bez rozróżnienia dla bezpieczeństwa)
+* **Logowanie z pustym polem email lub hasła:** Aplikacja wyświetla błąd proszący o uzupełnienie pól
+* **Przekroczenie długości hasła lub emaila (poprzez ominięcie ograniczeń frontendowych):** Aplikacja wyświetla stosowny błąd o przekroczeniu długości pola
+* **Użycie nieprawidłowego formatu email:** Aplikacja wyświetla stosowny błąd
+
+### Rejestracja
+
+* **Rejestracja z istniejącym adresem email:** Aplikacja wyświetla błąd o istnieniu takiego emaila w bazie
+* **Użycie nieprawidłowego formatu email:** Aplikacja wyświetla stosowny błąd
+* **Za krótkie hasło:** Aplikacja wyświetla błąd o za krótkim haśle
+* **Hasło niespełniające wymagań(>5 znaków, przynajmniej jedna wielka litera, przynajmniej jeden znak specjalny):** Aplikacja wyświetla błąd o złym formacie hasła
+* **Niezgadzajace się hasła:** Aplikacja informuje o niezgodności hasła z powtórzonym hasłem 
+
+### Dodawanie i edycja haseł
+
+* **Puste pola:** Aplikacja wyświetla błąd o braku danych w polach tekstowych
+* **Zbyt długi tytuł, adres strony, nazwa użytkownika, hasło:** Aplikacja wyświetla stosowny błąd
+* **Dodawanie haseł o tych samych wartościach:** Weryfikacja duplikatu na podstawie klucza (nazwa użytkownika + adres strony), jeśli powtórzenie, wyświetlenie stosownego błędu
+* **Dodawanie hasła na koncie użytkownika bez folderów:** Brak konfliktu
+
+### Foldery
+
+* **Pusta nazwa:** Aplikacja wyświetla błąd o braku podanej nazwy
+* **Zbyt długa nazwa:** Aplikacja wyświetla stosowny błąd
+* **Usunięcie folderu zawierającego hasła:** Folder zostaje usunięty razem z zawartymi w nim hasłami
+* **Stworzenie folderu o takiej samej nazwie:** Błąd o duplikacie
+
+### Import / eksport
+
+* **Import pustego pliku:** Wyświetlenie błędu o pustym pliu
+* **Import pliku z błędnym formatem:** Wyświetlenie błędu o braku pliku lub niepoprawnym formacie
+
+### Inne
+
+* **Brak klucza sesji:** Program przy próbie podejrzenia wrażliwych danych zapyta o wpisanie hasła głównego
+* **Zamknięcie aplikacji bez wylogowania (co się dzieje z kluczem sesji):** Zostaje wywołana funkcja ClearKey() czyszcząca klucz sesji
+
+
 ## Widoki
 
 ### Logowanie

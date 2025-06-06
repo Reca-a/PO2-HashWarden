@@ -36,15 +36,6 @@ public partial class HashWardenDbContext : DbContext
         }
     }
 
-    public void RefreshConnectionString()
-    {
-        var connectionString = AppConfiguration.GetConnectionString();
-        if (!string.IsNullOrWhiteSpace(connectionString))
-        {
-            this.Database.SetConnectionString(connectionString);
-        }
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>(entity =>

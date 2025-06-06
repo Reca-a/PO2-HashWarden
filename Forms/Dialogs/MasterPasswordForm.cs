@@ -20,6 +20,11 @@ namespace HashWarden.Forms.Dialogs
                 SessionKeyManager.SetKey(key, SessionKeyManager.GetAppliedTimeout());
                 this.DialogResult = DialogResult.OK;
             }
+            else
+            {
+                MessageBox.Show("Nieprawidłowe hasło.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
         }
 
         public string GetPassword()

@@ -9,6 +9,8 @@ namespace HashWarden
         static void Main()
         {
             ApplicationConfiguration.Initialize();
+            Application.ThreadExit += ExitHandle;
+
             Task.Run(async () =>
             {
                 try
@@ -33,6 +35,12 @@ namespace HashWarden
             {
                 Application.Run(new MainForm());
             }
+
+        }
+
+        private static void ExitHandle(object? sender, EventArgs e)
+        {
+            SessionKeyManager.ClearKey();
         }
     }
 }

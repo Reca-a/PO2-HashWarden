@@ -38,23 +38,25 @@ namespace HashWarden.Helpers
                 var user = await context.Users
                     .Include(u => u.Folders)
                     .Include(u => u.Passwords)
-                    .FirstOrDefaultAsync(u => u.Id == LoggedUser.Id);
+                    .FirstOrDefaultAsync(u => u.Email == LoggedUser.Email);
 
                 if (user != null)
                     LoggedUser = user;
+                else
+                    Application.Restart();
             }
         }
 
         public static bool VerifyMasterPassword(string password)
         {
+            if (string.IsNullOrWhiteSpace(password) || password.Length > 40)
+                return false;
+
             byte[] key = EncryptionProvider.GenerateKeyFromPassword(password, LoggedUser.Salt);
             byte[] enteredHash = EncryptionProvider.Encrypt(password, key, LoggedUser.Iv);
 
             if (!enteredHash.SequenceEqual(LoggedUser.MasterHash))
-            {
-                MessageBox.Show("Nieprawidłowe hasło.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
-            }
 
             return true;
         }

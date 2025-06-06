@@ -28,14 +28,16 @@ namespace HashWarden
             // Walidacja emaila
             if (string.IsNullOrWhiteSpace(email) || email.Length > 40)
             {
-                MessageBox.Show("E-mail nie może być pusty i musi mieć mniej niż 40 znaków.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("E-mail nie może być pusty i musi mieć mniej niż 40 znaków.", "Błąd", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error
+                );
                 return;
             }
 
             var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
             if (!emailRegex.IsMatch(email))
             {
-                MessageBox.Show("Nieprawidłowy format adresu e-mail.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Nieprawidłowy format adresu e-mail.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -45,7 +47,7 @@ namespace HashWarden
 
             if (password != passwordRepeat)
             {
-                MessageBox.Show("Wpisane hasła muszą się zgadzać", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Wpisane hasła muszą się zgadzać", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -53,7 +55,7 @@ namespace HashWarden
             {
                 if (await context.Users.AnyAsync(u => u.Email == email))
                 {
-                    MessageBox.Show("Użytkownik z tym adresem e-mail już istnieje.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Użytkownik z tym adresem e-mail już istnieje.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 

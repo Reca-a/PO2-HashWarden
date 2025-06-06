@@ -1,6 +1,7 @@
 ﻿using HashWarden.Data;
 using HashWarden.Helpers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic.ApplicationServices;
 using System.Text.RegularExpressions;
 
 namespace HashWarden.Forms.Dialogs
@@ -69,14 +70,16 @@ namespace HashWarden.Forms.Dialogs
             // Walidacja tytułu (nieobowiązkowy)
             if (title.Length > 40)
             {
-                MessageBox.Show("Tytuł musi mieć mniej niż 40 znaków.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Tytuł musi mieć mniej niż 40 znaków.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             // Walidacja nazwy użytkownika
             if (string.IsNullOrWhiteSpace(username) || username.Length > 40)
             {
-                MessageBox.Show("Nazwa użytkownika nie może być pusta i musi mieć mniej niż 40 znaków.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Nazwa użytkownika nie może być pusta i musi mieć mniej niż 40 znaków.", "Błąd", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error
+                );
                 return;
             }
 
@@ -85,11 +88,34 @@ namespace HashWarden.Forms.Dialogs
                 return;
 
             // Walidacja adresu strony
-            var serviceUrlRegex = new Regex(@"^www\.[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,24}$");
-            if (!serviceUrlRegex.IsMatch(serviceUrl))
+            var serviceUrlRegex = new Regex(@"^www\.[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,12}$");
+            if (!serviceUrlRegex.IsMatch(serviceUrl) || serviceUrl.Length > 40)
             {
-                MessageBox.Show("Nieprawidłowy format adresu strony.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Nieprawidłowy format adresu strony.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
+            }
+
+            using (var context = new HashWardenDbContext())
+            {
+                var existingPasswords = await context.Passwords
+                        .Where(p => p.UserId == Utils.LoggedUser.Id)
+                        .ToListAsync();
+                var existingPasswordSet = new HashSet<string>(
+                    existingPasswords.Select(p => $"{p.UserName}|{p.ServiceUrl}")
+                );
+
+                var inputKey = $"{username}|{serviceUrl}";
+
+                if (existingPasswordSet.Contains(inputKey))
+                {
+                    var result = MessageBox.Show(
+                        $"Hasło dla użytkownika {username} na stronie {serviceUrl} już istnieje",
+                        "Błąd",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                    return;
+                }
             }
 
             byte[] salt = Utils.LoggedUser.Salt;
@@ -155,7 +181,9 @@ namespace HashWarden.Forms.Dialogs
             }
             if(!_isEditing)
                 MessageBox.Show("Dodano rekord", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            
+            else
+                MessageBox.Show("Hasło zaktualizowane", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             this.DialogResult = DialogResult.OK;
         }
 

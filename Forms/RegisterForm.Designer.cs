@@ -171,6 +171,7 @@
             PasswordRepeatInput.ImeMode = ImeMode.NoControl;
             PasswordRepeatInput.Location = new Point(0, 188);
             PasswordRepeatInput.Name = "PasswordRepeatInput";
+            PasswordRepeatInput.PlaceholderText = "Powtórz hasło";
             PasswordRepeatInput.Size = new Size(296, 34);
             PasswordRepeatInput.TabIndex = 2;
             PasswordRepeatInput.UseSystemPasswordChar = true;
@@ -195,6 +196,7 @@
             PasswordInput.ImeMode = ImeMode.NoControl;
             PasswordInput.Location = new Point(0, 114);
             PasswordInput.Name = "PasswordInput";
+            PasswordInput.PlaceholderText = "Hasło";
             PasswordInput.Size = new Size(296, 34);
             PasswordInput.TabIndex = 1;
             PasswordInput.UseSystemPasswordChar = true;
@@ -219,6 +221,7 @@
             EmailInput.ImeMode = ImeMode.NoControl;
             EmailInput.Location = new Point(0, 40);
             EmailInput.Name = "EmailInput";
+            EmailInput.PlaceholderText = "nazwa@email.com";
             EmailInput.Size = new Size(296, 34);
             EmailInput.TabIndex = 0;
             EmailInput.KeyDown += Input_KeyDown;
@@ -296,7 +299,6 @@
             MinimizeBox = false;
             MinimumSize = new Size(450, 698);
             Name = "RegisterForm";
-            ShowInTaskbar = false;
             Text = "Rejestracja";
             panel1.ResumeLayout(false);
             TableLayoutPanel.ResumeLayout(false);

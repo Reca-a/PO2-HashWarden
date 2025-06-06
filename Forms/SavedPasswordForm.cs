@@ -66,7 +66,6 @@ namespace HashWarden
             var addPasswordDialog = new AddPasswordForm(Utils.LoggedUser.Id, true, _savedPassword);
             if (addPasswordDialog.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show("Hasło zaktualizowane");
                 await Utils.ReloadData();
                 try
                 {
@@ -84,12 +83,7 @@ namespace HashWarden
                 }
                 catch(Exception ex)
                 {
-                    MessageBox.Show(
-                        "Nie udało się wczytać wpisu",
-                        "Błąd",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                    );
+                    MessageBox.Show("Nie udało się wczytać wpisu", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.Close();
                 }
                 
@@ -112,17 +106,24 @@ namespace HashWarden
                     using (var context = new HashWardenDbContext())
                     {
                         context.Passwords.Remove(_savedPassword);
-                        context.SaveChangesAsync();
+                        await context.SaveChangesAsync();
                     }
 
                     MessageBox.Show("Usunięto wpis.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     await Utils.ReloadData();
+                    this.Close();
                 }
             }
+            // Wyłapanie błędu sterownika
             catch(Npgsql.NpgsqlException ex)
             {
                 MessageBox.Show("Usunięto wpis.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 await Utils.ReloadData();
+                this.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Błąd przy usuwaniu wpisu.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

@@ -9,6 +9,8 @@ namespace HashWarden.Helpers
 
         private static IConfigurationRoot _configuration;
 
+        private static string _path;
+
         static AppConfiguration()
         {
             Load();
@@ -19,23 +21,24 @@ namespace HashWarden.Helpers
             try
             {
                 string baseDirectory = AppContext.BaseDirectory;
-                string configPath = Path.Combine(baseDirectory, "appsettings.json");
+                string projectDirectory = Path.GetFullPath(Path.Combine(baseDirectory, "..", "..", ".."));
+                string configPath = Path.Combine(projectDirectory, "appsettings.json");
 
                 if (!File.Exists(configPath))
                 {
-                    string projectDirectory = Path.GetFullPath(Path.Combine(baseDirectory, "..", "..", ".."));
-                    configPath = Path.Combine(projectDirectory, "appsettings.json");
+                    configPath = Path.Combine(baseDirectory, "appsettings.json");
 
                     if (!File.Exists(configPath))
                     {
                         throw new FileNotFoundException($"Nie znaleziono pliku appsettings.json w ścieżkach:\n" +
-                            $"- {Path.Combine(baseDirectory, "appsettings.json")}\n" +
+                            $"- {Path.Combine(projectDirectory, "appsettings.json")}\n" +
                             $"- {configPath}");
                     }
                 }
                 _configuration = new ConfigurationBuilder()
                     .AddJsonFile(configPath, optional: false, reloadOnChange: true)
                     .Build();
+                _path = configPath;
             }
             catch (Exception ex)
             {
@@ -51,7 +54,7 @@ namespace HashWarden.Helpers
 
         public static void SetConnectionString(string newConnectionString)
         {
-            var json = File.ReadAllText(_configFile);
+            var json = File.ReadAllText(_path);
 
             using var doc = JsonDocument.Parse(json);
             var root = doc.RootElement.Clone();
@@ -76,7 +79,7 @@ namespace HashWarden.Helpers
             var options = new JsonSerializerOptions { WriteIndented = true };
             string updatedJson = JsonSerializer.Serialize(newJson, options);
 
-            File.WriteAllText(_configFile, updatedJson);
+            File.WriteAllText(_path, updatedJson);
             Load();
         }
     }

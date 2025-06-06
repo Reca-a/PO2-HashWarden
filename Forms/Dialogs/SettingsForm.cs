@@ -116,9 +116,12 @@ namespace HashWarden.Forms.Dialogs
                 {
                     var filePath = AskUserForImportPath();
                     if (filePath == null || !File.Exists(filePath))
-                        throw new Exception("Nie wybrano pliku lub plik nie istnieje.");
+                        throw new Exception("Plik nie istnieje lub ma niepoprawny format.");
 
                     var json = await File.ReadAllTextAsync(filePath);
+                    if(!json.Any())
+                        throw new Exception("Plik jest pusty.");
+
                     var exportModel = JsonSerializer.Deserialize<ExportModel>(json);
                     if (exportModel == null)
                         throw new Exception("Nie udało się odczytać pliku.");

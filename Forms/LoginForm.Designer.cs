@@ -283,7 +283,6 @@
             MinimizeBox = false;
             MinimumSize = new Size(450, 700);
             Name = "LoginForm";
-            ShowInTaskbar = false;
             Text = "LoginForm";
             panel1.ResumeLayout(false);
             LayoutPanel.ResumeLayout(false);

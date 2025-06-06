@@ -422,7 +422,7 @@
             PasswordSearchTextBox.ForeColor = Color.Gainsboro;
             PasswordSearchTextBox.Location = new Point(0, 0);
             PasswordSearchTextBox.Margin = new Padding(0);
-            PasswordSearchTextBox.MaxLength = 50;
+            PasswordSearchTextBox.MaxLength = 40;
             PasswordSearchTextBox.Name = "PasswordSearchTextBox";
             PasswordSearchTextBox.PlaceholderText = "Szukaj wpisu...";
             PasswordSearchTextBox.Size = new Size(189, 28);

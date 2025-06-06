@@ -3,6 +3,8 @@ using HashWarden.Forms.Components;
 using Microsoft.EntityFrameworkCore;
 using HashWarden.Forms.Dialogs;
 using HashWarden.Helpers;
+using System.Text.RegularExpressions;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace HashWarden
 {
@@ -216,6 +218,7 @@ namespace HashWarden
         // Wyświetlenie wszystkich haseł na koncie
         private void AllElementsButton_Click(object sender, EventArgs e)
         {
+            PasswordListPanel.Controls.Clear();
             _loadedFolder = null;
             LoadPasswordsForFolder(Utils.LoggedUser.Passwords.ToList());
         }
@@ -277,7 +280,7 @@ namespace HashWarden
                     await context.SaveChangesAsync();
                 }
 
-                MessageBox.Show("Folder dodany");
+                MessageBox.Show("Folder dodany", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 await Utils.ReloadData();
             }
         }
@@ -288,7 +291,6 @@ namespace HashWarden
             var addPasswordDialog = new AddPasswordForm(Utils.LoggedUser.Id, false);
             if (addPasswordDialog.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show("Hasło dodane");
                 await Utils.ReloadData();
             }
         }
@@ -328,7 +330,15 @@ namespace HashWarden
         private void PasswordClearSearchButton_Click(object sender, EventArgs e)
         {
             PasswordSearchTextBox.Clear();
-            ClearPasswordSearch();
+            _passwordSearchText = "";
+            if (_loadedFolder != null)
+            {
+                LoadPasswordsForFolder(_loadedFolder.Passwords.ToList());
+            }
+            else
+            {
+                LoadPasswordsForFolder(Utils.LoggedUser.Passwords.ToList());
+            }
         }
 
         private void PasswordSortButton_Click(object sender, EventArgs e)
@@ -349,7 +359,18 @@ namespace HashWarden
         // Metody do wyszukiwania folderów
         public void SearchFolders(string searchText)
         {
+            searchText = searchText.Trim();
+
+            var folderSearchRegex = new Regex(@"^[a-zA-Z0-9 ]{1,49}$");
+            if (!folderSearchRegex.IsMatch(searchText))
+            {
+                MessageBox.Show("Wpisz poprawną nazwę folderu", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             _folderSearchText = searchText;
+            SearchFolders(_folderSearchText);
+
             LoadFolders();
         }
 
@@ -368,20 +389,16 @@ namespace HashWarden
         // Metody do wyszukiwania haseł
         public void SearchPasswords(string searchText)
         {
-            _passwordSearchText = searchText;
-            if (_loadedFolder != null)
-            {
-                LoadPasswordsForFolder(_loadedFolder.Passwords.ToList());
-            }
-            else
-            {
-                LoadPasswordsForFolder(Utils.LoggedUser.Passwords.ToList());
-            }
-        }
+            searchText = searchText.Trim();
 
-        public void ClearPasswordSearch()
-        {
-            _passwordSearchText = "";
+            if (string.IsNullOrWhiteSpace(searchText) || searchText.Length > 40)
+            {
+                MessageBox.Show("Wpisz tytuł wpisu, nazwę użytkownika lub nazwę strony", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            _passwordSearchText = searchText;
+
             if (_loadedFolder != null)
             {
                 LoadPasswordsForFolder(_loadedFolder.Passwords.ToList());

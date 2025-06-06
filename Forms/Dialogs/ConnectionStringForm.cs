@@ -35,6 +35,7 @@ namespace HashWarden.Forms.Dialogs
                 AppConfiguration.SetConnectionString(newConn);
 
                 MessageBox.Show("Połączenie zostało zmienione i jest prawidłowe.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                await Utils.ReloadData();
                 this.Close();
             }
             catch (Exception ex)

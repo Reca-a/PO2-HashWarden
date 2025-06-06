@@ -24,14 +24,16 @@ namespace HashWarden.Forms.Dialogs
             var nameRegex = new Regex(@"^[a-zA-Z0-9 ]{1,49}$");
             if (!nameRegex.IsMatch(folderName))
             {
-                MessageBox.Show("Nieprawidłowa nazwa folderu. Użyj liter (A-Z), liczb (0-9) oraz spacji", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Nieprawidłowa nazwa folderu. Użyj liter (A-Z), liczb (0-9) oraz spacji", "Błąd",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error
+                );
                 return;
             }
             using (var context = new HashWardenDbContext())
             {
                 if (await context.Folders.AnyAsync(f => f.FolderName == folderName && f.UserId == _loggedUserId))
                 {
-                    MessageBox.Show("Folder o takiej nazwie już istnieje", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Folder o takiej nazwie już istnieje", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }

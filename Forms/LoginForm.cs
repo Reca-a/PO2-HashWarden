@@ -22,7 +22,7 @@ namespace HashWarden
             var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
             if (!emailRegex.IsMatch(email))
             {
-                MessageBox.Show("Nieprawidłowy format adresu email.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Nieprawidłowy format adresu email.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -35,7 +35,7 @@ namespace HashWarden
 
                 if (user == null)
                 {
-                    MessageBox.Show("Nieprawidłowy email lub hasło.", "Błąd logowania", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Nieprawidłowy email lub hasło.", "Błąd logowania", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -51,7 +51,7 @@ namespace HashWarden
                 }
                 else
                 {
-                    MessageBox.Show("Nieprawidłowy email lub hasło.", "Błąd logowania", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Nieprawidłowy email lub hasło.", "Błąd logowania", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
