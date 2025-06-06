@@ -23,19 +23,19 @@ Bezpieczeństwo danych użytkownika jest kluczowym aspektem aplikacji HashWarden
 
 **Algorytm: Argon2**  
 
-Proces: Hasło główne użytkownika jest haszowane przy użyciu algorytmu Argon2 z unikalną solą dla każdego użytkownika. Hasz i sól są przechowywane w bazie danych.
+Hasło główne użytkownika jest haszowane przy użyciu algorytmu Argon2 z unikalną solą dla każdego użytkownika. Hasz i sól są przechowywane w bazie danych.
 
 ### Szyfrowanie Haseł
 
 **Algorytm: AES (Advanced Encryption Standard)**  
 
-Proces: Hasła użytkownika są szyfrowane przy użyciu algorytmu AES z unikalnym wektorem inicjalizacyjnym (IV) dla każdego hasła. Klucz szyfrowania jest pochodną hasła głównego użytkownika.
+Hasła użytkownika są szyfrowane przy użyciu algorytmu AES z unikalnym wektorem inicjalizacyjnym (IV) dla każdego hasła. Klucz szyfrowania jest pochodną hasła głównego użytkownika.
 
 ### Zarządzanie Kluczem Sesji
 
 **Komponent: SessionKeyManager**  
 
-Funkcja: Po pomyślnym uwierzytelnieniu, aplikacja generuje i przechowuje klucz sesji w pamięci, umożliwiając szyfrowanie i deszyfrowanie haseł podczas sesji użytkownika. Klucz sesji jest usuwany z pamięci po wylogowaniu lub zamknięciu aplikacji.
+Po pomyślnym uwierzytelnieniu, aplikacja generuje i przechowuje klucz sesji w pamięci, umożliwiając szyfrowanie i deszyfrowanie haseł podczas sesji użytkownika. Zastosowany jest timeout w przypadku bezczynności(domyślnie 10 minut) po którym klucz sesji jest usuwany i należy ponownie podać hasło główne. Klucz sesji jest usuwany z pamięci po wylogowaniu lub zamknięciu aplikacji.
 
 ## Technologie
 
@@ -53,34 +53,39 @@ Funkcja: Po pomyślnym uwierzytelnieniu, aplikacja generuje i przechowuje klucz 
 
 Baza danych składa się z trzech głównych tabel: `Users`, `Folders` i `Passwords`.
 
-### Tabela Users
+### Tabela users
 
-| Atrybut      | Typ danych    | Opis                                       |
-| ------------ | ------------- | ------------------------------------------ |
-| `Id`         | INT (serial)  | Klucz główny                               |
-| `Email`      | string        | Adres e-mail użytkownika                   |
-| `MasterHash` | string        | Hasz hasła głównego (Argon2)               |
-| `Salt`       | string        | Unikalna sól używana do haszowania         |
-| `Iv`         | string        | Wektor inicjalizacyjny dla szyfrowania AES |
+| Atrybut       | Typ danych    | Opis                                       |
+| ------------- | ------------- | ------------------------------------------ |
+| `id`          | INT (serial)  | Klucz główny                               |
+| `email`       | VARCHAR(40)   | Adres e-mail użytkownika                   |
+| `master_hash` | BYTE[]        | Hasz hasła głównego (Argon2)               |
+| `salt`        | BYTE[]        | Unikalna sól używana do haszowania         |
+| `iv`          | BYTE[]        | Wektor inicjalizacyjny dla szyfrowania AES |
+| `created_at`  | DATE          | Data stworzenia użytkownia                 |
 
-### Tabela Folders
+### Tabela folders
 
-| Atrybut      | Typ danych   | Opis                                           |
-| ------------ | ------------ | ---------------------------------------------- |
-| `Id`         | INT (serial) | Klucz główny                                   |
-| `FolderName` | string       | Nazwa folderu                                  |
-| `UserId`     | INT          | Klucz obcy → Users(Id)                         |
+| Atrybut       | Typ danych   | Opis                                           |
+| ------------- | ------------ | ---------------------------------------------- |
+| `id`          | INT (serial) | Klucz główny                                   |
+| `user_id`     | INT          | Klucz obcy → Users(Id)                         |
+| `folder_name` | VARCHAR(50)  | Nazwa folderu                                  |
 
-### Tabela Passwords
+### Tabela passwords
 
-| Atrybut             | Typ danych    | Opis                                           |
-| ------------------- | ------------- | ---------------------------------------------- |
-| `Id`                | INT (serial)  | Klucz główny                                   |
-| `Title`             | string        | Tytuł lub opis hasła                           |
-| `EncryptedPassword` | string        | Zaszyfrowane hasło                             |
-| `Iv`                | string        | Wektor inicjalizacyjny dla szyfrowania AES     |
-| `UserId`            | INT           | Klucz obcy → Users(Id)                         |
-| `FolderId`          | INT           | Klucz obcy → Folders(Id)                       |
+| Atrybut              | Typ danych    | Opis                                           |
+| -------------------- | ------------- | ---------------------------------------------- |
+| `id`                 | INT (serial)  | Klucz główny                                   |
+| `user_id`            | INT           | Klucz obcy → Users(Id)                         |
+| `folder_id`          | INT           | Klucz obcy → Folders(Id)                       |
+| `title`              | VARCHAR(40)   | Tytuł hasła                                    |
+| `user_name`          | VARCHAR(40)   | Nazwa lub email użytkownika                    |
+| `service_url`        | VARCHAR(40)   | Adres strony                                   |
+| `encrypted_password` | BYTE[]        | Zaszyfrowane hasło                             |
+| `iv`                 | BYTE[]        | Wektor inicjalizacyjny dla szyfrowania AES     |
+| `created_at`         | DATE          | Data stworzenia rekordu                        |
+| `updated_at`         | DATE          | Data ostatniej aktualizacji rekordu            |
 
 ### Relacje
 * **User -< Folder** (1 - N): Jeden użytkownik może posiadać wiele folderów.
@@ -163,7 +168,7 @@ Lub w konsoli Packet Manager:
 
 ### Ogólne problemy
 
-#### Zawieszenie się aplikacji przy usuwaniu zaimportowanego rekordu
+#### Zawieszenie się aplikacji przy usuwaniu rekordu
 **Przyczyny**
 1. Błąd sterownika Npgsql
 
